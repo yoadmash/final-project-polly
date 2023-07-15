@@ -1,0 +1,21 @@
+.dashboard-header {
+  margin-top: 10px;
+}
+.dashboard-header .logo {
+  max-width: 200px;
+  height: auto;
+}
+.dashboard-header .nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-right: 10px;
+  font-size: 20px;
+}
+@media screen and (max-width: 768px) {
+  .dashboard-header .nav-links {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}/*# sourceMappingURL=DashboardHeader.css.map */

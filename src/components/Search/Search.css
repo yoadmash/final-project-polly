@@ -1,0 +1,27 @@
+.dashboard-search input {
+  background: url(/public/assets/images/search.svg) no-repeat 15px center;
+  background-size: 30px;
+  width: calc(80vw - 250px);
+  height: 60px;
+  text-indent: 20px;
+  background-color: lightgrey;
+  border: none;
+  border-radius: 10px;
+}
+.dashboard-search input::-moz-placeholder {
+  color: black;
+  text-indent: 50px;
+}
+.dashboard-search input::placeholder {
+  color: black;
+  text-indent: 50px;
+}
+.dashboard-search input:focus {
+  text-indent: 50px;
+  outline: none;
+}
+@media screen and (max-width: 767px) {
+  .dashboard-search input {
+    width: calc(100vw - 160px);
+  }
+}/*# sourceMappingURL=Search.css.map */
