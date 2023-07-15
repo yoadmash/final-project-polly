@@ -1,0 +1,85 @@
+.form_logo {
+  margin: 1%;
+  height: 80px;
+  width: auto;
+}
+
+.form_Page {
+  background-color: #f1f1f1;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Nunito", sans-serif;
+  padding-top: 30px;
+}
+
+.form_layout {
+  width: 75%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.rows {
+  height: 50%;
+  margin: 0;
+}
+
+.form_name_input {
+  border: none;
+  background-color: #f1f1f1;
+  font-size: 30px;
+  -webkit-margin-start: -5px;
+          margin-inline-start: -5px;
+}
+
+.form_description_input {
+  border: none;
+  background-color: #f1f1f1;
+  font-size: 15px;
+}
+
+.form-image {
+  width: auto;
+  height: auto;
+}
+
+.form_questions {
+  background-color: white;
+  border-radius: 10px 10px 10px 10px;
+  height: auto;
+  padding-bottom: 10px;
+}
+
+.form-settings {
+  background-color: white;
+  border-radius: 10px 10px 10px 10px;
+  padding-bottom: 10px;
+}
+
+.question_input {
+  height: 30px;
+  border: none;
+  background-color: #f1f1f1;
+  font-size: 15px;
+  border-radius: 10px 10px 10px 10px;
+}
+
+.question_div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 90%;
+  margin: 5%;
+}
+
+.input-div {
+  padding: 0;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  align-items: center;
+}/*# sourceMappingURL=Form.css.map */

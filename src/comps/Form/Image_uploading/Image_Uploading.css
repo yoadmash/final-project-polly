@@ -1,0 +1,24 @@
+.upload__image-wrapper {
+    /* display: flex; */
+    /* flex-direction: column; */
+    border: none;
+    width: auto;
+    height: auto;
+
+}
+
+.image-css {
+    width: 100px;
+    max-height: 100px;
+
+}
+
+.upload-tumb {
+    width: 30px;
+    height: auto;
+    
+}
+
+.button-tumb{
+    border: none;
+}
