@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PollCardOptions from './PollCardOptions'
 import { Input } from 'reactstrap'
 
-export default function PollCard({ title, creation_date, preview_img, editable }) {
+export default function PollCard({ title, creation_date, owner, preview_img, editable }) {
     const [pollTitle, setPollTitle] = useState(title);
     const [isEditable, setIsEditable] = useState(editable);
     const [visible, setVisible] = useState(true);
@@ -52,7 +52,7 @@ export default function PollCard({ title, creation_date, preview_img, editable }
                     <span>{creation_date}</span>
                 </div>
                 <div className="icon">
-                    <PollCardOptions actionFunction={performAction}/>
+                    <PollCardOptions actionFunction={performAction} owner={owner}/>
                 </div>
             </div>
             <div className="poll-card-body">

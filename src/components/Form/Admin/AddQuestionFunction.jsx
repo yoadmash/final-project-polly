@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import QuestionSection from '../QuestionSection';
+import QuestionSection from './AdminQuestionSection';
 
 const ComponentAdder = () => {
-  const [components, setComponents] = useState([]);
+  const [components, setComponents] = useState([<QuestionSection key={0} />]);
 
   const addComponent = () => {
     setComponents(prevComponents => [...prevComponents, <QuestionSection key={prevComponents.length} />]);

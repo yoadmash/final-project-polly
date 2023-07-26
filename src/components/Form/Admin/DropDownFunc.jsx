@@ -6,15 +6,15 @@ import {
   DropdownItem,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import "./DropDownCss.css";
-import AppContext from '../../../Context/AppContext';
+import "./CSS/AdminForm.css";
+import AppContext from '../../../contexts/AppContext';
 
-function DropDownOptions( {typeSelected} ) {
+function DropDownOptions({ typeSelected }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   const [selectedOption, setSelectedOption] = useState('Choose question type');
-  const { options } = useContext(AppContext);
+  const { questionOptions } = useContext(AppContext);
 
   const optionHandler = (item) => {
     typeSelected(item.type);
@@ -22,12 +22,12 @@ function DropDownOptions( {typeSelected} ) {
   }
 
   return (
-        <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-          <DropdownToggle caret>{selectedOption}</DropdownToggle>
-          <DropdownMenu>
-            {options.map(item => <DropdownItem key={item.id} onClick={() => optionHandler(item)}>{item.title}</DropdownItem>)}
-          </DropdownMenu>
-        </Dropdown>
+    <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+      <DropdownToggle caret>{selectedOption}</DropdownToggle>
+      <DropdownMenu>
+        {questionOptions.map(item => <DropdownItem key={item.id} onClick={() => optionHandler(item)}>{item.title}</DropdownItem>)}
+      </DropdownMenu>
+    </Dropdown>
   );
 }
 

@@ -11,12 +11,12 @@ export default function Polls() {
         <PollSort />
       </div>
       <div className="body">
-        <PollCard title={"My Poll1"} creation_date={new Date().toLocaleDateString('en-GB')} preview_img={'/assets/images/preview.svg'}/>
-        <PollCard title={"My Poll2"} creation_date={new Date().toLocaleDateString('en-GB')} preview_img={'/assets/images/preview.svg'}/>
-        <PollCard title={"My Poll3"} creation_date={new Date().toLocaleDateString('en-GB')} preview_img={'/assets/images/preview.svg'}/>
-        <PollCard title={"My Poll4"} creation_date={new Date().toLocaleDateString('en-GB')} preview_img={'/assets/images/preview.svg'}/>
-        <PollCard title={"My Poll5"} creation_date={new Date().toLocaleDateString('en-GB')} preview_img={'/assets/images/preview.svg'}/>
-        <PollCard title={"My Poll6"} creation_date={new Date().toLocaleDateString('en-GB')} preview_img={'/assets/images/preview.svg'}/>
+        <PollCard title={"My Poll1"} creation_date={new Date().toLocaleDateString('en-GB')} owner={'yoadm'} preview_img={'/assets/images/preview.svg'}/>
+        <PollCard title={"My Poll2"} creation_date={new Date().toLocaleDateString('en-GB')} owner={'yoadm'} preview_img={'/assets/images/preview.svg'}/>
+        <PollCard title={"My Poll3"} creation_date={new Date().toLocaleDateString('en-GB')} owner={'yoadm'} preview_img={'/assets/images/preview.svg'}/>
+        <PollCard title={"My Poll4"} creation_date={new Date().toLocaleDateString('en-GB')} owner={'yoadm'} preview_img={'/assets/images/preview.svg'}/>
+        <PollCard title={"My Poll5"} creation_date={new Date().toLocaleDateString('en-GB')} owner={'yoadm'} preview_img={'/assets/images/preview.svg'}/>
+        <PollCard title={"My Poll6"} creation_date={new Date().toLocaleDateString('en-GB')} owner={'yoadm'} preview_img={'/assets/images/preview.svg'}/>
       </div>
     </div>
   )

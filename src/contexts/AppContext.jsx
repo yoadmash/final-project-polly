@@ -17,6 +17,12 @@ export const AppProvider = ({children}) => {
         {icon: '/assets/images/remove.svg', title: 'Remove'},
     ]);
 
+    const [questionOptions, setQuestionOptions] = useState([
+        { id: 1, title: 'Text', type: 'text', icon: '' },
+        { id: 2, title: 'Multiple Choices', type: 'radio', icon: '' },
+        { id: 3, title: 'Checkboxes', type: 'checkbox', icon: '' },
+    ]);
+
     const [newPollTemplates, setNewPollTemplates] = useState([
         'Template 1',
         'Template 2',
@@ -32,6 +38,8 @@ export const AppProvider = ({children}) => {
                 setSortOptions,
                 pollCardOptions,
                 setPollCardOptions,
+                questionOptions,
+                setQuestionOptions,
                 newPollTemplates,
                 setNewPollTemplates
             }}

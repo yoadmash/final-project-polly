@@ -7,7 +7,7 @@ import {
   DropdownItem,
 } from 'reactstrap';
 
-function PollCardOptions({ actionFunction }) {
+function PollCardOptions({ actionFunction, owner }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
@@ -17,10 +17,12 @@ function PollCardOptions({ actionFunction }) {
     <Dropdown isOpen={dropdownOpen} toggle={toggle} direction={'left'}>
       <DropdownToggle><img src="/assets/images/dots.svg" alt="dots" /></DropdownToggle>
       <DropdownMenu>
+        <DropdownItem key={'owner'} disabled>Created by: {owner}</DropdownItem>
+        <DropdownItem key={'top-divider'} divider>{owner}</DropdownItem>
         {pollCardOptions.map((item, i) => {
           if (i === pollCardOptions.length - 1) {
             return ([
-              <DropdownItem key={'divider'} divider />,
+              <DropdownItem key={'bottom-divider'} divider />,
               <DropdownItem key={i} onClick={() => actionFunction(item.title)}>
                 <img src={item.icon} alt={item.title} />
                 <span>{item.title}</span>

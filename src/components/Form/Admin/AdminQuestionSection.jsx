@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Row, Col, FormGroup, Input } from 'reactstrap';
-import DropDownOptions from './Functions/DropDownFunc';
-import './CSS/Form.css';
-import FormInputs from './FormInputs';
-// import RenderInputs from './FormInputs';
+import DropDownOptions from './DropDownFunc';
+import './CSS/AdminForm.css';
+// import FormInputs from './FormInputs';
+
+import FormComponent from './AddInput';
 
 export default function QuestionSection() {
     const [optionType, setOptionType] = useState('radio');
@@ -11,6 +12,8 @@ export default function QuestionSection() {
     const typeSelected = (type) => {
         setOptionType(type);
     }
+
+
 
     return (
 
@@ -20,9 +23,10 @@ export default function QuestionSection() {
                 <div className='question_div'>
                     <Row>
                         <input className="question_input" type="text" name="question" placeholder="Question..." id="" /></Row>
-                    <Row>
+                    <Row className='inputs-row'>
                         {/* Function that adds an option and change the option type according to the dropdown list:*/}
-                        <FormInputs id={1} type={optionType} />
+                        {/* <FormComponent /> */}
+                        <FormComponent selectedOption={optionType} />
                     </Row>
                 </div>
             </Col>
@@ -31,36 +35,28 @@ export default function QuestionSection() {
             <Col>
                 <Row>  <h6 className='text-center' style={{ fontWeight: 600, paddingTop: 10 }}>Question Options</h6></Row>
                 <Row>
-                    <DropDownOptions typeSelected={typeSelected} />
+                    <DropDownOptions typeSelected={setOptionType} />
                 </Row>
                 <Row className=''>
-                    <Col className=' col-8'>
+                    <Col className=' col-9'>
                         <p style={{ margin: '0' }}>Required Question</p>
                     </Col>
-                    <Col className=''>
+                    <Col className='col-3'>
                         <FormGroup switch>
                             <Input type="switch" role="switch" />
                         </FormGroup>
                     </Col>
                 </Row>
                 <Row className=''>
-                    <Col className=' col-8'>
+                    <Col className='col-9'>
                         <p style={{ margin: '0' }}>Shuffle Order</p>
                     </Col>
-                    <Col className=''>
+                    <Col className='col-3'>
                         <FormGroup switch>
                             <Input type="switch" role="switch" />
                         </FormGroup>                  </Col>
                 </Row>
-                <Row className=''>
-                    <Col className=' col-8'>
-                        <p style={{ margin: '0' }}>Shuffle Order</p>
-                    </Col>
-                    <Col className=''>
-                        <FormGroup switch>
-                            <Input type="switch" role="switch" />
-                        </FormGroup>                  </Col>
-                </Row>
+
             </Col>
         </Row>
 

@@ -1,9 +1,3 @@
-.form_logo {
-  margin: 1%;
-  height: 80px;
-  width: auto;
-}
-
 .form_Page {
   background-color: #f1f1f1;
   min-height: 100vh;
@@ -23,6 +17,10 @@
   gap: 30px;
 }
 
+.border1 {
+  border: black solid 1px;
+}
+
 .rows {
   height: 50%;
   margin: 0;
@@ -32,8 +30,7 @@
   border: none;
   background-color: #f1f1f1;
   font-size: 30px;
-  -webkit-margin-start: -5px;
-          margin-inline-start: -5px;
+  margin-inline-start: -5px;
 }
 
 .form_description_input {
@@ -58,6 +55,7 @@
   background-color: white;
   border-radius: 10px 10px 10px 10px;
   padding-bottom: 10px;
+
 }
 
 .question_input {
@@ -82,4 +80,33 @@
   gap: 10px;
   width: 100%;
   align-items: center;
-}/*# sourceMappingURL=Form.css.map */
+}
+
+.dropdown {
+  width: 100%;
+}
+
+.dropdown>button {
+  width: 100%;
+  background-color: lightgreen;
+  border: none;
+}
+
+.dropdown>.dropdown-menu {
+  width: 100%;
+}
+
+.form-image {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-image img {
+  margin-top: 15px;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=AdminForm.css.map */
