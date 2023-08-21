@@ -5,11 +5,16 @@ const FormComponent = () => {
     const [formInputs, setFormInputs] = useState([]);
     const [ghostInput, setGhostInput] = useState('');
     const ghostInputRef = useRef(null);
+    const inputKeyCounter = useRef(0); // Counter for generating unique keys
 
-    const handleInputChange = (event, index) => {
+    const handleInputChange = (event, key) => {
         const { name, value } = event.target;
-        const updatedInputs = [...formInputs];
-        updatedInputs[index] = { ...updatedInputs[index], [name]: value };
+        const updatedInputs = formInputs.map(input => {
+            if (input.key === key) {
+                return { ...input, [name]: value };
+            }
+            return input;
+        });
         setFormInputs(updatedInputs);
     };
 
@@ -20,18 +25,19 @@ const FormComponent = () => {
     const handleGhostInputKeyDown = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            setFormInputs([...formInputs, { [`inputField${formInputs.length}`]: ghostInput }]);
+            setFormInputs([...formInputs, { key: inputKeyCounter.current, [`inputField`]: ghostInput }]);
+            inputKeyCounter.current += 1;
             setGhostInput('');
         }
     };
 
-    const handleRemoveInput = (index) => {
-
+    const handleRemoveInput = (key) => {
+        const updatedInputs = formInputs.filter(input => input.key !== key);
+        setFormInputs(updatedInputs);
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // You can perform additional operations with the formInputs here
         console.log(formInputs);
     };
 
@@ -44,18 +50,18 @@ const FormComponent = () => {
     return (
         <form onSubmit={handleSubmit}>
             {formInputs.map((input, index) => (
-                <Row key={index}>
+                <Row key={input.key} style={{ paddingBottom: '10px', display: 'flex', flexDirection: 'column', flexFlow: 'row', justifyContent: 'center', alignItems: "center" }}>
                     <Col className="col-1"><Input type="checkbox" /></Col>
                     <Col className="col-8">
                         <Input
                             type="text"
-                            name={`inputField${index}`}
-                            value={input[`inputField${index}`] || ''}
-                            onChange={(event) => handleInputChange(event, index)}
+                            name={`inputField`}
+                            value={input[`inputField`] || ''}
+                            onChange={(event) => handleInputChange(event, input.key)}
                         />
                     </Col>
                     <Col>
-                        <Button onClick={() => handleRemoveInput(index)}>
+                        <Button onClick={() => handleRemoveInput(input.key)}>
                             X
                         </Button>
                     </Col>
@@ -63,10 +69,9 @@ const FormComponent = () => {
             ))}
             <Row>
                 <Col className="col-1"><Input type="checkbox" /></Col>
-
                 <Col>
                     <Input
-                        style={{ opacity: 0.5 }}
+                        style={{ opacity: 0.5, width: '80%', height: '80%' }}
                         type="text"
                         placeholder="Add input"
                         value={ghostInput}

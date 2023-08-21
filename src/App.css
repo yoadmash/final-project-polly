@@ -1,8 +1,14 @@
-.App{
-    width:  inherit;
+.App {
+    width: inherit;
     height: inherit;
 }
 
-.Form_Page{
+.Form_Page {
     background-color: #737373;
+}
+
+@media screen and (max-width: 600px) {
+    . {
+        background-color: black;
+    }
 }

@@ -1,4 +1,4 @@
-.form_Page {
+.form-Page {
   background-color: #f1f1f1;
   min-height: 100vh;
   height: 100%;
@@ -9,7 +9,7 @@
   padding-top: 30px;
 }
 
-.form_layout {
+.form-layout {
   width: 75%;
   height: auto;
   display: flex;
@@ -26,14 +26,14 @@
   margin: 0;
 }
 
-.form_name_input {
+.form-name-input {
   border: none;
   background-color: #f1f1f1;
   font-size: 30px;
   margin-inline-start: -5px;
 }
 
-.form_description_input {
+.form-description-input {
   border: none;
   background-color: #f1f1f1;
   font-size: 15px;
@@ -44,7 +44,7 @@
   height: auto;
 }
 
-.form_questions {
+.form-questions {
   background-color: white;
   border-radius: 10px 10px 10px 10px;
   height: auto;
@@ -55,45 +55,23 @@
   background-color: white;
   border-radius: 10px 10px 10px 10px;
   padding-bottom: 10px;
-
 }
 
-.question_input {
-  height: 30px;
+.question-title {
+  height: 100px;
   border: none;
   background-color: #f1f1f1;
   font-size: 15px;
-  border-radius: 10px 10px 10px 10px;
-}
-
-.question_div {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 90%;
-  margin: 5%;
-}
-
-.input-div {
-  padding: 0;
-  display: flex;
-  gap: 10px;
-  width: 100%;
-  align-items: center;
+  border-radius: 5px 5px 5px 5px;
 }
 
 .dropdown {
   width: 100%;
 }
 
-.dropdown>button {
-  width: 100%;
+.dropdown > button {
   background-color: lightgreen;
   border: none;
-}
-
-.dropdown>.dropdown-menu {
-  width: 100%;
 }
 
 .form-image {
@@ -101,7 +79,6 @@
   align-items: center;
   gap: 5px;
 }
-
 .form-image img {
   margin-top: 15px;
   width: 60px;

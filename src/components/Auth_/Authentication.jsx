@@ -48,7 +48,7 @@ export default function Auth() {
                     <div>
                         <Routes>
                             <Route
-                                path="/"
+                                path="/auth"
                                 element={
                                     selectedOption === 'option1' ? <Signin /> : <Signup />
                                 }
@@ -62,15 +62,3 @@ export default function Auth() {
         </div>
     )
 }
-
-
-
-
-function Option1Content() {
-    return <h1>Option 1 Content</h1>;
-}
-
-function Option2Content() {
-    return <h1>Option 2 Content</h1>;
-}
-

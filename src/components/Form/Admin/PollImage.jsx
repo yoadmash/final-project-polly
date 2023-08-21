@@ -8,7 +8,7 @@ export default function PollImage() {
     return (
 
         <div className='form-image'>
-            <label htmlFor="form_img">
+            <label htmlFor="form-img">
                 <img
                     src={pollImage}
                     alt="PollImage"
@@ -17,7 +17,7 @@ export default function PollImage() {
             <input
                 type="file"
                 accept='image/png, image/pjpeg, image/svg+xml'
-                id='profile_img'
+                id='form-img'
                 style={{ display: 'none' }}
                 onChange={(e) => {
                     if (e.target.files.length > 0) {

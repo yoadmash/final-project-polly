@@ -2,23 +2,27 @@ import React, { useState } from 'react';
 import QuestionSection from './AdminQuestionSection';
 
 const ComponentAdder = () => {
-  const [components, setComponents] = useState([<QuestionSection key={0} />]);
+  const [components, setComponents] = useState([]);
+  const [keyCounter, setKeyCounter] = useState(0);
 
   const addComponent = () => {
-    setComponents(prevComponents => [...prevComponents, <QuestionSection key={prevComponents.length} />]);
+    const newKey = keyCounter.toString();
+    setKeyCounter(prevCounter => prevCounter + 1);
+    const newComponent = <QuestionSection key={newKey} />;
+    setComponents(prevComponents => [...prevComponents, newComponent]);
   };
 
-  const deleteComponent = index => {
-    setComponents(prevComponents => prevComponents.filter((_, i) => i !== index));
+  const deleteComponent = keyToDelete => {
+    setComponents(prevComponents => prevComponents.filter(component => component.key !== keyToDelete));
   };
 
   return (
     <div>
-      {components.map((component, index) => (
-        <div key={index} >
+      {components.map(component => (
+        <div key={component.key}>
           {component}
           <div style={{ padding: 10, display: 'flex', flexDirection: 'row', gap: 10, justifyContent: 'center' }}>
-            <button style={{ border: 'none', backgroundColor: 'chartreuse', borderRadius: 5, width: '30%' }} onClick={() => deleteComponent(index)}>
+            <button style={{ border: 'none', backgroundColor: 'chartreuse', borderRadius: 5, width: '30%' }} onClick={() => deleteComponent(component.key)}>
               Delete Question
             </button>
           </div>

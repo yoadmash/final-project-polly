@@ -9,19 +9,23 @@ export default function QuestionSection() {
 
         <Row >
             {/**************** Question inputs ****************/}
-            <Col className>
-                <div className='question_div'>
-                    <Row className='question_input'>
-                        <h5>lorem ipsum dlor alex hahomo?</h5>
+            <Col style={{ padding: '30px' }}>
+                <Row>
+                    <Row className='question-title'>
+                        *title*
                     </Row>
+                    <Row className='question-title'>
+                        *answers*
+                    </Row>
+                </Row>
+                <Row style={{ padding: '30px' }}>
+                    <UserSelection />
+                </Row>
 
-                    <Row className='inputs-row'>
-                        {/* Function that adds an option and change the option type according to the dropdown list:*/}
-                        <UserSelection />
-                    </Row>
-                </div>
             </Col>
         </Row>
+
+
 
     )
 }

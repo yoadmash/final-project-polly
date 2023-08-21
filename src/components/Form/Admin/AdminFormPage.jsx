@@ -8,8 +8,8 @@ import PollImage from "./PollImage";
 export default function AdminFormPage() {
   return (
     <div>
-      <div className='form_Page'>
-        <div className='form_layout'>
+      <div className='form-Page'>
+        <div className='form-layout'>
           {/***************** Form name, image & description ***************/}
 
           <Row>
@@ -17,10 +17,10 @@ export default function AdminFormPage() {
               <Row>
                 <Col className="" >
                   <Row>
-                    <Input className="form_name_input" placeholder='Untitled Poll' size="lg" />
+                    <Input className="form-name-input" placeholder='Untitled Poll' size="lg" />
                   </Row>
                   <Row>
-                    <Col> <Input className="form_description_input" placeholder='Description' /></Col>
+                    <Col> <Input className="form-description-input" placeholder='Description' /></Col>
                   </Row>
                 </Col>
               </Row>
@@ -37,7 +37,7 @@ export default function AdminFormPage() {
             <div style={{ paddingLeft: '40px' }}>
               <Row className="">
                 <Col className=' col-10 '>
-                  <p style={{ margin: '0' }}>Shuffle questions order</p>
+                  <p style={{ margin: '0' }}>Shuffle Questions Order</p>
                 </Col>
                 <Col className='col-2'>
                   <FormGroup switch>
@@ -47,23 +47,14 @@ export default function AdminFormPage() {
               </Row>
               <Row className="">
                 <Col className='col-10'>
-                  <p style={{ margin: '0' }}>Collect email addresses</p>
+                  <p style={{ margin: '0' }}>Submit Anonymously</p>
                 </Col>
                 <Col className='col-2'>
                   <FormGroup switch>
                     <Input type="switch" role="switch" />
                   </FormGroup>              </Col>
               </Row>
-              <Row >
-                <Col className=' col-10'>
-                  <p style={{ margin: '0' }}>Allow edit response</p>
-                </Col>
-                <Col className='col-2'>
-                  <FormGroup switch>
-                    <Input type="switch" role="switch" />
-                  </FormGroup>
-                </Col>
-              </Row>
+
             </div>
           </Row>
 
