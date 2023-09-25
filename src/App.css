@@ -1,14 +1,24 @@
 .App {
-    width: inherit;
-    height: inherit;
+    min-width: inherit;
+    min-height: inherit;
 }
 
 .Form_Page {
     background-color: #737373;
 }
 
-@media screen and (max-width: 600px) {
-    . {
-        background-color: black;
-    }
+.loading {
+    position: relative;
+    top: calc(50vh - 50px);
+}
+
+.go-back {
+    z-index: 9999;
+    position: fixed;
+    top: 100px;
+    left: 30px;
+}
+
+.go-back > a {
+    color: #00bf63;
 }

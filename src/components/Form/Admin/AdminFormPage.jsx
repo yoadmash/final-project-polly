@@ -1,69 +1,70 @@
-import React, { useState } from "react";
 import "./CSS/AdminForm.css";
 import { Row, Col, Input, FormGroup } from 'reactstrap';
 import ComponentAdder from "./AddQuestionFunction";
 import PollImage from "./PollImage";
-
+import GoBackLink from "../../Layout/GoBackLink";
 
 export default function AdminFormPage() {
-  return (
-    <div>
-      <div className='form-Page'>
-        <div className='form-layout'>
-          {/***************** Form name, image & description ***************/}
 
-          <Row>
-            <Col className="col-8" >
-              <Row>
-                <Col className="" >
-                  <Row>
-                    <Input className="form-name-input" placeholder='Untitled Poll' size="lg" />
+  return (
+    <div className='form-Page'>
+      <GoBackLink />
+      <Row className='form-layout'>
+        {/***************** Form name, image & description ***************/}
+        <Col xs={10} sm={8} md={6} className="" style={{ padding: 0 }}>
+          <Row className="form-name-image">
+            <Col xs={12} sm={6} lg={8} md={6} >
+              <Row >
+                <Col >
+                  <Row >
+                    <Input className="form-name-input" placeholder='Untitled Poll' />
                   </Row>
-                  <Row>
-                    <Col> <Input className="form-description-input" placeholder='Description' /></Col>
+                  <Row >
+                    <Input className="form-description-input" placeholder='Description' />
                   </Row>
                 </Col>
               </Row>
             </Col>
 
-            {/***************** From settings ***************/}
-
-            <Col className="image-col col-4">
+            <Col xs={12} sm={4} className="">
               <PollImage />
             </Col>
           </Row>
-          <Row className="form-settings">
-            <Row>  <h6 className='text-center' style={{ fontWeight: 700, paddingTop: 10 }}>Poll Settings</h6></Row>
-            <div style={{ paddingLeft: '40px' }}>
-              <Row className="">
-                <Col className=' col-10 '>
-                  <p style={{ margin: '0' }}>Shuffle Questions Order</p>
-                </Col>
-                <Col className='col-2'>
-                  <FormGroup switch>
-                    <Input type="switch" role="switch" />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row className="">
-                <Col className='col-10'>
-                  <p style={{ margin: '0' }}>Submit Anonymously</p>
-                </Col>
-                <Col className='col-2'>
-                  <FormGroup switch>
-                    <Input type="switch" role="switch" />
-                  </FormGroup>              </Col>
-              </Row>
+          {/***************** From settings ***************/}
 
-            </div>
+          <Row className="form-settings">
+            <Row>
+              <h5 style={{ fontWeight: 500, paddingTop: 10, textAlign: "center" }}>Poll Settings</h5>
+            </Row>
+            <Row>
+              <Col xs={10} sm={10} md={10} lg={11}>
+                <p style={{ margin: '0' }}>Shuffle Questions Order</p>
+              </Col>
+              <Col xs={2} sm={2} md={2} lg={1}>
+                <FormGroup switch>
+                  <Input type="switch" role="switch" />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row >
+              <Col xs={10} sm={10} md={10} lg={11}>
+                <p style={{ margin: '0' }}>Submit Anonymously</p>
+              </Col>
+              <Col xs={2} sm={2} md={2} lg={1}>
+                <FormGroup switch>
+                  <Input type="switch" role="switch" />
+                </FormGroup>              </Col>
+            </Row>
+
           </Row>
 
           {/******************* Question section ******************/}
 
           {/* Function that adds a new clean question section*/}
+          <br />
           <ComponentAdder />
-        </div>
-      </div>
+        </Col>
+      </Row>
     </div>
   )
 }

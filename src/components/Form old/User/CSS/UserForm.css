@@ -1,0 +1,60 @@
+.form-Page {
+  background-color: #f1f1f1;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Nunito", sans-serif;
+  padding-top: 30px;
+}
+.form-Page .form-layout {
+  width: 50%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.form-Page .rows {
+  height: 50%;
+  margin: 0;
+}
+.form-Page .form-image {
+  width: auto;
+  height: auto;
+}
+.form-Page .questions-section {
+  background-color: white;
+  border-radius: 10px 10px 10px 10px;
+  height: auto;
+}
+.form-Page .question-title {
+  height: auto;
+  border: none;
+  background-color: #f1f1f1;
+  font-size: 15px;
+  border-radius: 10px 10px 10px 10px;
+}
+.form-Page .question-title h5 {
+  margin: 0;
+}
+.form-Page .border1 {
+  border: black 1px solid;
+}
+.form-Page .form-rows {
+  background-color: white;
+  border-radius: 10px;
+}
+.form-Page .form-image {
+  width: 100%;
+  background-color: black;
+  height: 130px;
+  background-image: url("https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=960");
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+.form-Page .user-selection-rows {
+  display: flex;
+  flex-direction: row;
+  border: black 1px solid;
+}/*# sourceMappingURL=UserForm.css.map */

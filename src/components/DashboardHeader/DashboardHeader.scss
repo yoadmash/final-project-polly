@@ -1,5 +1,11 @@
 .dashboard-header {
-    margin-top: 10px;
+    background-color: white;
+    box-shadow: 0 0 7px black;
+    z-index: 9999;
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    padding: 5px;
 
     .logo {
         max-width: 200px;
@@ -17,7 +23,7 @@
     
     @media screen and (max-width: 768px) {
         .nav-links {
-            flex-direction: row;
+            flex-direction: row-reverse;
             justify-content: space-between;
         }
     }

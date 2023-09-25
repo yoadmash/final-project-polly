@@ -1,15 +1,15 @@
 import './Authentication.css'
 import React, { useState, } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Input, Label } from 'reactstrap';
 import Signin from './Signin';
 import Signup from './Signup';
 
 
 export default function Auth() {
 
-    const [selectedOption, setSelectedOption] = useState('option1');
-    const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value);
+    const [isSignIn, setSelectedOption] = useState(true);
+    const handleChange = () => {
+        setSelectedOption(prevState => !prevState);
     };
 
 
@@ -19,46 +19,30 @@ export default function Auth() {
                 <img className="logo-login" src="/Polly_logo.svg" alt="" />
             </div>
 
+            <div className='body-auth'>
+                <div className='body-auth-radio-buttons '>
+                    <Label>
+                        <Input
+                            type='radio'
+                            value='signin'
+                            checked={isSignIn === true}
+                            onChange={handleChange}
+                        />
+                        Sign In
+                    </Label>
 
-            <Router>
-                <div className='body-auth'>
-                    <div className='body-auth-radio-buttons '>
-                        <label>
-                            <input
-                                type="radio"
-                                value="option1"
-                                checked={selectedOption === 'option1'}
-                                onChange={handleOptionChange}
-                            />
-                            Sign In
-                        </label>
-
-                        <label>
-                            <input
-                                type="radio"
-                                value="option2"
-                                checked={selectedOption === 'option2'}
-                                onChange={handleOptionChange}
-                            />
-                            Sign Up
-                        </label>
-                    </div>
-
-
-                    <div>
-                        <Routes>
-                            <Route
-                                path="/auth"
-                                element={
-                                    selectedOption === 'option1' ? <Signin /> : <Signup />
-                                }
-                            />
-                        </Routes>
-                    </div>
+                    <Label>
+                        <Input
+                            type='radio'
+                            value='signin'
+                            checked={isSignIn === false}
+                            onChange={handleChange}
+                        />
+                        Sign Up
+                    </Label>
                 </div>
-            </Router>
-
-
+                {isSignIn ? <Signin /> : <Signup />}
+            </div>
         </div>
     )
 }

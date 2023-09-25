@@ -20,7 +20,6 @@
     font-family: 'Nunito', sans-serif;
 }
 
-
 .body-auth-radio-buttons {
     display: flex;
     width: 100%;
@@ -32,7 +31,8 @@
 
     >label {
         display: flex;
-        gap: 7px;
+        justify-content: center;
+        gap: 5px;
     }
 }
 
@@ -46,8 +46,7 @@
 
 .input-fields-css {
     background-color: rgba(141, 232, 232, 0.338);
-
-
+    width: 250px;
     border-radius: 10px 10px 10px 10px;
     font-family: 'Nunito', sans-serif;
     font-weight: 300;
@@ -55,7 +54,6 @@
 }
 
 .buttons-fields-css {
-    height: 35px;
     width: 120px;
     background-color: rgb(46, 169, 46);
     border: 0;
@@ -64,4 +62,40 @@
     font-family: nunito;
     font-weight: 600;
     border-radius: 30px 30px 30px 30px;
+}
+
+.instructions,
+.errMsg {
+    width: 250px;
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+    background: #000;
+    color: #fff;
+    padding: 0.25rem;
+    margin: 0;
+}
+
+.instructions>svg,
+.errMsg>svg {
+    margin-right: 0.25rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.errMsg {
+    background-color: lightpink;
+    color: firebrick;
+    font-weight: bold;
+}
+
+.authComplete {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+        margin: 0;
+    }
 }

@@ -1,40 +1,35 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AdminFormPage from './components/Form/Admin/AdminFormPage';
-import UserFormPage from './components/Form/User/UserFormPage';
-import DashboardHeader from './components/DashboardHeader/DashboardHeader';
-// import Auth from './components/Auth_/Authentication';
-// import Dashboard from './components/Dashboard/Dashboard';
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout/Layout';
+import Auth from '../src/components/Auth_/Authentication';
+import RequireAuth from './components/Auth_/RequireAuth';
+import PersistLogin from './components/Auth_/PersistLogin';
+import Dashboard from '../src/components/Dashboard/Dashboard';
+import AdminFormPage from '../src/components/Form/Admin/AdminFormPage';
+import UserFormPage from '../src/components/Form/User/UserFormPage';
+import MissingPage from './components/MissingPage';
 
 function App() {
   return (
-    <div className="App">
-      {/* <Auth/> */}
-      {/* <Dashboard /> */}
+    <>
+      <Routes>
+        <Route path='/auth' element={<Auth />} />
+        <Route path='/' element={<Layout />}>
 
-      <DashboardHeader />
+          <Route element={<PersistLogin />}>
+            <Route element={<RequireAuth />}>
+              <Route path='/' element={<Dashboard />} />
+              <Route path='create-new-poll' element={<AdminFormPage />} />
+              <Route path='poll/:id' element={<UserFormPage />} />
+              <Route path='poll/:id/edit' element={<AdminFormPage />} />
+            </Route>
+          </Route>
 
-      <AdminFormPage />
-      <UserFormPage poll={{
-        questions: [
-          { //single option
-            question: "is alex homo1?",
-            answers: ["yes", "yes", "yes", "all of the above"],
-            answersType: 'radio'
-          },
-          { //multiple option
-            question: "is alex homo2?",
-            answers: ["yes", "yes", "yes", "all of the above"],
-            answersType: 'checkbox'
-          },
-          { //text option
-            question: "is alex homo3?",
-            answers: ["yes", "yes", "yes", "all of the above"],
-            answersType: 'text'
-          }
-        ]
-      }} />
-    </div>
+        </Route>
+        <Route path='*' element={<MissingPage />} />
+      </Routes>
+    </>
   );
 }
 

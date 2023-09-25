@@ -1,3 +1,4 @@
 .dashboard-body {
-  margin-top: 10px;
+  position: relative;
+  top: 80px;
 }/*# sourceMappingURL=DashboardBody.css.map */

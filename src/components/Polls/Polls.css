@@ -59,17 +59,26 @@
   overflow: auto;
 }
 .dashboard-polls .body .poll-card {
+  border-radius: 10px;
+  background-image: url("../../../public/assets/images/Lambu.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 2px 5px 5px lightgray;
   display: flex;
   flex-direction: column;
   width: 290px;
   height: 200px;
 }
 .dashboard-polls .body .poll-card .poll-card-header {
-  background-color: silver;
+  border-radius: 10px 10px 0 0;
+  background-color: rgba(0, 0, 0, 0.1);
   width: inherit;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: 500;
+  color: black;
 }
 .dashboard-polls .body .poll-card .poll-card-header .title {
   width: 75%;
@@ -93,14 +102,10 @@
   align-items: center;
 }
 .dashboard-polls .body .poll-card .poll-card-body {
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: lightgray;
-}
-.dashboard-polls .body .poll-card .poll-card-body > img {
-  width: 145px;
-  cursor: pointer;
 }
 @media screen and (max-width: 576px) {
   .dashboard-polls {

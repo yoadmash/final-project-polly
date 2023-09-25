@@ -1,9 +1,11 @@
 .dashboard-profile {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
 .dashboard-profile img {
+  -o-object-fit: cover;
+     object-fit: cover;
   width: 60px;
   height: 60px;
   border: 2px solid black;
@@ -15,4 +17,22 @@
   font-size: 14px;
   text-decoration: underline;
   cursor: pointer;
+}
+.dashboard-profile .dropdown > button {
+  padding: 8px;
+  border: none;
+}
+.dashboard-profile .dropdown img {
+  cursor: pointer;
+  width: 40px;
+}
+.dashboard-profile .dropdown .dropdown-menu {
+  margin-top: 1px;
+  min-width: 100%;
+}
+.dashboard-profile .dropdown .dropdown-menu .dropdown-item {
+  padding: 2px 10px;
+}
+.dashboard-profile .dropdown .dropdown-menu .dropdown-item:active {
+  background-color: grey;
 }/*# sourceMappingURL=Profile.css.map */

@@ -1,9 +1,10 @@
 .dashboard-profile {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
 
     img {
+        object-fit: cover;
         width: 60px;
         height: 60px;
         border: 2px solid black;
@@ -16,5 +17,30 @@
         font-size: 14px;
         text-decoration: underline;
         cursor: pointer;
+    }
+
+    .dropdown {
+        >button {
+            padding: 8px;
+            border: none;
+        }
+
+        img {
+            cursor: pointer;
+            width: 40px;
+        }
+
+        .dropdown-menu {
+            margin-top: 1px;
+            min-width: 100%;
+
+            .dropdown-item {
+                padding: 2px 10px;
+            }
+
+            .dropdown-item:active {
+                background-color: grey;
+            }
+        }
     }
 }

@@ -63,17 +63,27 @@
         overflow: auto;
 
         .poll-card {
+            border-radius: 10px;
+            background-image: url('../../../public/assets/images/Lambu.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            // background-color: rgba(211, 211, 211, 0.479);
+            box-shadow: 2px 5px 5px lightgray;
             display: flex;
             flex-direction: column;
             width: 290px;
             height: 200px;
 
             .poll-card-header {
-                background-color: silver;
+                border-radius: 10px 10px 0 0;
+                background-color: rgba(0, 0, 0, 0.10);
                 width: inherit;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                font-weight: 500;
+                color: black;
 
                 .title {
                     width: 75%;
@@ -103,15 +113,16 @@
             }
 
             .poll-card-body {
+                height: 100%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-color: lightgray;
 
-                >img {
-                    width: 145px;
-                    cursor: pointer;
-                }
+                // >img {
+                //     border-radius: 15px;
+                //     width: 250px;
+                //     cursor: pointer;
+                // }
             }
         }
     }
