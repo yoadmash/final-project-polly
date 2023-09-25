@@ -68,7 +68,6 @@
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
-            // background-color: rgba(211, 211, 211, 0.479);
             box-shadow: 2px 5px 5px lightgray;
             display: flex;
             flex-direction: column;
@@ -117,6 +116,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                cursor: pointer;
 
                 // >img {
                 //     border-radius: 15px;

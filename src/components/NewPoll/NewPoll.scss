@@ -37,17 +37,20 @@
 
         .newpoll-button,
         .newpoll-template {
+            border-radius: 10px;
             padding: 20px 70px;
             background-color: white;
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
             align-items: center;
+            width: 290px;
+            height: 200px;
 
             >img {
                 cursor: pointer;
                 width: 150px;
-                height: 145px;
+                height: 150px;
             }
         }
     }
