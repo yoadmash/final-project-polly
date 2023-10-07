@@ -42,7 +42,7 @@ export default function Polls() {
               ? <ReactLoading type='bubbles' color='#000000' width={'100px'} height={'100px'} />
               :
               <div className="body">
-                {polls.map(poll => <PollCard key={poll} id={poll} />)}
+                {polls.map(poll => <PollCard key={poll} id={poll} managePolls={{polls: polls, setPolls: setPolls}} />)}
               </div>
             }
           </div>

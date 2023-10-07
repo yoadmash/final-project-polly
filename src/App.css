@@ -1,10 +1,8 @@
 .App {
+    position: relative;
+    top: 80px;
     min-width: inherit;
     min-height: inherit;
-}
-
-.Form_Page {
-    background-color: #737373;
 }
 
 .loading {
@@ -13,12 +11,12 @@
 }
 
 .go-back {
-    z-index: 9999;
-    position: fixed;
-    top: 100px;
-    left: 30px;
+    z-index: 999;
+    position: absolute;
+    top: 10px;
+    left: 20px;
 }
 
-.go-back > a {
+.go-back>a {
     color: #00bf63;
 }

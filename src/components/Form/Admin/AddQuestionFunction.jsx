@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import QuestionSection from './AdminQuestionSection';
 import { Col, Row } from 'reactstrap';
 
-const ComponentAdder = () => {
+const ComponentAdder = ({ setQuestions }) => {
   const [components, setComponents] = useState([]);
   const [keyCounter, setKeyCounter] = useState(0);
 
   const addComponent = () => {
     const newKey = keyCounter.toString();
     setKeyCounter(prevCounter => prevCounter + 1);
-    const newComponent = <QuestionSection key={newKey} />;
+    const newComponent = <QuestionSection key={newKey} setQuestions={setQuestions} />;
     setComponents(prevComponents => [...prevComponents, newComponent]);
   };
 
@@ -18,10 +18,10 @@ const ComponentAdder = () => {
   };
 
   return (
-    <div>
+    <div style={{marginTop: 25}}>
 
       {components.map(component => (
-        <Row key={component.key} style={{ paddingBottom: 15, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+        <Row key={component.key} style={{ paddingBottom: 15, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <Col md={11} lg={11} style={{}}> {component}</Col>
           <Col md={1} lg={1} style={{ padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
             <button className='delete-question-btn' onClick={() => deleteComponent(component.key)}>

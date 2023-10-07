@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import PropTypes from 'prop-types';
 
 function DropDownOptions({ typeSelected }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -36,9 +35,5 @@ function DropDownOptions({ typeSelected }) {
     </Dropdown>
   );
 }
-
-DropDownOptions.propTypes = {
-  typeSelected: PropTypes.func.isRequired,
-};
 
 export default DropDownOptions;

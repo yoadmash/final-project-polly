@@ -4,7 +4,7 @@ import './Search.css';
 export default function Search() {
   return (
     <div className='dashboard-search'>
-      <input type="text"/>
+      <input type="text" name='search'/>
     </div>
   )
 }

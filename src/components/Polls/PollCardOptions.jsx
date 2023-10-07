@@ -14,7 +14,7 @@ function PollCardOptions({ actionFunction, owner }) {
 
   const pollCardOptions = [
     { icon: '/assets/images/edit.svg', title: 'Edit' },
-    { icon: '/assets/images/rename.svg', title: 'Rename' },
+    { icon: '/assets/images/text.svg', title: 'Rename' },
     { icon: '/assets/images/view_answers.svg', title: 'View answers' },
     { icon: '/assets/images/open_new_tab.svg', title: 'Open in new tab' },
     { icon: '/assets/images/remove.svg', title: 'Remove' },

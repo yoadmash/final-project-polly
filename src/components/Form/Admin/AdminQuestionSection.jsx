@@ -5,18 +5,26 @@ import './CSS/AdminForm.css';
 import FormComponent from './AddMultipleInputs';
 
 
-export default function QuestionSection() {
+export default function QuestionSection({ setQuestions }) {
   const [optionType, setOptionType] = useState('');
 
   const typeSelected = (type) => {
     setOptionType(type);
   }
 
+  const [title, setTitle] = useState('');
+  const [answers, setAnswers] = useState([]);
+  const [questionSettings, setQuestionSettings] = useState({
+    required: false,
+    shuffleAnswersOrder: false
+  });
+
   return (
     <Row className="form-questions">
       <Col sm={10} md={12} lg={8} >
         <Row style={{ paddingBottom: '15px' }} >
-          <Input className="question-title" type="text" name="question" placeholder="Question title..." />
+          <Input className="question-title" type="text" name="question" placeholder="Question title..."
+            onChange={(event) => setTitle(event.target.value)} />
         </Row>
 
         {/************* This is where the inputs are rendered  ************/}
@@ -36,11 +44,16 @@ export default function QuestionSection() {
         </Row>
         <Row style={{ paddingTop: "5%" }}>
           <Col xs={10} sm={10} md={10} lg={9} >
-            <p style={{ margin: '0' }}>Required?</p>
+            <p style={{ margin: '0' }}>Required</p>
           </Col>
           <Col xs={2} sm={2} md={2} lg={2}>
             <FormGroup switch >
-              <Input type="switch" role="switch" />
+              <Input type="switch" role="switch"
+                onChange={() => {
+                  setQuestionSettings(prev => {
+                    return { ...prev, required: !prev.required }
+                  });
+                }} />
             </FormGroup>
           </Col>
         </Row>
@@ -50,7 +63,12 @@ export default function QuestionSection() {
           </Col>
           <Col xs={2} sm={2} md={2} lg={2}>
             <FormGroup switch>
-              <Input type="switch" role="switch" />
+              <Input type="switch" role="switch"
+                onChange={() => {
+                  setQuestionSettings(prev => {
+                    return { ...prev, shuffleAnswersOrder: !prev.shuffleAnswersOrder }
+                  });
+                }} />
             </FormGroup>
           </Col>
         </Row>

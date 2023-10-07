@@ -1,6 +1,5 @@
 .form-Page {
     position: relative;
-    top: 80px;
     background-color: #f1f1f1;
     min-height: 100vh;
     height: 100%;
@@ -53,6 +52,7 @@
     }
 
     .delete-question-btn {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -149,7 +149,7 @@
 
     .delete-image-btn {
         position: absolute;
-        z-index: 9999;
+        z-index: 999;
         right: 0;
         top: 3px;
         border: none;

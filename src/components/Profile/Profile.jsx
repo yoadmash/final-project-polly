@@ -3,12 +3,14 @@ import axios from '../../api/axios';
 import React, { useEffect, useRef, useState } from 'react';
 import ProfileMenu from './ProfileMenu';
 import useAuth from '../../hooks/useAuth';
+import ReactLoading from 'react-loading';
 
 export default function Profile() {
 
   const inputRef = useRef();
   const { auth, setAuth } = useAuth();
   const [profilePic, setProfilePic] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const uploadProfilePicture = async (event) => {
     if (event.target.files.length > 0) {
@@ -16,6 +18,7 @@ export default function Profile() {
       const formData = new FormData();
       formData.append(`${auth?.userId}`, profilePictureFile);
       try {
+        setIsLoading(true);
         setAuth(prev => {
           return { ...prev, profile_pic_path: undefined }
         });
@@ -28,14 +31,17 @@ export default function Profile() {
         setAuth(prev => {
           return { ...prev, profile_pic_path: response.data.imgPath }
         });
+        setIsLoading(false);
       } catch (err) {
         console.log(err);
+        setIsLoading(false);
       }
     }
   }
 
   const removeProfilePicture = async () => {
     try {
+      setIsLoading(true);
       await axios.post(`/users/remove_profile_pic`, { profile_pic_path: auth.profile_pic_path }, {
         headers: {
           Authorization: `Bearer ${auth.accessToken}`
@@ -45,7 +51,9 @@ export default function Profile() {
       setAuth(prev => {
         return { ...prev, profile_pic_path: undefined }
       })
+      setIsLoading(false);
     } catch (err) {
+      setIsLoading(false);
       console.log(err);
     }
     inputRef.current.value = '';
@@ -53,21 +61,33 @@ export default function Profile() {
 
   useEffect(() => {
     if (auth.profile_pic_path) {
+      setIsLoading(true);
       axios.get(auth.profile_pic_path)
-        .then(res => setProfilePic(res.request.responseURL))
-        .catch(() => setProfilePic('/assets/images/ProfilePicMockup.svg'));
+        .then(res => {
+          setProfilePic(res.request.responseURL);
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setProfilePic('/assets/images/ProfilePicMockup.svg')
+          setIsLoading(false);
+        });
     } else {
-      setProfilePic('/assets/images/ProfilePicMockup.svg')
+      setProfilePic('/assets/images/ProfilePicMockup.svg');
     }
   }, [auth])
 
   return (
     <div className='dashboard-profile'>
       <label htmlFor="profile_img">
-        <img
-          src={profilePic}
-          alt="Profile"
-        />
+        {isLoading
+          ? <ReactLoading type='spin' color='#000000' />
+          :
+          <img
+            style={{border: (!auth.profile_pic_path ? 'none' : '')}}
+            src={profilePic}
+            alt="Profile"
+          />
+        }
         <input
           ref={inputRef}
           type="file"

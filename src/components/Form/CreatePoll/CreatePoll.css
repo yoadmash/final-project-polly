@@ -1,0 +1,297 @@
+.create-poll {
+  height: auto;
+  min-height: 100vh;
+  background-color: #f1f1f1;
+  font-family: "Nunito", sans-serif;
+}
+.create-poll .layout {
+  padding: 50px;
+}
+.create-poll .layout .header input {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  font-size: 30px;
+}
+.create-poll .layout .header input[name=description] {
+  font-size: 20px;
+}
+.create-poll .layout .header input:focus {
+  border: none;
+  box-shadow: none !important;
+}
+.create-poll .layout .header .poll-image {
+  display: flex;
+  justify-content: flex-end;
+}
+@media screen and (max-width: 576px) {
+  .create-poll .layout .header .poll-image {
+    margin-top: 20px;
+    justify-content: flex-start;
+  }
+}
+.create-poll .layout .header .poll-image label {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  width: 75%;
+}
+@media screen and (max-width: 992px) {
+  .create-poll .layout .header .poll-image label {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 576px) {
+  .create-poll .layout .header .poll-image label {
+    justify-content: flex-start;
+    width: 50%;
+  }
+}
+.create-poll .layout .header .poll-image label img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 15px;
+  width: 50%;
+}
+.create-poll .layout .header .poll-image label .shadow {
+  box-shadow: 0px 0px 10px gray;
+  width: 100%;
+}
+.create-poll .layout .header .poll-image label .delete-image-btn {
+  position: absolute;
+  z-index: 999;
+  right: 5px;
+  top: 5px;
+  border: none;
+  background: none;
+}
+.create-poll .layout .header .poll-image label .delete-image-btn img {
+  height: 25px;
+  width: 25px;
+  color: #00bf63;
+  background-color: #dc3545;
+  border: none;
+  box-shadow: none;
+}
+.create-poll .layout .settings {
+  padding: 5px;
+  margin-top: 50px;
+  background-color: white;
+  border-radius: 10px;
+}
+@media screen and (max-width: 991px) {
+  .create-poll .layout .settings .row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+.create-poll .layout .settings input:checked {
+  border-color: transparent;
+}
+.create-poll .layout .settings input:focus {
+  box-shadow: none !important;
+}
+.create-poll .layout .settings .btn-success {
+  background-color: #00bf63;
+  border: none;
+}
+.create-poll .layout .settings .btn-success:active {
+  background-color: #00783e;
+}
+.create-poll .questions {
+  margin-top: 10px;
+  border-radius: 10px;
+}
+.create-poll .questions .add-first-question {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.create-poll .questions .add-first-question button {
+  border: none;
+  border-radius: 5px;
+  width: 150px;
+  color: white;
+  background-color: #00bf63;
+}
+.create-poll .questions .add-first-question button:active {
+  background-color: #00783e;
+}
+.create-poll .questions .add-question {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  gap: 5px;
+}
+.create-poll .questions .add-question button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 50px;
+  height: 30px;
+  width: 30px;
+  color: white;
+  background-color: #00bf63;
+}
+.create-poll .questions .add-question button img {
+  height: 15px;
+  width: 15px;
+}
+.create-poll .questions .add-question button:active {
+  background-color: #00783e;
+}
+.create-poll .questions .add-question p {
+  display: flex;
+  justify-content: center;
+  color: black;
+  width: 150px;
+  font-size: 12px;
+}
+.create-poll .questions .new-question {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.create-poll .questions .new-question .question {
+  padding: 5px;
+  background-color: white;
+  border-radius: 10px;
+}
+@media screen and (max-width: 767px) {
+  .create-poll .questions .new-question .question {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+}
+.create-poll .questions .new-question .question input:focus {
+  box-shadow: none !important;
+}
+@media screen and (min-width: 767px) {
+  .create-poll .questions .new-question .question .question-content {
+    padding: 15px;
+  }
+}
+.create-poll .questions .new-question .question .question-content .question-answers {
+  gap: 10px;
+}
+.create-poll .questions .new-question .question .question-content .question-answers input[type=text] {
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid lightgray;
+}
+.create-poll .questions .new-question .question .question-content .question-answers input[type=text]:-moz-read-only {
+  border: 0;
+  border-radius: 10px;
+  border-bottom: 1px solid lightgray;
+}
+.create-poll .questions .new-question .question .question-content .question-answers input[type=text]:read-only {
+  border: 0;
+  border-radius: 10px;
+  border-bottom: 1px solid lightgray;
+}
+.create-poll .questions .new-question .question .question-content .question-answers input:disabled {
+  border-color: gray;
+}
+.create-poll .questions .new-question .question .question-content .question-answers .answer input[type=text]:disabled {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
+.create-poll .questions .new-question .question .question-content .question-answers .answer button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  width: 25px;
+  border-radius: 50px;
+  background-color: #dc3545;
+}
+.create-poll .questions .new-question .question .question-content .question-answers .answer button:active {
+  background-color: #8f252f;
+}
+.create-poll .questions .new-question .question .question-content .question-answers .answer:hover {
+  border-radius: 5px;
+  background-color: rgba(211, 211, 211, 0.3);
+}
+@media screen and (min-width: 767px) {
+  .create-poll .questions .new-question .question .question-settings {
+    padding: 15px;
+  }
+}
+.create-poll .questions .new-question .question .question-settings input:checked {
+  border-color: transparent;
+}
+.create-poll .questions .new-question .question .question-settings input:focus {
+  box-shadow: none !important;
+}
+.create-poll .questions .new-question .question .question-settings .dropdown {
+  padding: 0;
+}
+.create-poll .questions .new-question .question .question-settings .dropdown .dropdown-menu {
+  margin-top: 1px;
+  width: 100%;
+}
+.create-poll .questions .new-question .question .question-settings .dropdown .dropdown-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.create-poll .questions .new-question .question .question-settings .dropdown .dropdown-menu button img {
+  width: 15px;
+}
+.create-poll .questions .new-question .question .question-settings .dropdown .dropdown-menu > button:active {
+  background-color: #00bf63;
+}
+.create-poll .questions .new-question .question .question-settings .dropdown > button {
+  width: 100vh;
+  background-color: #00bf63;
+  border: none;
+}
+.create-poll .questions .delete-question-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media screen and (max-width: 991px) {
+  .create-poll .questions .delete-question-btn {
+    margin-top: 10px;
+  }
+}
+.create-poll .questions .delete-question-btn button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #dc3545;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
+.create-poll .questions .delete-question-btn button img {
+  height: 25px;
+  width: 25px;
+}
+.create-poll .questions .delete-question-btn button:active {
+  background-color: #8f252f;
+}
+.create-poll .validation-msg {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  color: red;
+}
+.create-poll .validation-msg:not(:last-child) {
+  margin-bottom: 10px;
+}/*# sourceMappingURL=CreatePoll.css.map */

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from '../../api/axios';
-import { useNavigate } from 'react-router-dom';
 
 const REGISTER_URL = '/users/auth/register';
 
@@ -36,8 +35,6 @@ export default function Signup() {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         setValidUserName(USER_REGEX.test(username));
@@ -109,7 +106,7 @@ export default function Signup() {
                     <p>You can sign in now</p>
                 </div>
                 :
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} autoComplete={'off'}>
                     <p className={errMsg ? "errMsg" : "hidden"}>
                         <FontAwesomeIcon icon={faInfoCircle} />
                         {errMsg}
@@ -124,6 +121,7 @@ export default function Signup() {
                             onChange={(e) => setFirstName(e.target.value)}
                         />
                         <Input
+                            autoComplete={false}
                             type="text"
                             className="input-fields-css"
                             id="lastName" name="lastname"

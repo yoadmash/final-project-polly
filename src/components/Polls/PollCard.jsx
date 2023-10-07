@@ -4,8 +4,9 @@ import { Input } from 'reactstrap'
 import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
+import ReactLoading from 'react-loading';
 
-export default function PollCard({ id }) {
+export default function PollCard({ id, managePolls }) {
     const { auth } = useAuth();
     const navigate = useNavigate();
 
@@ -13,6 +14,7 @@ export default function PollCard({ id }) {
     const [ownerUsername, setOwnerUsername] = useState('');
     const [isEditable, setIsEditable] = useState(false);
     const [visible, setVisible] = useState(true);
+    const [deleting, setDeleting] = useState(false);
 
     const performAction = (action) => {
         switch (action) {
@@ -20,7 +22,7 @@ export default function PollCard({ id }) {
                 setIsEditable((prevState) => !prevState);
                 break;
             case 'Remove':
-                setVisible(false);
+                deletePoll();
                 break;
             case 'Edit':
                 navigate(`poll/${id}/edit`);
@@ -72,12 +74,26 @@ export default function PollCard({ id }) {
         setOwnerUsername(result.data.foundUser.username);
     }
 
+    const deletePoll = async () => {
+        setDeleting(true);
+        const updatedPolls = managePolls.polls.filter(poll => poll !== id);
+        await axios.post(`/polls/delete`, { pollId: id }, {
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`
+            },
+            withCredentials: true
+        });
+        managePolls.setPolls(updatedPolls);
+        setDeleting(false);
+        setVisible(false);
+    }
+
     useEffect(() => {
         getPollData();
     }, []);
 
     return (
-        visible && <div className='poll-card'>
+        visible && <div className='poll-card' style={{ backgroundImage: 'url(/assets/images/Lambu.jpg)' }}>
             <div className="poll-card-header">
                 <div className="title">
                     {isEditable ?
@@ -94,7 +110,12 @@ export default function PollCard({ id }) {
                 </div>
             </div>
             <div className="poll-card-body" onClick={handleClick}>
-                {/* <img src={'/assets/images/preview.svg'} alt="poll_preview" /> */}
+                {deleting &&
+                    <div className='deleting'>
+                        <ReactLoading type='cylon' color='#FFFFFF' />
+                        <span style={{ color: '#FFFFFF', fontWeight: 500 }}>Removing poll...</span>
+                    </div>
+                }
             </div>
         </div>
     )
