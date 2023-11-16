@@ -1,52 +1,56 @@
 import './CreatePoll.css';
-import { useEffect, useState } from 'react';
+// import { useState } from 'react';
 import { Col, Row } from 'reactstrap';
-import { useFormContext } from 'react-hook-form';
 import Question from './Question';
+import { useFormContext, useFieldArray } from 'react-hook-form';
 
 const QuestionsAdder = () => {
-    const { setValue, getValues, clearErrors } = useFormContext();
 
-    const [questionsComponents, setQuestionsComponents] = useState([]);
-    const [questionsCounter, setQuestionCounter] = useState(0);
+    const { formState: { errors } } = useFormContext();
+    const { fields, append, remove } = useFieldArray({
+        rules: {
+            required: {
+                value: true,
+                message: '* Please add atleast 1 question'
+            }
+        },
+        name: 'questions'
+    });
 
-    const addComponent = () => {
-        setQuestionsComponents(prev => [...prev, <Question key={questionsCounter} id={questionsCounter} />]);
-        setQuestionCounter(prev => prev + 1);
+    const addQuestion = () => {
+        append({
+            title: '',
+            settings: {
+                required: false,
+                shuffleAnswers: false
+            },
+        });
     }
-
-    const deleteComponent = (key) => {
-        setQuestionsComponents(prev => prev.filter(component => component.key !== key));
-        const updatedQuestions = getValues().questions.splice(key, 0);
-        setValue(`questions`, updatedQuestions);
-    };
-
-    useEffect(() => {
-        if(questionsComponents.length > 0) {
-            clearErrors('questionsLength');
-        }
-    }, [questionsComponents.length, clearErrors]);
 
     return (
         <div className='questions'>
-            {questionsComponents.length > 0 && questionsComponents.map(questionComponent => (
-                <Row key={questionComponent.key} className='new-question'>
-                    <Col xs={12} md={11}>{questionComponent}</Col>
+            {fields.map((field, index) => (
+                <Row key={field.id} className='new-question'>
+                    <Col xs={12} md={11}><Question key={field.id} id={index} /></Col>
                     <Col xs={12} md={1} className='delete-question-btn'>
-                        <button onClick={() => deleteComponent(questionComponent.key)} type='button'>
+                        <button onClick={() => remove(index)} type='button'>
                             <img src='/assets/images/remove_question.svg' alt='delete_question' />
                         </button>
                     </Col>
                 </Row>
             ))}
-            {questionsComponents.length === 0
+            {fields.length === 0
                 ?
-                <div className='add-first-question'>
-                    <button onClick={addComponent} type='button'>Add First Question</button>
+                <div className='add-first-question d-flex flex-column'>
+                    <button
+                        onClick={addQuestion}
+                        type='button'>Add First Question
+                    </button>
+                    {errors?.questions?.root?.message && <p className='validation-msg mt-1'>{errors.questions.root.message}</p>}
                 </div>
                 :
                 <div className='add-question'>
-                    <button onClick={addComponent} type='button'>
+                    <button onClick={addQuestion} type='button'>
                         <img src='/assets/images/add_question.svg' alt='add-question' />
                     </button>
                     <p>Add Question</p>

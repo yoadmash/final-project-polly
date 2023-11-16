@@ -7,7 +7,7 @@ import axios from '../../api/axios';
 
 const REGISTER_URL = '/users/auth/register';
 
-const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const USER_REGEX = /^[A-z][A-z0-9-_]{3,9}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -121,7 +121,7 @@ export default function Signup() {
                             onChange={(e) => setFirstName(e.target.value)}
                         />
                         <Input
-                            autoComplete={false}
+                            autoComplete={'false'}
                             type="text"
                             className="input-fields-css"
                             id="lastName" name="lastname"
@@ -144,7 +144,7 @@ export default function Signup() {
                         />
                         <p className={userNameFocus && username && !validUserName ? "instructions" : 'hidden'}>
                             <FontAwesomeIcon icon={faInfoCircle} />
-                            4 to 24 characters.<br />
+                            4 to 10 characters.<br />
                             Must begin with a letter.<br />
                             Letters, numbers, underscores and hyphens are allowed.
                         </p>

@@ -1,0 +1,67 @@
+.answer-poll {
+  height: auto;
+  min-height: 100vh;
+  background-color: #f1f1f1;
+  font-family: "Nunito", sans-serif;
+}
+.answer-poll .layout {
+  padding: 50px;
+}
+.answer-poll .layout p {
+  margin: 0;
+}
+.answer-poll .layout .header p {
+  font-size: 30px;
+}
+@media screen and (max-width: 992px) {
+  .answer-poll .layout .header {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+.answer-poll .layout .header p:last-child {
+  font-size: 20px;
+}
+@media screen and (max-width: 992px) {
+  .answer-poll .layout .header p:last-child {
+    font-size: 15px;
+  }
+}
+.answer-poll .layout .header .poll-image {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+@media screen and (max-width: 992px) {
+  .answer-poll .layout .header .poll-image {
+    height: 200px;
+    margin-bottom: 20px;
+    justify-content: flex-start;
+  }
+}
+.answer-poll .layout .header .poll-image img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 15px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 0px 10px gray;
+}
+.answer-poll .layout .btn-success {
+  background-color: #00bf63;
+  border: none;
+}
+.answer-poll .layout .btn-success:active {
+  background-color: #00783e;
+}
+.answer-poll .layout .row {
+  padding: 20px;
+  background-color: white;
+  border-radius: 20px;
+}
+.answer-poll .validation-msg {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  color: red;
+}/*# sourceMappingURL=AnswerPoll.css.map */

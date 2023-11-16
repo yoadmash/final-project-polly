@@ -4,7 +4,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 const TypeDropDown = ({ setAnswersType }) => {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('text'); // Default selection
+    const [selectedOption, setSelectedOption] = useState('text');
 
     const toggle = () => setDropdownOpen((prevState) => !prevState);
 

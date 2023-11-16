@@ -1,30 +1,34 @@
 import './CreatePoll.css';
-import { useEffect } from 'react';
 import { useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form';
 
-export default function PollImage() {
-    const { setValue } = useFormContext();
+export default function PollImage({ setPollImgFile }) {
 
     const inputRef = useRef();
     const [pollImage, setPollImage] = useState('/assets/images/upload.png');
+    const { setValue } = useFormContext();
 
-    const handleImageDelete = (e) => {
+    const handlePollImageUploadFile = (event) => {
+        if (event.target.files.length > 0) {
+            const blob = URL.createObjectURL(event.target.files[0]);
+            setValue('image_path', '');
+            setPollImage(blob);
+            setPollImgFile(event.target.files[0]);
+        }
+    }
+
+    const handlePollImageDeleteFile = (e) => {
         e.preventDefault();
         setValue('image_path', '');
         setPollImage('/assets/images/upload.png');
         inputRef.current.value = '';
     }
 
-    useEffect(() => {
-        setValue('image_path', '');
-    }, [setValue]);
-
     return (
         <div className='poll-image'>
             <label htmlFor="poll-img">
                 {pollImage !== '/assets/images/upload.png' && (
-                    <button className="delete-image-btn" onClick={(e) => handleImageDelete(e)}>
+                    <button className="delete-image-btn" onClick={(e) => handlePollImageDeleteFile(e)}>
                         <img src='/assets/images/remove_question.svg' alt="Delete" />
                     </button>
                 )}
@@ -35,17 +39,11 @@ export default function PollImage() {
                 />
                 <input
                     type="file"
-                    accept='image/png, image/pjpeg, image/svg+xml'
+                    accept='image/*'
                     id='poll-img'
                     style={{ display: 'none' }}
                     ref={inputRef}
-                    onChange={(e) => {
-                        if (e.target.files.length > 0) {
-                            const blob = URL.createObjectURL(e.target.files[0]);
-                            setValue('image_path', blob);
-                            setPollImage(blob);
-                        }
-                    }}
+                    onChange={(e) => { handlePollImageUploadFile(e) }}
                 />
             </label>
         </div>

@@ -6,9 +6,9 @@ export default function NewPollCard({ template, title }) {
 
     const handleClick = () => {
         if (!template) {
-            navigate('/create-new-poll');
+            navigate('/poll/create/new');
         } else {
-            navigate('/create-new-poll-2');
+            navigate('/poll/create/template');
         }
     }
 

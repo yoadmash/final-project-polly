@@ -20,6 +20,12 @@
   border: none;
   box-shadow: none !important;
 }
+@media screen and (max-width: 576px) {
+  .create-poll .layout .header {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
 .create-poll .layout .header .poll-image {
   display: flex;
   justify-content: flex-end;

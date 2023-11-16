@@ -21,7 +21,7 @@ function PollCardOptions({ actionFunction, owner }) {
   ];
 
   return (
-    <Dropdown isOpen={dropdownOpen} toggle={toggle} direction={'left'}>
+    <Dropdown isOpen={dropdownOpen} toggle={toggle} direction={'start'}>
       <DropdownToggle><img src="/assets/images/dots.svg" alt="dots" /></DropdownToggle>
       <DropdownMenu>
         <DropdownItem key={'owner'} disabled>Created by: {owner}</DropdownItem>
@@ -30,7 +30,7 @@ function PollCardOptions({ actionFunction, owner }) {
           if (i === pollCardOptions.length - 1) { //remove
             return ([
               <DropdownItem key={'bottom-divider'} divider />,
-              <DropdownItem key={i} onClick={() => actionFunction(item.title)}>
+              <DropdownItem key={i} onClick={() => actionFunction(item.title)} disabled={auth.username !== owner}>
                 <img src={item.icon} alt={item.title} />
                 <span>{item.title}</span>
               </DropdownItem>

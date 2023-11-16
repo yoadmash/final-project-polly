@@ -18,16 +18,24 @@ export default function PollCard({ id, managePolls }) {
 
     const performAction = (action) => {
         switch (action) {
+            case 'Edit':
+                navigate(`poll/${id}/edit`);
+                break;
             case 'Rename':
                 setIsEditable((prevState) => !prevState);
+                break;
+            case 'Open in new tab':
+                window.open(`/poll/${id}`, '_blank')
                 break;
             case 'Remove':
                 deletePoll();
                 break;
-            case 'Edit':
-                navigate(`poll/${id}/edit`);
-                break;
             default:
+                if (poll.ownerId === auth.userId) {
+                    navigate(`poll/${id}/summary`, { state: { poll } });
+                } else {
+                    navigate(`poll/${id}/view_answers`, { state: { poll } });
+                }
                 break;
         }
     }
@@ -54,14 +62,19 @@ export default function PollCard({ id, managePolls }) {
     }
 
     const getPollData = async () => {
-        const result = await axios.get(`/polls/${id}`, {
-            headers: {
-                Authorization: `Bearer ${auth.accessToken}`
-            },
-            withCredentials: true
-        });
-        setPoll(result.data.foundPoll);
-        getOwnerName(result.data.foundPoll.ownerId);
+        try {
+            const result = await axios.get(`/polls/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${auth.accessToken}`
+                },
+                withCredentials: true
+            });
+            setPoll(result.data.foundPoll);
+            getOwnerName(result.data.foundPoll.ownerId);
+        } catch (err) {
+            managePolls.setPolls((prev) => prev.filter(poll => poll !== id));
+            console.log(err.response.data.message);
+        }
     }
 
     const getOwnerName = async (id) => {
@@ -93,7 +106,18 @@ export default function PollCard({ id, managePolls }) {
     }, []);
 
     return (
-        visible && <div className='poll-card' style={{ backgroundImage: 'url(/assets/images/Lambu.jpg)' }}>
+        visible && <div className='poll-card'
+            style={{
+                backgroundImage: (poll.image_path)
+                    ? `url(http://localhost:3500${poll.image_path})`
+                    : `url(/assets/images/view_answers.svg)`,
+                backgroundSize: (poll.image_path)
+                    ? 'cover'
+                    : '50%',
+                backgroundPosition: (poll.image_path)
+                    ? ''
+                    : '50% 90%'
+            }}>
             <div className="poll-card-header">
                 <div className="title">
                     {isEditable ?

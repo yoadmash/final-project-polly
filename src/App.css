@@ -20,3 +20,13 @@
 .go-back>a {
     color: #00bf63;
 }
+
+.general-err-msg {
+    border-radius: 5px;
+    background-color: lightpink;
+    color: firebrick;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

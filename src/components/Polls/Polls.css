@@ -1,5 +1,5 @@
 .dashboard-polls {
-  height: 35vh;
+  height: 40vh;
   width: 100vw;
   background-color: white;
   display: flex;
@@ -35,7 +35,7 @@
   }
 }
 .dashboard-polls .header .dropdown > .btn {
-  font-size: 22px;
+  font-size: 20px;
   color: black;
   padding: 0;
 }
@@ -43,9 +43,6 @@
   padding: 0px 20px;
   border: 2px solid silver;
   background-color: transparent;
-}
-.dashboard-polls .header .dropdown .btn:active {
-  color: silver;
 }
 .dashboard-polls .body {
   position: relative;
@@ -61,8 +58,8 @@
 .dashboard-polls .body .poll-card {
   border-radius: 10px;
   background-repeat: no-repeat;
-  background-position: center;
   background-size: cover;
+  background-color: whitesmoke;
   box-shadow: 2px 5px 5px lightgray;
   display: flex;
   flex-direction: column;
@@ -99,6 +96,9 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+.dashboard-polls .body .poll-card .poll-card-header .icon .dropdown .dropdown-menu .dropdown-item:disabled:not(:first-child) {
+  text-decoration: line-through;
 }
 .dashboard-polls .body .poll-card .poll-card-body {
   height: 100%;

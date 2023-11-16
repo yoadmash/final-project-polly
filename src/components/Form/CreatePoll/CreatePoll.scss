@@ -24,6 +24,11 @@
                 box-shadow: none !important;
             }
 
+            @media screen and (max-width: 576px) {
+                display: flex;
+                flex-direction: column-reverse;
+            }
+
             .poll-image {
                 display: flex;
                 justify-content: flex-end;

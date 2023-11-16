@@ -13,18 +13,23 @@ export default function Polls() {
 
   const getPolls = async () => {
     setIsLoading(true);
-    const result = await axios.get('/users/get_polls', {
-      headers: {
-        Authorization: `Bearer ${auth.accessToken}`
-      },
-      withCredentials: true
-    });
-    setPolls(result.data);
+    try {
+      const response = await axios.get('/users/get_polls', {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`
+        },
+        withCredentials: true
+      });
+      setPolls(response.data);
+    } catch (err) {
+      console.log(err);
+    }
     setIsLoading(false);
   }
 
   useEffect(() => {
     getPolls();
+    // eslint-disable-next-line
   }, []);
 
   return (

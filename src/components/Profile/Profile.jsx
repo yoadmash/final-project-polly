@@ -19,18 +19,14 @@ export default function Profile() {
       formData.append(`${auth?.userId}`, profilePictureFile);
       try {
         setIsLoading(true);
-        setAuth(prev => {
-          return { ...prev, profile_pic_path: undefined }
-        });
+        setAuth(prev => ({ ...prev, profile_pic_path: undefined }));
         const response = await axios.post('/users/upload', formData, {
           headers: {
             Authorization: `Bearer ${auth.accessToken}`
           },
           withCredentials: true
         });
-        setAuth(prev => {
-          return { ...prev, profile_pic_path: response.data.imgPath }
-        });
+        setAuth(prev => ({ ...prev, profile_pic_path: response.data.imgPath }));
         setIsLoading(false);
       } catch (err) {
         console.log(err);
@@ -48,9 +44,7 @@ export default function Profile() {
         },
         withCredentials: true
       });
-      setAuth(prev => {
-        return { ...prev, profile_pic_path: undefined }
-      })
+      setAuth(prev => ({ ...prev, profile_pic_path: undefined }));
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
@@ -83,7 +77,7 @@ export default function Profile() {
           ? <ReactLoading type='spin' color='#000000' />
           :
           <img
-            style={{border: (!auth.profile_pic_path ? 'none' : '')}}
+            style={{ border: (!auth.profile_pic_path ? 'none' : '') }}
             src={profilePic}
             alt="Profile"
           />
@@ -91,7 +85,7 @@ export default function Profile() {
         <input
           ref={inputRef}
           type="file"
-          accept='image/png, image/pjpeg, image/bmp, image/svg+xml'
+          accept='image/*'
           id='profile_img'
           style={{ display: 'none' }}
           onChange={(e) => uploadProfilePicture(e)}
