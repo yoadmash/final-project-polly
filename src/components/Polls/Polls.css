@@ -97,9 +97,6 @@
   justify-content: flex-end;
   align-items: center;
 }
-.dashboard-polls .body .poll-card .poll-card-header .icon .dropdown .dropdown-menu .dropdown-item:disabled:not(:first-child) {
-  text-decoration: line-through;
-}
 .dashboard-polls .body .poll-card .poll-card-body {
   height: 100%;
   display: flex;

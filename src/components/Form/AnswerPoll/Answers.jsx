@@ -31,6 +31,13 @@ const Answers = ({ answers, type, q_index, settings }) => {
                             message: "* Required"
                         },
                     }}
+                    onInput={(event) => {
+                        if(event.target.value.length === 0) {
+                            event.target.style.height = 'auto';
+                        } else if(event.target.scrollHeight < 300 && event.target.scrollHeight > 60) {
+                            event.target.style.height = event.target.scrollHeight + 'px';
+                        }
+                    }}
                 />
                 :
                 shuffledAnswers.map((answer, index) => (

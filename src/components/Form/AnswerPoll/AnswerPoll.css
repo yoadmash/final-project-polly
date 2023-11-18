@@ -1,45 +1,55 @@
-.answer-poll {
+.answer-poll,
+.view-answers {
   height: auto;
   min-height: 100vh;
   background-color: #f1f1f1;
   font-family: "Nunito", sans-serif;
 }
-.answer-poll .layout {
+.answer-poll .layout,
+.view-answers .layout {
   padding: 50px;
 }
-.answer-poll .layout p {
+.answer-poll .layout p,
+.view-answers .layout p {
   margin: 0;
 }
-.answer-poll .layout .header p {
+.answer-poll .layout .header p,
+.view-answers .layout .header p {
   font-size: 30px;
 }
 @media screen and (max-width: 992px) {
-  .answer-poll .layout .header {
+  .answer-poll .layout .header,
+  .view-answers .layout .header {
     display: flex;
     flex-direction: column-reverse;
   }
 }
-.answer-poll .layout .header p:last-child {
+.answer-poll .layout .header p:last-child,
+.view-answers .layout .header p:last-child {
   font-size: 20px;
 }
 @media screen and (max-width: 992px) {
-  .answer-poll .layout .header p:last-child {
+  .answer-poll .layout .header p:last-child,
+  .view-answers .layout .header p:last-child {
     font-size: 15px;
   }
 }
-.answer-poll .layout .header .poll-image {
+.answer-poll .layout .header .poll-image,
+.view-answers .layout .header .poll-image {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 @media screen and (max-width: 992px) {
-  .answer-poll .layout .header .poll-image {
+  .answer-poll .layout .header .poll-image,
+  .view-answers .layout .header .poll-image {
     height: 200px;
     margin-bottom: 20px;
     justify-content: flex-start;
   }
 }
-.answer-poll .layout .header .poll-image img {
+.answer-poll .layout .header .poll-image img,
+.view-answers .layout .header .poll-image img {
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 15px;
@@ -47,19 +57,27 @@
   height: 100%;
   box-shadow: 0px 0px 10px gray;
 }
-.answer-poll .layout .btn-success {
+.answer-poll .layout textarea,
+.view-answers .layout textarea {
+  resize: none;
+}
+.answer-poll .layout .btn-success,
+.view-answers .layout .btn-success {
   background-color: #00bf63;
   border: none;
 }
-.answer-poll .layout .btn-success:active {
+.answer-poll .layout .btn-success:active,
+.view-answers .layout .btn-success:active {
   background-color: #00783e;
 }
-.answer-poll .layout .row {
+.answer-poll .layout .row,
+.view-answers .layout .row {
   padding: 20px;
   background-color: white;
   border-radius: 20px;
 }
-.answer-poll .validation-msg {
+.answer-poll .validation-msg,
+.view-answers .validation-msg {
   font-size: 12px;
   margin: 0;
   padding: 0;

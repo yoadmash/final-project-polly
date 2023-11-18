@@ -103,14 +103,6 @@
                     display: flex;
                     justify-content: flex-end;
                     align-items: center;
-
-                    .dropdown {
-                        .dropdown-menu {
-                            .dropdown-item:disabled:not(:first-child) {
-                                text-decoration: line-through;
-                            }
-                        }
-                    }
                 }
             }
 
