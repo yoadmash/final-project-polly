@@ -4,6 +4,9 @@ import { useParams } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import axios from '../../../api/axios';
 import Loading from '../../Layout/Loading';
+import { Col, Row, Container, Button } from 'reactstrap';
+import './ViewAnswers.css';
+import PollQuestion from './PollQuestion';
 
 const PollSummary = () => {
 
@@ -28,28 +31,6 @@ const PollSummary = () => {
     }
   }
 
-  const checkAnswerCount = (answer_title) => {
-    let sum = 0
-    poll.answers.forEach((answerObj, a_index) => {
-      answerObj.answers.forEach((answer, v_index) => {
-        if(typeof answer.value === 'object' && answer.value !== null) {
-          if(Object.keys(answer.value).includes('title')) {
-            if(answer.value.title === answer_title)
-            sum++;
-          } else {
-            Object.values(answer.value).forEach((value, v_index) => {
-              if(value.title === answer_title) {
-                sum++
-              }
-            });
-          }
-        }
-      })
-    })
-    console.log(sum);
-    // return sum;
-  }
-
   useEffect(() => {
     getPoll();
   }, []);
@@ -60,19 +41,29 @@ const PollSummary = () => {
         ?
         <Loading />
         :
-        <div className='d-flex flex-column justify-content-center align-items-center'>
+        <div className='poll-summary'>
+
           <GoBackLink />
           {poll?.answers?.length > 0
             ?
-            <>
-              <pre className='mt-5'>{JSON.stringify(poll.answers, null, 2)}</pre>
-              {checkAnswerCount('Checkbox 3')}
-            </>
+            < Container fluid={'md'} className='layout d-flex flex-column gap-3'>
+              <Row className='header'>
+                <Col xs={12} lg={!poll.image_path ? 12 : 8} className='d-flex flex-column gap-3'>
+                  <p>{poll.title}</p>
+                  <p>{poll.description}</p>
+                  <p>Replies: {poll.answers.length}</p>
+
+                </Col>
+                {poll.image_path && <Col xs={12} lg={4} className='poll-image'>
+                  <img src={`http://localhost:3500${poll.image_path}`} alt="poll_image" />
+                </Col>}
+              </Row>
+              {poll.questions.map(question => <PollQuestion key={question.title} title={question.title} answers={question.answers} poll_answers={poll.answers} />)}
+            </Container>
             :
             <p className='mt-5'>No one answered this poll yet</p>
           }
-        </div>
-      }
+        </div>}
     </>
   )
 }
