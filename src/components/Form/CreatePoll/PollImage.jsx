@@ -1,12 +1,13 @@
 import './CreatePoll.css';
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form';
 
-export default function PollImage({ setPollImgFile }) {
+export default function PollImage({ setPollImgFile, setDeletePollImageOnEdit, editMode }) {
 
     const inputRef = useRef();
     const [pollImage, setPollImage] = useState('/assets/images/upload.png');
-    const { setValue } = useFormContext();
+    const { setValue, getValues } = useFormContext();
+    const image_path = getValues('image_path');
 
     const handlePollImageUploadFile = (event) => {
         if (event.target.files.length > 0) {
@@ -14,15 +15,28 @@ export default function PollImage({ setPollImgFile }) {
             setValue('image_path', '');
             setPollImage(blob);
             setPollImgFile(event.target.files[0]);
+            if (editMode) {
+                setDeletePollImageOnEdit(false);
+            }
         }
     }
 
     const handlePollImageDeleteFile = (e) => {
         e.preventDefault();
+        if (editMode && getValues().image_path.length > 0) {
+            setDeletePollImageOnEdit(true);
+        }
         setValue('image_path', '');
+        setPollImgFile('');
         setPollImage('/assets/images/upload.png');
         inputRef.current.value = '';
     }
+
+    useEffect(() => {
+        if (editMode && image_path?.length > 0) {
+            setPollImage('http://localhost:3500' + image_path);
+        }
+    }, [editMode, image_path]);
 
     return (
         <div className='poll-image'>

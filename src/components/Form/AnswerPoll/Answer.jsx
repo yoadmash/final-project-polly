@@ -3,7 +3,7 @@ import { Label } from 'reactstrap';
 import { useFormContext } from 'react-hook-form';
 import UseFormInput from '../UseFormInput';
 
-const Answer = ({ a_index, answer, q_index, type, settings }) => {
+const Answer = ({ a_index, answer, q_index, type, settings, disabled }) => {
 
     const { register, setValue } = useFormContext();
 
@@ -24,6 +24,7 @@ const Answer = ({ a_index, answer, q_index, type, settings }) => {
                         message: '* Required'
                     }
                 }}
+                disabled={disabled}
             />
             <Label check className='ms-2'>{answer.title}</Label>
         </div>

@@ -7,8 +7,8 @@ import UseFormInput from '../UseFormInput';
 
 const Question = ({ id }) => {
 
-    const [answersType, setAnswersType] = useState('text');
-    const { register, formState: { errors }, setValue } = useFormContext();
+    const { register, formState: { errors }, setValue, getValues } = useFormContext();
+    const [answersType, setAnswersType] = useState(getValues().questions?.[id]?.answersType || 'text');
 
     useEffect(() => {
         setValue(`questions.${id}.answersType`, answersType);
@@ -24,6 +24,7 @@ const Question = ({ id }) => {
                         name={`questions.${id}.title`}
                         placeholder='Question title...'
                         register={register}
+                        onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault() }}
                         validation={{
                             required: {
                                 value: true,
@@ -54,7 +55,7 @@ const Question = ({ id }) => {
             </Col>
             <Col sm={12} md={4} lg={3} className='question-settings'>
                 <Row className='mb-3'>
-                    <TypeDropDown setAnswersType={setAnswersType} questionId={id} />
+                    <TypeDropDown defaultValue={answersType} setAnswersType={setAnswersType} questionId={id} />
                 </Row>
                 <Row>
                     <Col className='d-flex justify-content-center align-items-center' xs={12} sm={12} md={12} lg={12}>

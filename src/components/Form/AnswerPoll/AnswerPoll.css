@@ -13,8 +13,8 @@
 .view-answers .layout p {
   margin: 0;
 }
-.answer-poll .layout .header p,
-.view-answers .layout .header p {
+.answer-poll .layout .header p:first-child,
+.view-answers .layout .header p:first-child {
   font-size: 30px;
 }
 @media screen and (max-width: 992px) {

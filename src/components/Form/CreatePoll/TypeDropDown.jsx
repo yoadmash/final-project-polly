@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-const TypeDropDown = ({ setAnswersType }) => {
+const TypeDropDown = ({ defaultValue, setAnswersType }) => {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('text');
+    const [selectedOption, setSelectedOption] = useState(defaultValue);
 
     const toggle = () => setDropdownOpen((prevState) => !prevState);
 
@@ -23,7 +23,7 @@ const TypeDropDown = ({ setAnswersType }) => {
     return (
         <Dropdown isOpen={dropdownOpen} toggle={toggle} style={{ width: '100%' }}>
             <DropdownToggle caret style={{ width: '100%' }}>
-                {selectedOption === 'text' ? 'Text' : questionOptions.find(item => item.type === selectedOption).title}
+                {questionOptions.find(item => item.type === selectedOption).title}
             </DropdownToggle>
             <DropdownMenu>
                 {questionOptions.map(item => (

@@ -1,16 +1,24 @@
 .dashboard-search {
+
     input {
-        background: url(/public/assets/images/search.svg) no-repeat 10px center;
+        background: url('/public/assets/images/search.svg') no-repeat 10px center;
         background-size: 30px;
-        width: calc(80vw - 350px);
+        background-color: rgba(211, 211, 211, 0.479);
+        width: calc(80vw - 255px);
         height: 60px;
         text-overflow: ellipsis;
-        background-color: rgba(211, 211, 211, 0.479);
         border: none;
         border-radius: 0.375rem;
-        padding:0 20px 0 50px;
+        padding: 0 20px 0 50px;
+
+        &.loading {
+            background: url('/public/assets/images/search_loader.gif') no-repeat 10px center;
+            background-size: 30px;
+            background-color: rgba(211, 211, 211, 0.479);
+            top: 0;
+        }
     }
-    
+
     input::placeholder {
         color: black;
     }
@@ -19,10 +27,64 @@
         outline: none;
     }
 
+    .search-results {
+        padding: 10px;
+        position: absolute;
+        top: 70px;
+        width: calc(80vw - 255px);
+        max-height: 50vh;
+        border-radius: 7px;
+        border: 2px solid gray;
+        background-color: white;
+        box-shadow: 2px 5px 10px gray;
+        overflow: auto;
+        z-index: 9999;
+
+        .poll-card-search {
+            margin-top: 20px;
+            padding: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            overflow: hidden;
+
+            img {
+                width: 100px;
+                border: 2px solid black;
+                border-radius: 5px;
+            }
+
+            h4 {
+                margin: 0;
+            }
+
+            p {
+                margin: 0;
+                font-size: 18px;
+            }
+        }
+
+        .poll-card-search:hover {
+            background-color: #00bf63;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
+
+    .search-results:focus {
+        outline: none;
+    }
+
     @media screen and (max-width: 767px) {
         input {
-            width: calc(100vw - 250px);
+            width: calc(100vw - 175px);
             height: 40px;
+        }
+
+        .search-results {
+            left: 0;
+            top: 115px;
+            width: 100%;
         }
     }
 }

@@ -18,6 +18,7 @@
 }
 .create-poll .layout .header input:focus {
   border: none;
+  border-radius: 0;
   box-shadow: none !important;
 }
 @media screen and (max-width: 576px) {
@@ -30,39 +31,23 @@
   display: flex;
   justify-content: flex-end;
 }
-@media screen and (max-width: 576px) {
-  .create-poll .layout .header .poll-image {
-    margin-top: 20px;
-    justify-content: flex-start;
-  }
-}
 .create-poll .layout .header .poll-image label {
   position: relative;
   display: flex;
   justify-content: flex-end;
   cursor: pointer;
-  width: 75%;
-}
-@media screen and (max-width: 992px) {
-  .create-poll .layout .header .poll-image label {
-    width: 100%;
-  }
-}
-@media screen and (max-width: 576px) {
-  .create-poll .layout .header .poll-image label {
-    justify-content: flex-start;
-    width: 50%;
-  }
 }
 .create-poll .layout .header .poll-image label img {
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
   border-radius: 15px;
   width: 50%;
 }
 .create-poll .layout .header .poll-image label .shadow {
+  -o-object-fit: cover;
+     object-fit: cover;
   box-shadow: 0px 0px 10px gray;
-  width: 100%;
+  width: 300px;
 }
 .create-poll .layout .header .poll-image label .delete-image-btn {
   position: absolute;
@@ -80,8 +65,31 @@
   border: none;
   box-shadow: none;
 }
+@media screen and (max-width: 576px) {
+  .create-poll .layout .header .poll-image label {
+    margin-bottom: 20px;
+    width: 100%;
+    height: 200px;
+  }
+  .create-poll .layout .header .poll-image label img {
+    width: 100%;
+    box-shadow: 0px 0px 10px gray;
+  }
+  .create-poll .layout .header .poll-image label .shadow {
+    border: none;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 992px) {
+  .create-poll .layout .header .poll-image label {
+    width: 100%;
+  }
+  .create-poll .layout .header .poll-image label .shadow {
+    width: 100%;
+  }
+}
 .create-poll .layout .settings {
-  padding: 5px;
+  padding: 10px;
   margin-top: 50px;
   background-color: white;
   border-radius: 10px;
@@ -91,6 +99,9 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+  }
+  .create-poll .layout .settings .row > div:not(:last-child) {
+    border-right: none !important;
   }
 }
 .create-poll .layout .settings input:checked {
@@ -105,6 +116,9 @@
 }
 .create-poll .layout .settings .btn-success:active {
   background-color: #00783e;
+}
+.create-poll .layout .settings > .row > div:not(:last-child) {
+  border-right: 1px solid lightgray;
 }
 .create-poll .questions {
   margin-top: 10px;

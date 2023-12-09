@@ -3,7 +3,7 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, FormGroup, Input, Label, Button, Spinner } from 'reactstrap';
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import axios from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
 
@@ -43,8 +43,8 @@ export default function Signin() {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true
             });
-            const { userId, fullname, accessToken, profile_pic_path } = response?.data?.userData;
-            setAuth({ userId, username, fullname, accessToken, profile_pic_path });
+            const { userId, fullname, accessToken, admin, profile_pic_path } = response?.data?.userData;
+            setAuth({ userId, username, fullname, accessToken, admin, profile_pic_path });
             navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {

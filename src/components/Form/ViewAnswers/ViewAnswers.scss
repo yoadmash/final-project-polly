@@ -1,5 +1,15 @@
 .view-answers {
     textarea {
-        height: 300px;
+        max-height: 300px;
     }
+
+    textarea[readonly]:focus {
+        box-shadow: none;
+        border-color: #dee2e6;
+    }
+
+    textarea[readonly]:hover {
+        cursor: default;
+    }
+    
 }

@@ -3,7 +3,7 @@ import UseFormInput from '../UseFormInput';
 import Answer from './Answer';
 import { useFormContext } from 'react-hook-form';
 
-const Answers = ({ answers, type, q_index, settings }) => {
+const Answers = ({ answers, type, q_index, settings, isOwner }) => {
 
     const [shuffled, setShuffled] = useState(false);
     const [shuffledAnswers, setShuffledAnswers] = useState([]);
@@ -31,13 +31,15 @@ const Answers = ({ answers, type, q_index, settings }) => {
                             message: "* Required"
                         },
                     }}
+                    rows={5}
                     onInput={(event) => {
                         if(event.target.value.length === 0) {
                             event.target.style.height = 'auto';
-                        } else if(event.target.scrollHeight < 300 && event.target.scrollHeight > 60) {
+                        } else if(event.target.scrollHeight < 300 && event.target.scrollHeight > event.target.rows * 30) {
                             event.target.style.height = event.target.scrollHeight + 'px';
                         }
                     }}
+                    disabled={isOwner}
                 />
                 :
                 shuffledAnswers.map((answer, index) => (
@@ -48,6 +50,7 @@ const Answers = ({ answers, type, q_index, settings }) => {
                         q_index={q_index}
                         type={type}
                         settings={settings}
+                        disabled={isOwner}
                     />
                 ))}
             {errors?.answers?.[q_index]?.value?.message && <p className='validation-msg mt-1'>{errors?.answers?.[q_index]?.value?.message}</p>}

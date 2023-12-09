@@ -14,11 +14,15 @@ function PollCardOptions({ actionFunction, owner }) {
 
   const pollCardOptions = [
     { icon: '/assets/images/edit.svg', title: 'Edit' },
-    { icon: '/assets/images/text.svg', title: 'Rename' },
-    { icon: '/assets/images/view_answers.svg', title: 'View answers' },
+    { icon: '/assets/images/link.svg', title: 'Copy Link' },
+    { icon: '/assets/images/view_answers.svg', title: 'View Answers' },
     { icon: '/assets/images/open_new_tab.svg', title: 'Open in new tab' },
     { icon: '/assets/images/remove.svg', title: 'Remove' },
   ];
+
+  const pollCardOptionsToMap = (auth.username === owner)
+    ? pollCardOptions
+    : pollCardOptions.filter(option => option.title !== 'Edit');
 
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle} direction={'start'}>
@@ -26,24 +30,26 @@ function PollCardOptions({ actionFunction, owner }) {
       <DropdownMenu>
         <DropdownItem key={'owner'} disabled>Created by: {owner}</DropdownItem>
         <DropdownItem key={'top-divider'} divider>{owner}</DropdownItem>
-        {pollCardOptions.map((item, i) => {
-          if (i === pollCardOptions.length - 1) { //remove
+        {pollCardOptionsToMap.map((item, i) => {
+          if (item.title === 'Remove') { //remove
             return ([
               <DropdownItem key={'bottom-divider'} divider />,
-              <DropdownItem key={i} onClick={() => actionFunction(item.title)} disabled={auth.username !== owner}>
+              <DropdownItem key={i} onClick={() => actionFunction(item.title)}>
+                <img src={item.icon} alt={item.title} />
+                <span>{(auth.username !== owner) ? item.title : 'Delete Poll'}</span>
+              </DropdownItem>
+            ]);
+          } else {
+            return (
+              <DropdownItem key={i} onClick={() => actionFunction(item.title)} >
                 <img src={item.icon} alt={item.title} />
                 <span>{item.title}</span>
               </DropdownItem>
-            ]);
-          } else { // every other option
-            return <DropdownItem key={i} onClick={() => actionFunction(item.title)} disabled={(item.title === 'Edit' || item.title === 'Rename') && auth.username !== owner}>
-              <img src={item.icon} alt={item.title} />
-              <span>{item.title}</span>
-            </DropdownItem>;
+            )
           }
         })}
       </DropdownMenu>
-    </Dropdown>
+    </Dropdown >
   );
 }
 

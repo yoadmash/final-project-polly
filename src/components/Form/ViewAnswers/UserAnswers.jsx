@@ -4,7 +4,13 @@ import './ViewAnswers.css';
 
 const UserAnswers = ({ poll_questions, user_answers }) => {
 
-    const lorem = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga vel quibusdam reprehenderit vitae, aspernatur, illo sapiente ut quae consequatur eum deserunt? Perspiciatis sed distinctio ipsa tenetur blanditiis nihil mollitia esse.'
+    const defaultRows = (user_answers, index) => {
+        const rows = user_answers[index]?.value.split(/\r\n|\r|\n/).length;
+        if(rows === 1) {
+            return 5;
+        }
+        return rows;
+    }
 
     return (
         <>
@@ -20,6 +26,7 @@ const UserAnswers = ({ poll_questions, user_answers }) => {
                                 type='textarea'
                                 readOnly
                                 defaultValue={user_answers[q_index]?.value}
+                                rows={defaultRows(user_answers, q_index)} // matching rows count
                             />
                             :
                             <>
@@ -32,7 +39,6 @@ const UserAnswers = ({ poll_questions, user_answers }) => {
                                                     (question.answersType === 'radio')
                                                     ? user_answers[q_index]?.value?.original_index === a_index
                                                     : user_answers[q_index]?.value?.[a_index]?.original_index === a_index
-                                                    // true
                                                 }
                                                 disabled
                                             />

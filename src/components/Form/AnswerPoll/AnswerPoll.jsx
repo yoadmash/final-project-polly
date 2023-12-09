@@ -22,7 +22,11 @@ const AnswerPoll = () => {
 
     const methods = useForm({
         defaultValues: {
-            answered_by: auth.userId,
+            answered_by: {
+                user_id: auth.userId,
+                username: auth.username,
+                profile_pic: auth.profile_pic_path
+            },
         },
     })
 
@@ -35,21 +39,48 @@ const AnswerPoll = () => {
                 withCredentials: true
             });
             setPoll(response.data.foundPoll);
+            if (response.data.foundPoll.owner.id !== auth.userId) {
+                await checkIfPollAnswered(response.data.foundPoll);
+                await visitPoll();
+            }
             setIsLoading(false);
         } catch (err) {
             navigate('/poll-not-found');
         }
     }
 
-    const checkIfPollAnswered = async () => {
-        const result = poll?.answers?.find(item => item.answered_by === auth.userId);
-        if (result) {
-            navigate(`/poll/${id}/view_answers`, {
-                state: {
-                    poll
+    const visitPoll = async () => {
+        try {
+            await axios.post(`/polls/visit`, { id }, {
+                headers: {
+                    Authorization: `Bearer ${auth.accessToken}`
                 },
-                replace: true
+                withCredentials: true
             });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const checkIfPollAnswered = async (poll) => {
+        try {
+            const response = await axios.get(`polls/${id}/get_poll_answers`, {
+                headers: {
+                    Authorization: `Bearer ${auth.accessToken}`
+                },
+                withCredentials: true
+            });
+            if (response.data?.userAnswers) {
+                navigate(`/poll/${id}/view_answers`, {
+                    state: {
+                        poll,
+                        userAnswers: response.data.userAnswers
+                    },
+                    replace: true
+                });
+            }
+        } catch (err) {
+            console.log(err.response.data.message);
         }
     }
 
@@ -86,12 +117,6 @@ const AnswerPoll = () => {
         checkIfPollExist();
     }, []);
 
-    useEffect(() => {
-        if (poll) {
-            checkIfPollAnswered();
-        }
-    }, [poll]);
-
     return (
         <>
             {isLoading
@@ -111,15 +136,15 @@ const AnswerPoll = () => {
                                     <img src={`http://localhost:3500${poll.image_path}`} alt="poll_image" />
                                 </Col>}
                             </Row>
-                            <Questions questions={poll.questions} shuffle={poll.settings.shuffleQuestionsOrder} />
+                            <Questions questions={poll.questions} shuffle={poll.settings.shuffleQuestionsOrder} isOwner={poll.owner.id === auth.userId} />
                             <Row>
                                 <Button
                                     color='success'
-                                    disabled={poll.ownerId === auth.userId}
+                                    disabled={poll.owner.id === auth.userId}
                                 >
                                     {!submitting
                                         ?
-                                        poll.ownerId !== auth.userId
+                                        poll.owner.id !== auth.userId
                                             ?
                                             `Submit ${poll.settings.submitAnonymously ? ' anonymously' : ''}`
                                             :

@@ -12,7 +12,6 @@ export default function Auth() {
         setSelectedOption(prevState => !prevState);
     };
 
-
     return (
         <div>
             <div className='header-Auth '>

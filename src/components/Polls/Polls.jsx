@@ -9,10 +9,10 @@ import ReactLoading from 'react-loading';
 export default function Polls() {
   const { auth } = useAuth();
   const [polls, setPolls] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [pollsToRender, setPollsToRender] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getPolls = async () => {
-    setIsLoading(true);
     try {
       const response = await axios.get('/users/get_polls', {
         headers: {
@@ -20,7 +20,9 @@ export default function Polls() {
         },
         withCredentials: true
       });
-      setPolls(response.data);
+      const { created, answered, visited } = response.data;
+      setPollsToRender([...created, ...answered, ...visited]);
+      setPolls({ created, answered, visited });
     } catch (err) {
       console.log(err);
     }
@@ -33,25 +35,18 @@ export default function Polls() {
   }, []);
 
   return (
-    <>
-      {
-        polls.length === 0
-          ? <></>
-          :
-          <div className='dashboard-polls'>
-            <div className="header">
-              <span>Polls</span>
-              <PollSort />
-            </div>
-            {isLoading
-              ? <ReactLoading type='bubbles' color='#000000' width={'100px'} height={'100px'} />
-              :
-              <div className="body">
-                {polls.map(poll => <PollCard key={poll} id={poll} managePolls={{polls: polls, setPolls: setPolls}} />)}
-              </div>
-            }
-          </div>
+    <div className='dashboard-polls'>
+      <div className="header">
+        <span>Polls ({pollsToRender?.length})</span>
+        <PollSort polls={polls} setPollsToRender={setPollsToRender} />
+      </div>
+      {isLoading
+        ? <ReactLoading type='bubbles' color='#000000' width={'100px'} height={'100px'} />
+        :
+        <div className="body">
+          {pollsToRender.length > 0 && pollsToRender?.map(poll => <PollCard key={poll} id={poll} managePolls={{ polls: pollsToRender, setPolls: setPollsToRender }} />)}
+        </div>
       }
-    </>
+    </div>
   )
 }

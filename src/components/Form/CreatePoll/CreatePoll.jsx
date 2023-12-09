@@ -8,25 +8,52 @@ import QuestionsAdder from './QuestionsAdder';
 import UseFormInput from '../UseFormInput';
 import useAuth from '../../../hooks/useAuth';
 import axios from '../../../api/axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ErrMsg from '../../Layout/ErrMsg';
 
 const CreatePoll = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const { id } = useParams();
     const { auth } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
     const [pollImgFile, setPollImgFile] = useState('');
+    const [oldImagePath, setOldImagePath] = useState('');
+    const [deletePollImageOnEdit, setDeletePollImageOnEdit] = useState(false);
     const [errMsg, setErrMsg] = useState('');
 
-    const methods = useForm({
-        defaultValues: {
+    let methods = useForm({
+        defaultValues: (!id && !location?.pathname?.includes('edit')) ? {
             title: '',
             description: '',
             image_path: pollImgFile,
             settings: {
+                usersCanDeleteAnswer: false,
+                submitAnonymously: false,
                 shuffleQuestionsOrder: false,
-                submitAnonymously: false
+            }
+        } : async () => {
+            const response = await axios.get(`/polls/${id}/`, {
+                headers: {
+                    Authorization: `Bearer ${auth.accessToken}`
+                },
+                withCredentials: true
+            });
+            if (response.data.foundPoll) {
+                setOldImagePath(response.data.foundPoll.image_path);
+                return {
+                    title: response.data.foundPoll.title,
+                    description: response.data.foundPoll.description,
+                    image_path: response.data.foundPoll.image_path,
+                    questions: response.data.foundPoll.questions,
+                    settings: {
+                        usersCanDeleteAnswer: response.data.foundPoll.settings.usersCanDeleteAnswer,
+                        submitAnonymously: response.data.foundPoll.settings.submitAnonymously,
+                        shuffleQuestionsOrder: response.data.foundPoll.settings.shuffleQuestionsOrder,
+                    }
+                }
             }
         },
     })
@@ -34,19 +61,27 @@ const CreatePoll = () => {
 
     const handleSavePoll = async (data) => {
         setIsLoading(true);
-        const poll_id = await handleFormSubmit(data);
-        if(poll_id) {
-            navigate(`/poll/${poll_id}`);
+        if (!id && !location?.pathname?.includes('edit')) {
+            const poll_id = await handleFormCreate(data);
+            if (poll_id) {
+                navigate(`/poll/${poll_id}`);
+            }
+        } else {
+            const editted = await handleFormEdit(data);
+            if (editted) {
+                navigate(`/poll/${id}`);
+                navigate(0);
+            }
         }
         setIsLoading(false);
     }
 
-    const handleFormSubmit = async (data) => {
-        const formData = new FormData();
-        formData.append('poll_img', pollImgFile);
-        formData.append('form_data', JSON.stringify(data));
+    const handleFormCreate = async (data) => {
+        const createPollData = new FormData();
+        createPollData.append('poll_img', pollImgFile);
+        createPollData.append('form_data', JSON.stringify(data));
         try {
-            const response = await axios.post('/polls/create', formData, {
+            const response = await axios.post('/polls/create', createPollData, {
                 headers: {
                     Authorization: `Bearer ${auth.accessToken}`
                 },
@@ -56,6 +91,26 @@ const CreatePoll = () => {
         } catch (err) {
             showError(err?.response?.data?.message);
             return null;
+        }
+    }
+
+    const handleFormEdit = async (data) => {
+        const editPollData = new FormData();
+        editPollData.append('poll_img', pollImgFile);
+        editPollData.append('form_data', JSON.stringify(data));
+        editPollData.append('delete_image', JSON.stringify(deletePollImageOnEdit));
+        editPollData.append('old_image_path', oldImagePath);
+        try {
+            await axios.post(`/polls/${id}/edit`, editPollData, {
+                headers: {
+                    Authorization: `Bearer ${auth.accessToken}`
+                },
+                withCredentials: true
+            });
+            return true;
+        } catch (err) {
+            showError(err?.response?.data?.message);
+            return false;
         }
     }
 
@@ -73,11 +128,11 @@ const CreatePoll = () => {
                 <GoBackLink />
                 <Container fluid={'md'} className='layout'>
                     <Row className='header'>
-                        <Col xs={12} sm={8}>
+                        <Col xs={12} sm={8} className='p-0'>
                             <UseFormInput
                                 type='text'
                                 name={'title'}
-                                placeholder='Untitled Poll'
+                                placeholder='Title'
                                 register={methods.register}
                                 validation={{
                                     required: {
@@ -98,29 +153,29 @@ const CreatePoll = () => {
                                 register={methods.register}
                             />
                         </Col>
-                        <Col xs={12} sm={4}>
-                            <PollImage setPollImgFile={setPollImgFile} />
+                        <Col xs={12} sm={4} className='p-0'>
+                            <PollImage setPollImgFile={setPollImgFile} setDeletePollImageOnEdit={setDeletePollImageOnEdit} editMode={(id && location?.pathname?.includes('edit'))} />
                         </Col>
                     </Row>
                     <Row>
                         <Container className='settings'>
                             <Row>
-                                <Col md={12} lg={4} className='d-flex align-items-center'>
+                                <Col sm={12} lg={4} className='d-flex align-items-center'>
                                     <div className="d-flex justify-content-between align-items-center w-100">
-                                        <span>Shuffle Questions Order</span>
+                                        <span>Users can delete their answer</span>
                                         <FormGroup switch className='p-0 m-0'>
                                             <UseFormInput
                                                 type='switch'
                                                 role='switch'
-                                                name={'settings.shuffleQuestionsOrder'}
+                                                name={'settings.usersCanDeleteAnswer'}
                                                 register={methods.register}
                                             />
                                         </FormGroup>
                                     </div>
                                 </Col>
-                                <Col md={12} lg={4} className='d-flex align-items-center'>
+                                <Col sm={12} lg={3} className='d-flex align-items-center'>
                                     <div className="d-flex justify-content-between align-items-center w-100">
-                                        <span>Submit Anonymously</span>
+                                        <span>Submit anonymously</span>
                                         <FormGroup switch className='p-0 m-0'>
                                             <UseFormInput
                                                 type='switch'
@@ -131,9 +186,22 @@ const CreatePoll = () => {
                                         </FormGroup>
                                     </div>
                                 </Col>
-                                <Col md={12} lg={4} className='d-flex align-items-center'>
-                                    <div className="d-flex justify-content-center align-items-center w-100 gap-2">
-                                        <Button color='success' className='w-100' type={'submit'} disabled={isLoading}>
+                                <Col sm={12} lg={3} className='d-flex align-items-center'>
+                                    <div className="d-flex justify-content-between align-items-center w-100">
+                                        <span>Shuffle questions</span>
+                                        <FormGroup switch className='p-0 m-0'>
+                                            <UseFormInput
+                                                type='switch'
+                                                role='switch'
+                                                name={'settings.shuffleQuestionsOrder'}
+                                                register={methods.register}
+                                            />
+                                        </FormGroup>
+                                    </div>
+                                </Col>
+                                <Col sm={12} lg={2}>
+                                    <div className="">
+                                        <Button color='success' className='d-flex justify-content-center align-items-center w-100' type={'submit'} disabled={isLoading}>
                                             {!isLoading ? 'Save' : <Spinner size={'sm'} />}
                                         </Button>
                                     </div>
@@ -142,7 +210,7 @@ const CreatePoll = () => {
                         </Container>
                         {errMsg && <ErrMsg msg={errMsg} />}
                     </Row>
-                    <Row>
+                    <Row className='d-flex flex-row'>
                         <QuestionsAdder />
                     </Row>
                 </Container>

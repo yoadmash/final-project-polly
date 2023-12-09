@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Question from './Question';
 
-const Questions = ({ questions, shuffle }) => {
+const Questions = ({ questions, shuffle, isOwner }) => {
 
     const [shuffled, setShuffled] = useState(false);
     const [shuffledQuestions, setShuffledQuestions] = useState([]);
@@ -21,6 +21,7 @@ const Questions = ({ questions, shuffle }) => {
                     question={question}
                     q_index={question.original_index}
                     settings={question.settings}
+                    isOwner={isOwner}
                 />
             )}
         </>

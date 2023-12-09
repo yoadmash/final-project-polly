@@ -6,7 +6,7 @@ export default function NewPoll() {
   return (
     <div className='dashboard-newpoll'>
       <div className="header">
-        <span>Start a new poll</span>
+        <span>Create a new poll</span>
       </div>
       <div className="body">
         <NewPollCard template={false} />

@@ -7,7 +7,7 @@
 
 .loading {
     position: relative;
-    top: calc(50vh - 50px);
+    top: calc(40vh - 50px);
 }
 
 .go-back {

@@ -19,7 +19,7 @@ export default function Profile() {
       formData.append(`${auth?.userId}`, profilePictureFile);
       try {
         setIsLoading(true);
-        setAuth(prev => ({ ...prev, profile_pic_path: undefined }));
+        setAuth(prev => ({ ...prev, profile_pic_path: '' }));
         const response = await axios.post('/users/upload', formData, {
           headers: {
             Authorization: `Bearer ${auth.accessToken}`
@@ -44,13 +44,11 @@ export default function Profile() {
         },
         withCredentials: true
       });
-      setAuth(prev => ({ ...prev, profile_pic_path: undefined }));
+      setAuth(prev => ({ ...prev, profile_pic_path: '' }));
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
-      console.log(err);
     }
-    inputRef.current.value = '';
   }
 
   useEffect(() => {
@@ -72,25 +70,24 @@ export default function Profile() {
 
   return (
     <div className='dashboard-profile'>
-      <label htmlFor="profile_img">
-        {isLoading
-          ? <ReactLoading type='spin' color='#000000' />
-          :
+      {isLoading
+        ? <ReactLoading type='spin' color='#000000' className='loader' style={{}}/>
+        :
+        <label htmlFor="profile_img">
           <img
             style={{ border: (!auth.profile_pic_path ? 'none' : '') }}
             src={profilePic}
             alt="Profile"
           />
-        }
-        <input
-          ref={inputRef}
-          type="file"
-          accept='image/*'
-          id='profile_img'
-          style={{ display: 'none' }}
-          onChange={(e) => uploadProfilePicture(e)}
-        />
-      </label>
+          <input
+            ref={inputRef}
+            type="file"
+            accept='image/*'
+            id='profile_img'
+            style={{ display: 'none' }}
+            onChange={(e) => uploadProfilePicture(e)}
+          />
+        </label>}
       <ProfileMenu removeProfilePicture={removeProfilePicture} />
     </div>
   )

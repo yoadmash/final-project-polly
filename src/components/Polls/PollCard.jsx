@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import PollCardOptions from './PollCardOptions'
-import { Input } from 'reactstrap'
 import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
@@ -11,8 +10,6 @@ export default function PollCard({ id, managePolls }) {
     const navigate = useNavigate();
 
     const [poll, setPoll] = useState({});
-    const [ownerUsername, setOwnerUsername] = useState('');
-    const [isEditable, setIsEditable] = useState(false);
     const [visible, setVisible] = useState(true);
     const [deleting, setDeleting] = useState(false);
 
@@ -21,8 +18,8 @@ export default function PollCard({ id, managePolls }) {
             case 'Edit':
                 navigate(`poll/${id}/edit`);
                 break;
-            case 'Rename':
-                setIsEditable((prevState) => !prevState);
+            case 'Copy Link':
+                navigator.clipboard.writeText(`${document.URL}poll/${id}`);
                 break;
             case 'Open in new tab':
                 window.open(`/poll/${id}`, '_blank')
@@ -30,31 +27,16 @@ export default function PollCard({ id, managePolls }) {
             case 'Remove':
                 deletePoll();
                 break;
-            default:
-                if (poll.ownerId === auth.userId) {
-                    navigate(`poll/${id}/summary`, { state: { poll } });
+            case 'View Answers':
+                if (poll.owner.id === auth.userId) {
+                    navigate(`poll/${id}/summary`);
                 } else {
-                    navigate(`poll/${id}/view_answers`, { state: { poll } });
+                    navigate(`poll/${id}/view_answers`);
                 }
                 break;
+            default:
+                break;
         }
-    }
-
-    const renameFinished = ({ target }) => {
-        if (target.value.length > 0) {
-            setIsEditable(false);
-        } else {
-            target.style.boxShadow = '0px 2px rgba(255, 0, 0, 0.5)';
-            target.focus();
-            setTimeout(() => {
-                target.style = null;
-            }, 500);
-        }
-    }
-
-    const showInput = (el) => {
-        el.focus();
-        el.setSelectionRange(0, el.value.length);
     }
 
     const handleClick = () => {
@@ -63,28 +45,16 @@ export default function PollCard({ id, managePolls }) {
 
     const getPollData = async () => {
         try {
-            const result = await axios.get(`/polls/${id}`, {
+            const response = await axios.get(`/polls/${id}`, {
                 headers: {
                     Authorization: `Bearer ${auth.accessToken}`
                 },
-                withCredentials: true
+                withCredentials: true,
             });
-            setPoll(result.data.foundPoll);
-            getOwnerName(result.data.foundPoll.ownerId);
+            setPoll(response.data.foundPoll);
         } catch (err) {
             managePolls.setPolls((prev) => prev.filter(poll => poll !== id));
-            console.log(err.response.data.message);
         }
-    }
-
-    const getOwnerName = async (id) => {
-        const result = await axios.get(`/users/${id}`, {
-            headers: {
-                Authorization: `Bearer ${auth.accessToken}`
-            },
-            withCredentials: true
-        });
-        setOwnerUsername(result.data.foundUser.username);
     }
 
     const deletePoll = async () => {
@@ -106,7 +76,7 @@ export default function PollCard({ id, managePolls }) {
     }, []);
 
     return (
-        visible && <div className='poll-card'
+        visible && poll && <div className='poll-card'
             style={{
                 backgroundImage: (poll.image_path)
                     ? `url(http://localhost:3500${poll.image_path})`
@@ -120,17 +90,11 @@ export default function PollCard({ id, managePolls }) {
             }}>
             <div className="poll-card-header">
                 <div className="title">
-                    {isEditable ?
-                        <Input placeholder='Poll title'
-                            defaultValue={poll.title}
-                            innerRef={el => el && showInput(el)}
-                            onBlur={(target) => renameFinished(target)}
-                            onKeyDown={(event) => event.key === 'Enter' && renameFinished(event)} /> :
-                        <span>{poll.title}</span>}
+                    <span>{poll.title}</span>
                     <span>{poll.creation_date}</span>
                 </div>
                 <div className="icon">
-                    <PollCardOptions actionFunction={performAction} owner={ownerUsername} />
+                    <PollCardOptions actionFunction={performAction} owner={poll?.owner?.username} />
                 </div>
             </div>
             <div className="poll-card-body" onClick={handleClick}>

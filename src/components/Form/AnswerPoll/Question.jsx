@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 import Answers from './Answers';
 
-const Question = ({ question, q_index, settings }) => {
+const Question = ({ question, q_index, settings, isOwner }) => {
 
     return (
         <Row>
@@ -15,6 +15,7 @@ const Question = ({ question, q_index, settings }) => {
                     type={question.answersType}
                     q_index={q_index}
                     settings={settings}
+                    isOwner={isOwner}
                 />
             </Col>
         </Row>

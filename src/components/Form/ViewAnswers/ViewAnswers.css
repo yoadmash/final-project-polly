@@ -1,3 +1,10 @@
 .view-answers textarea {
-  height: 300px;
+  max-height: 300px;
+}
+.view-answers textarea[readonly]:focus {
+  box-shadow: none;
+  border-color: #dee2e6;
+}
+.view-answers textarea[readonly]:hover {
+  cursor: default;
 }/*# sourceMappingURL=ViewAnswers.css.map */
