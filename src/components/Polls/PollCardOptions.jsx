@@ -17,7 +17,7 @@ function PollCardOptions({ actionFunction, owner }) {
     { icon: '/assets/images/link.svg', title: 'Copy Link' },
     { icon: '/assets/images/view_answers.svg', title: 'View Answers' },
     { icon: '/assets/images/open_new_tab.svg', title: 'Open in new tab' },
-    { icon: '/assets/images/remove.svg', title: 'Remove' },
+    { icon: '/assets/images/remove.svg', title: (auth.username === owner) ? 'Delete Poll' : 'Remove' },
   ];
 
   const pollCardOptionsToMap = (auth.username === owner)
@@ -31,12 +31,12 @@ function PollCardOptions({ actionFunction, owner }) {
         <DropdownItem key={'owner'} disabled>Created by: {owner}</DropdownItem>
         <DropdownItem key={'top-divider'} divider>{owner}</DropdownItem>
         {pollCardOptionsToMap.map((item, i) => {
-          if (item.title === 'Remove') { //remove
+          if (item.title === 'Delete Poll' || item.title === 'Remove') {
             return ([
               <DropdownItem key={'bottom-divider'} divider />,
               <DropdownItem key={i} onClick={() => actionFunction(item.title)}>
                 <img src={item.icon} alt={item.title} />
-                <span>{(auth.username !== owner) ? item.title : 'Delete Poll'}</span>
+                <span>{item.title}</span>
               </DropdownItem>
             ]);
           } else {

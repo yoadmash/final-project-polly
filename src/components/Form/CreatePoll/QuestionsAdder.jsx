@@ -1,5 +1,4 @@
 import './CreatePoll.css';
-// import { useState } from 'react';
 import { Col, Row } from 'reactstrap';
 import Question from './Question';
 import { useFormContext, useFieldArray } from 'react-hook-form';

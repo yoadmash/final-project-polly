@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import PollCardOptions from './PollCardOptions'
 import { useNavigate } from 'react-router-dom';
-import axios from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import ReactLoading from 'react-loading';
 
 export default function PollCard({ id, managePolls }) {
+
+    const axiosPrivate = useAxiosPrivate();
     const { auth } = useAuth();
     const navigate = useNavigate();
 
@@ -24,6 +26,7 @@ export default function PollCard({ id, managePolls }) {
             case 'Open in new tab':
                 window.open(`/poll/${id}`, '_blank')
                 break;
+            case 'Delete Poll':
             case 'Remove':
                 deletePoll();
                 break;
@@ -45,12 +48,7 @@ export default function PollCard({ id, managePolls }) {
 
     const getPollData = async () => {
         try {
-            const response = await axios.get(`/polls/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-                withCredentials: true,
-            });
+            const response = await axiosPrivate.get(`/polls/${id}`);
             setPoll(response.data.foundPoll);
         } catch (err) {
             managePolls.setPolls((prev) => prev.filter(poll => poll !== id));
@@ -59,16 +57,16 @@ export default function PollCard({ id, managePolls }) {
 
     const deletePoll = async () => {
         setDeleting(true);
-        const updatedPolls = managePolls.polls.filter(poll => poll !== id);
-        await axios.post(`/polls/delete`, { pollId: id }, {
-            headers: {
-                Authorization: `Bearer ${auth.accessToken}`
-            },
-            withCredentials: true
-        });
-        managePolls.setPolls(updatedPolls);
-        setDeleting(false);
-        setVisible(false);
+        try {
+            const updatedPolls = managePolls.polls.filter(poll => poll !== id);
+            await axiosPrivate.post(`/polls/delete`, { pollId: id });
+            managePolls.setPolls(updatedPolls);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setDeleting(false);
+            setVisible(false);
+        }
     }
 
     useEffect(() => {

@@ -10,7 +10,6 @@ import useLogout from '../../hooks/useLogout';
 import useDeactivate from '../../hooks/useDeactivate';
 import { useNavigate } from 'react-router-dom';
 import Logs from './Logs';
-// import axios from '../../api/axios';
 
 function ProfileMenu({ removeProfilePicture }) {
 

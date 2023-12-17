@@ -13,7 +13,7 @@ const useRefreshToken = () => {
             });
             const { userId, username, fullname, accessToken, admin, profile_pic_path } = response?.data?.userData;
             setAuth({ userId, username, fullname, accessToken, admin, profile_pic_path });
-            return response.data.accessToken;
+            return response.data.userData.accessToken;
         } catch {
             navigate('/auth');
         }

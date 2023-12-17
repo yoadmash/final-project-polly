@@ -1,7 +1,7 @@
 import './Authentication.css'
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Form, FormGroup, Input, Label, Button, Spinner } from 'reactstrap';
+import { Form, FormGroup, Input, InputGroup, InputGroupText, Label, Button, Spinner } from 'reactstrap';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import axios from '../../api/axios';
@@ -10,15 +10,18 @@ import useAuth from '../../hooks/useAuth';
 const LOGIN_URL = '/users/auth/login';
 
 export default function Signin() {
-    const [isLoading, setIsLoading] = useState(false);
-    const { setAuth, persist, setPersist } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
 
+    const [isLoading, setIsLoading] = useState(false);
+    const { setAuth, persist, setPersist } = useAuth();
+
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
+
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         setErrMsg('');
@@ -73,12 +76,22 @@ export default function Signin() {
                     onChange={(e) => setUserName(e.target.value)}
                 />
 
-                <Input type="password"
-                    className="input-fields-css"
-                    id="password" name="password"
-                    placeholder='Password'
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                <InputGroup>
+                    <Input
+                        addon
+                        type={showPassword ? "text" : "password"}
+                        className="input-fields-css"
+                        id="password" name="password"
+                        placeholder='Password'
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <InputGroupText style={{ backgroundColor: 'rgba(141, 232, 232, 0.338)' }}>
+                        <Input id='show-hide-password' type='checkbox' hidden onChange={() => setShowPassword(!showPassword)} />
+                        <Label check className='d-flex show-hide-password' for='show-hide-password'>
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                        </Label>
+                    </InputGroupText>
+                </InputGroup>
 
                 <FormGroup check>
                     <Label check for='remember-me'>
@@ -87,7 +100,7 @@ export default function Signin() {
                             type="checkbox"
                             checked={persist}
                             onChange={() => setPersist(prevState => !prevState)}
-                        />Remember Me
+                        />Remember me
                     </Label>
                 </FormGroup>
 

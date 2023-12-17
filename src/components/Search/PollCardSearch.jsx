@@ -1,6 +1,5 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Col, Row } from 'reactstrap';
 
 const PollCardSearch = ({ poll, id }) => {
     const navigate = useNavigate();

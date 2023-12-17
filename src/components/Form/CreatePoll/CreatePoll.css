@@ -311,6 +311,7 @@
   margin: 0;
   padding: 0;
   color: red;
+  font-weight: bolder;
 }
 .create-poll .validation-msg:not(:last-child) {
   margin-bottom: 10px;

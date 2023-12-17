@@ -1,25 +1,20 @@
 import './Polls.css';
 import React, { useEffect, useState } from 'react';
-import axios from '../../api/axios';
 import PollCard from './PollCard';
 import PollSort from './PollSort';
-import useAuth from '../../hooks/useAuth';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import ReactLoading from 'react-loading';
 
 export default function Polls() {
-  const { auth } = useAuth();
+
+  const axiosPrivate = useAxiosPrivate();
   const [polls, setPolls] = useState([]);
   const [pollsToRender, setPollsToRender] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const getPolls = async () => {
     try {
-      const response = await axios.get('/users/get_polls', {
-        headers: {
-          Authorization: `Bearer ${auth.accessToken}`
-        },
-        withCredentials: true
-      });
+      const response = await axiosPrivate.get('/users/get_polls');
       const { created, answered, visited } = response.data;
       setPollsToRender([...created, ...answered, ...visited]);
       setPolls({ created, answered, visited });
@@ -31,7 +26,6 @@ export default function Polls() {
 
   useEffect(() => {
     getPolls();
-    // eslint-disable-next-line
   }, []);
 
   return (
@@ -41,7 +35,7 @@ export default function Polls() {
         <PollSort polls={polls} setPollsToRender={setPollsToRender} />
       </div>
       {isLoading
-        ? <ReactLoading type='bubbles' color='#000000' width={'100px'} height={'100px'} />
+        ? <ReactLoading type='bubbles' color='#00bf63' width={'100px'} height={'100px'} />
         :
         <div className="body">
           {pollsToRender.length > 0 && pollsToRender?.map(poll => <PollCard key={poll} id={poll} managePolls={{ polls: pollsToRender, setPolls: setPollsToRender }} />)}

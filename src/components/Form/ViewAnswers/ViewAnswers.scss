@@ -29,21 +29,26 @@
         }
 
         .header {
-            p:first-child {
-                font-size: 30px;
-            }
-
             @media screen and (max-width: 992px) {
                 display: flex;
                 flex-direction: column-reverse;
             }
 
-            p:last-child {
-                font-size: 20px;
+            p {
+                font-size: 15px;
+            }
 
-                @media screen and (max-width: 992px) {
-                    font-size: 15px;
-                }
+            p:first-child {
+                font-size: 30px;
+            }
+
+            .show-users-list {
+                text-decoration: underline;
+            }
+
+            .show-users-list:hover {
+                cursor: pointer;
+                color: #00bf63;
             }
 
             .poll-image {
@@ -74,28 +79,63 @@
             border-radius: 20px;
         }
 
-        .bg-success {
-            background-color: #00bf63 !important;
+        .progress-bar {
+            &.bg-success {
+                background-color: #00bf63 !important;
+            }
         }
     }
 
     .text-answers {
-        scroll-behavior: smooth;
-        height: 300px;
+        margin: 0;
+        height: auto;
+        max-height: 300px;
         overflow: scroll;
-        // overflow-wrap: break-word;
+        padding: 5px;
+        list-style: none;
         word-break: break-all;
-        // border: solid 1px black;
-        padding-left: 1;
 
         li {
-            list-style: none;
             box-shadow: 0px 0px 2px 0px;
             border-radius: 10px 10px 10px 10px;
             padding: 5px;
+        }
+
+        li:not(:first-child) {
             margin-top: 10px;
         }
 
     }
 
+}
+
+.users-list-modal-body {
+    max-height: 35vh;
+    overflow-y: scroll;
+
+    .users-list-item {
+        cursor: pointer;
+
+        padding: 5px;
+        background-color: lightgray;
+        box-shadow: 0px 0px 5px black;
+        border-radius: 10px;
+
+        p {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+        }
+
+        img.user-profile-pic {
+            border-radius: 10px;
+            width: 50px;
+            height: auto;
+        }
+    }
+    
+    .users-list-item:hover {
+        background-color: #00bf63;
+    }
 }

@@ -4,8 +4,8 @@ import { Container, Form, Row, Col, Button, Spinner } from 'reactstrap';
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm, FormProvider, } from 'react-hook-form';
 import GoBackLink from '../../Layout/GoBackLink';
-import axios from '../../../api/axios';
 import useAuth from '../../../hooks/useAuth';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import Loading from '../../Layout/Loading';
 import Questions from './Questions';
 import ErrMsg from '../../Layout/ErrMsg';
@@ -14,7 +14,7 @@ const AnswerPoll = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const { auth } = useAuth();
-
+    const axiosPrivate = useAxiosPrivate();
     const [poll, setPoll] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
@@ -24,20 +24,14 @@ const AnswerPoll = () => {
         defaultValues: {
             answered_by: {
                 user_id: auth.userId,
-                username: auth.username,
-                profile_pic: auth.profile_pic_path
+                user_name: auth.username,
             },
         },
     })
 
     const checkIfPollExist = async () => {
         try {
-            const response = await axios.get(`/polls/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-                withCredentials: true
-            });
+            const response = await axiosPrivate.get(`/polls/${id}`);
             setPoll(response.data.foundPoll);
             if (response.data.foundPoll.owner.id !== auth.userId) {
                 await checkIfPollAnswered(response.data.foundPoll);
@@ -51,12 +45,7 @@ const AnswerPoll = () => {
 
     const visitPoll = async () => {
         try {
-            await axios.post(`/polls/visit`, { id }, {
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-                withCredentials: true
-            });
+            await axiosPrivate.post(`/polls/visit`, { id });
         } catch (err) {
             console.log(err);
         }
@@ -64,12 +53,7 @@ const AnswerPoll = () => {
 
     const checkIfPollAnswered = async (poll) => {
         try {
-            const response = await axios.get(`polls/${id}/get_poll_answers`, {
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-                withCredentials: true
-            });
+            const response = await axiosPrivate.get(`polls/${id}/get_poll_answers`);
             if (response.data?.userAnswers) {
                 navigate(`/poll/${id}/view_answers`, {
                     state: {
@@ -98,12 +82,7 @@ const AnswerPoll = () => {
         }
         try {
             setSubmitting(true);
-            await axios.post('/polls/answer_poll', { pollId: id, data }, {
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-                withCredentials: true
-            });
+            await axiosPrivate.post('/polls/answer_poll', { pollId: id, data });
             navigate(`/`);
         } catch (err) {
             showError(err?.response?.data?.message);

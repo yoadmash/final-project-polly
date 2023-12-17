@@ -6,8 +6,7 @@ import GoBackLink from '../../Layout/GoBackLink';
 import PollImage from './PollImage';
 import QuestionsAdder from './QuestionsAdder';
 import UseFormInput from '../UseFormInput';
-import useAuth from '../../../hooks/useAuth';
-import axios from '../../../api/axios';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ErrMsg from '../../Layout/ErrMsg';
 
@@ -17,7 +16,7 @@ const CreatePoll = () => {
     const location = useLocation();
 
     const { id } = useParams();
-    const { auth } = useAuth();
+    const axiosPrivate = useAxiosPrivate();
     const [isLoading, setIsLoading] = useState(false);
     const [pollImgFile, setPollImgFile] = useState('');
     const [oldImagePath, setOldImagePath] = useState('');
@@ -35,12 +34,7 @@ const CreatePoll = () => {
                 shuffleQuestionsOrder: false,
             }
         } : async () => {
-            const response = await axios.get(`/polls/${id}/`, {
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-                withCredentials: true
-            });
+            const response = await axiosPrivate.get(`/polls/${id}/`);
             if (response.data.foundPoll) {
                 setOldImagePath(response.data.foundPoll.image_path);
                 return {
@@ -81,12 +75,7 @@ const CreatePoll = () => {
         createPollData.append('poll_img', pollImgFile);
         createPollData.append('form_data', JSON.stringify(data));
         try {
-            const response = await axios.post('/polls/create', createPollData, {
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-                withCredentials: true
-            });
+            const response = await axiosPrivate.post('/polls/create', createPollData);
             return response.data.poll._id;
         } catch (err) {
             showError(err?.response?.data?.message);
@@ -101,12 +90,7 @@ const CreatePoll = () => {
         editPollData.append('delete_image', JSON.stringify(deletePollImageOnEdit));
         editPollData.append('old_image_path', oldImagePath);
         try {
-            await axios.post(`/polls/${id}/edit`, editPollData, {
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-                withCredentials: true
-            });
+            await axiosPrivate.post(`/polls/${id}/edit`, editPollData);
             return true;
         } catch (err) {
             showError(err?.response?.data?.message);

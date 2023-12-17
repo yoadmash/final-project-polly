@@ -1,12 +1,13 @@
 import React from 'react';
 import './Search.css';
-import axios from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useState } from 'react';
 import SearchResults from './SearchResults';
 
 export default function Search() {
 
+  const axiosPrivate = useAxiosPrivate();
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -17,12 +18,7 @@ export default function Search() {
     if (event.key === 'Enter' && event.target.value.length > 0) {
       setIsLoading(true);
       try {
-        const response = await axios.post('/polls/search', { searchValue: event.target.value }, {
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`
-          },
-          withCredentials: true
-        });
+        const response = await axiosPrivate.post('/polls/search', { searchValue: event.target.value });
         if (response.data) {
           setResults(response.data.searchResults);
           event.target.value = '';

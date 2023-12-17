@@ -27,7 +27,7 @@ export default function Auth() {
                             checked={isSignIn === true}
                             onChange={handleChange}
                         />
-                        Sign In
+                        Sign in
                     </Label>
 
                     <Label>
@@ -37,7 +37,7 @@ export default function Auth() {
                             checked={isSignIn === false}
                             onChange={handleChange}
                         />
-                        Sign Up
+                        Sign up
                     </Label>
                 </div>
                 {isSignIn ? <Signin /> : <Signup />}

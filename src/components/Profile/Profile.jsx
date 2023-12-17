@@ -4,10 +4,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import ProfileMenu from './ProfileMenu';
 import useAuth from '../../hooks/useAuth';
 import ReactLoading from 'react-loading';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 export default function Profile() {
 
   const inputRef = useRef();
+  const axiosPrivate = useAxiosPrivate();
   const { auth, setAuth } = useAuth();
   const [profilePic, setProfilePic] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -20,12 +22,7 @@ export default function Profile() {
       try {
         setIsLoading(true);
         setAuth(prev => ({ ...prev, profile_pic_path: '' }));
-        const response = await axios.post('/users/upload', formData, {
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`
-          },
-          withCredentials: true
-        });
+        const response = await axiosPrivate.post('/users/upload', formData);
         setAuth(prev => ({ ...prev, profile_pic_path: response.data.imgPath }));
         setIsLoading(false);
       } catch (err) {
@@ -38,12 +35,7 @@ export default function Profile() {
   const removeProfilePicture = async () => {
     try {
       setIsLoading(true);
-      await axios.post(`/users/remove_profile_pic`, { profile_pic_path: auth.profile_pic_path }, {
-        headers: {
-          Authorization: `Bearer ${auth.accessToken}`
-        },
-        withCredentials: true
-      });
+      await axiosPrivate.post(`/users/remove_profile_pic`, { profile_pic_path: auth.profile_pic_path });
       setAuth(prev => ({ ...prev, profile_pic_path: '' }));
       setIsLoading(false);
     } catch (err) {

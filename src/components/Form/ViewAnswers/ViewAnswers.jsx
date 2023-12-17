@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Container, Row, Col } from 'reactstrap';
-import axios from '../../../api/axios';
 import GoBackLink from '../../Layout/GoBackLink'
-import useAuth from '../../../hooks/useAuth';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import UserAnswers from './UserAnswers';
 
 const ViewAnswers = () => {
 
+    const axiosPrivate = useAxiosPrivate();
     const { id } = useParams();
-    const { auth } = useAuth();
     const location = useLocation();
     const [userAnswers, setUserAnswers] = useState([]);
     const [poll, setPoll] = useState({});
@@ -25,19 +24,9 @@ const ViewAnswers = () => {
 
     const getPollDataAndUserAnswers = async () => {
         try {
-            let response = await axios.get(`/polls/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-                withCredentials: true
-            });
+            let response = await axiosPrivate.get(`/polls/${id}`);
             setPoll(response.data.foundPoll);
-            response = await axios.get(`/polls/${id}/get_poll_answers`, {
-                headers: {
-                    Authorization: `Bearer ${auth.accessToken}`
-                },
-                withCredentials: true
-            });
+            response = await axiosPrivate.get(`/polls/${id}/get_poll_answers`);
             setUserAnswers(response.data.userAnswers);
         } catch (err) {
             console.log(err);

@@ -9,9 +9,7 @@ export default function NewPoll() {
         <span>Create a new poll</span>
       </div>
       <div className="body">
-        <NewPollCard template={false} />
-        {/* <NewPollCard template title='Is Alex Gay?' />
-        <NewPollCard template title='Is Alex Straight?' /> */}
+        <NewPollCard />
       </div>
     </div>
   )

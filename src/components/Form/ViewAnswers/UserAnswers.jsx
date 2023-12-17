@@ -5,7 +5,7 @@ import './ViewAnswers.css';
 const UserAnswers = ({ poll_questions, user_answers }) => {
 
     const defaultRows = (user_answers, index) => {
-        const rows = user_answers[index]?.value.split(/\r\n|\r|\n/).length;
+        const rows = user_answers[index]?.value?.split(/\r\n|\r|\n/).length;
         if(rows === 1) {
             return 5;
         }
@@ -14,7 +14,7 @@ const UserAnswers = ({ poll_questions, user_answers }) => {
 
     return (
         <>
-            {poll_questions?.map((question, q_index) => (
+            {user_answers && poll_questions?.map((question, q_index) => (
                 <Row key={q_index}>
                     <Col xs={12}>
                         <h5>{question.title}</h5>
@@ -25,7 +25,7 @@ const UserAnswers = ({ poll_questions, user_answers }) => {
                             <Input
                                 type='textarea'
                                 readOnly
-                                defaultValue={user_answers[q_index]?.value}
+                                value={user_answers[q_index]?.value || ''}
                                 rows={defaultRows(user_answers, q_index)} // matching rows count
                             />
                             :
@@ -35,10 +35,10 @@ const UserAnswers = ({ poll_questions, user_answers }) => {
                                         <div key={a_index} className='d-flex gap-3'>
                                             <Input
                                                 type={question.answersType}
-                                                defaultChecked={
+                                                checked={
                                                     (question.answersType === 'radio')
-                                                    ? user_answers[q_index]?.value?.original_index === a_index
-                                                    : user_answers[q_index]?.value?.[a_index]?.original_index === a_index
+                                                    ? user_answers[q_index]?.value?.original_index === a_index && user_answers[q_index]?.value?.title === answer.title
+                                                    : user_answers[q_index]?.value?.[a_index]?.original_index === a_index && user_answers[q_index]?.value?.[a_index]?.title === answer.title
                                                 }
                                                 disabled
                                             />
