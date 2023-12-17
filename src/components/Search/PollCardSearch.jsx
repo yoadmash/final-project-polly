@@ -11,7 +11,7 @@ const PollCardSearch = ({ poll, id }) => {
 
     return (
         <div className='poll-card-search' onClick={() => { navigateToPoll() }}>
-            <img src={(poll.image_path ? `http://localhost:3500${poll.image_path}` : '/assets/images/view_answers.svg')} alt="img" />
+            <img src={(poll.image_path ? process.env.REACT_APP_API_URL + poll.image_path : '/assets/images/view_answers.svg')} alt="img" />
             <div>
                 <h4>{poll.title}</h4>
                 <p>{poll.owner.username}</p>

@@ -64,7 +64,7 @@ const PollSummary = () => {
                     {!poll.settings.submitAnonymously && <p className='show-users-list' onClick={toggle}>Show answers</p>}
                   </Col>
                   {poll.image_path && <Col xs={12} lg={4} className='poll-image'>
-                    <img src={`http://localhost:3500${poll.image_path}`} alt="poll_image" />
+                    <img src={process.env.REACT_APP_API_URL + poll.image_path} alt="poll_image" />
                   </Col>}
                 </Row>
                 {

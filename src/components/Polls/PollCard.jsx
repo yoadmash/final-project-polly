@@ -77,7 +77,7 @@ export default function PollCard({ id, managePolls }) {
         visible && poll && <div className='poll-card'
             style={{
                 backgroundImage: (poll.image_path)
-                    ? `url(http://localhost:3500${poll.image_path})`
+                    ? `url(${process.env.REACT_APP_API_URL + poll.image_path})`
                     : `url(/assets/images/view_answers.svg)`,
                 backgroundSize: (poll.image_path)
                     ? 'cover'

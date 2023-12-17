@@ -112,7 +112,7 @@ const AnswerPoll = () => {
                                     <p>{poll.description}</p>
                                 </Col>
                                 {poll.image_path && <Col xs={12} lg={4} className='poll-image'>
-                                    <img src={`http://localhost:3500${poll.image_path}`} alt="poll_image" />
+                                    <img src={process.env.REACT_APP_API_URL + poll.image_path} alt="poll_image" />
                                 </Col>}
                             </Row>
                             <Questions questions={poll.questions} shuffle={poll.settings.shuffleQuestionsOrder} isOwner={poll.owner.id === auth.userId} />
