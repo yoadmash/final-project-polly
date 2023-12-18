@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row, Progress, Input } from 'reactstrap';
 
-const PollQuestion = ({ title, answersType, answers, poll_answers }) => {
+const PollQuestion = ({ title, q_index, answersType, answers, poll_answers }) => {
 
     const checkAnswerCount = (answer_title) => {
         let sum = 0
@@ -27,8 +27,8 @@ const PollQuestion = ({ title, answersType, answers, poll_answers }) => {
     const checkAnswerCountString = () => {
         let sum = 0
         poll_answers.forEach((answerObj) => {
-            answerObj.answers.forEach((answer) => {
-                if(typeof answer.value === 'string' && answer.value !== null) {
+            answerObj.answers.forEach((answer, a_index) => {
+                if(typeof answer.value === 'string' && answer.value !== null && q_index === a_index) {
                     sum++;
                 }
             })
