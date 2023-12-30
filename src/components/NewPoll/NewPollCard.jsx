@@ -15,7 +15,7 @@ export default function NewPollCard({ template, title }) {
     return (
         <div className={!template ? 'newpoll-button' : 'newpoll-template'} onClick={handleClick}>
             <img src={`/assets/images/${!template ? 'plus_icon.svg' : 'template_icon.svg'}`} alt='startnewpoll' />
-            <h5>{!template ? 'New Poll' : title}</h5>
+            <h6>{!template ? 'New Poll' : title}</h6>
         </div>
     )
 }

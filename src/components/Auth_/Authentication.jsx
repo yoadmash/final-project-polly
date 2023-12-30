@@ -3,13 +3,20 @@ import React, { useState, } from 'react';
 import { Input, Label } from 'reactstrap';
 import Signin from './Signin';
 import Signup from './Signup';
+import ForgotPassword from './ForgotPassword';
 
 
 export default function Auth() {
 
-    const [isSignIn, setSelectedOption] = useState(true);
-    const handleChange = () => {
-        setSelectedOption(prevState => !prevState);
+    const authOptions = [
+        { name: 'Sign in', element: <Signin /> },
+        { name: 'Sign up', element: <Signup /> },
+        { name: 'Forgot password', element: <ForgotPassword /> },
+    ]
+
+    const [selectedOption, setSelectedOption] = useState(0);
+    const handleChange = (option) => {
+        setSelectedOption(option);
     };
 
     return (
@@ -20,27 +27,18 @@ export default function Auth() {
 
             <div className='body-auth'>
                 <div className='body-auth-radio-buttons '>
-                    <Label>
-                        <Input
-                            type='radio'
-                            value='signin'
-                            checked={isSignIn === true}
-                            onChange={handleChange}
-                        />
-                        Sign in
-                    </Label>
-
-                    <Label>
-                        <Input
-                            type='radio'
-                            value='signin'
-                            checked={isSignIn === false}
-                            onChange={handleChange}
-                        />
-                        Sign up
-                    </Label>
+                    {authOptions.map((ap, index) => (
+                        <Label key={ap.name}>
+                            <Input
+                                type='radio'
+                                checked={selectedOption === index}
+                                onChange={() => handleChange(index)}
+                            />
+                            {ap.name}
+                        </Label>
+                    ))}
                 </div>
-                {isSignIn ? <Signin /> : <Signup />}
+                {authOptions[selectedOption]?.element}
             </div>
         </div>
     )
