@@ -1,19 +1,19 @@
 import React from 'react';
 import { Col, Row, Progress, Input } from 'reactstrap';
 
-const PollQuestion = ({ title, q_index, answersType, answers, poll_answers }) => {
+const PollQuestion = ({ title, q_index, answersType, answers, poll_answers, view_text_answers }) => {
 
     const checkAnswerCount = (answer_title) => {
         let sum = 0
         poll_answers.forEach((answerObj) => {
-            answerObj.answers.forEach((answer) => {
+            answerObj.answers.forEach((answer, a_index) => {
                 if (typeof answer.value === 'object' && answer.value !== null) {
                     if (Object.keys(answer.value).includes('title')) {
-                        if (answer.value.title === answer_title)
+                        if (answer.value.title === answer_title && q_index === a_index)
                             sum++;
                     } else {
                         Object.values(answer.value).forEach((value) => {
-                            if (value.title === answer_title) {
+                            if (value.title === answer_title && q_index === a_index) {
                                 sum++
                             }
                         });
@@ -28,14 +28,13 @@ const PollQuestion = ({ title, q_index, answersType, answers, poll_answers }) =>
         let sum = 0
         poll_answers.forEach((answerObj) => {
             answerObj.answers.forEach((answer, a_index) => {
-                if(typeof answer.value === 'string' && answer.value !== null && q_index === a_index) {
+                if (typeof answer.value === 'string' && answer.value !== null && q_index === a_index) {
                     sum++;
                 }
             })
         })
         return sum;
     }
-
 
     return (
         <Row>
@@ -72,19 +71,18 @@ const PollQuestion = ({ title, q_index, answersType, answers, poll_answers }) =>
                     </>
                     :
                     <>
-                        {/* <ul className='text-answers'>
-                            {poll_answers.map(answerObj =>
-                                answerObj.answers.map(text_answer => (
-                                    typeof text_answer.value === 'string' && <li key={text_answer.value}>{text_answer.value}</li>))
-                            )}
-                        </ul> */}
                         <Progress
                             className="my-2"
                             value={Number(checkAnswerCountString() / poll_answers.length * 100)}
                             color="success">
                             {Number(checkAnswerCountString() / poll_answers.length * 100).toFixed(0)}%
                         </Progress>
-                        {/* {poll_answers.length} */}
+                        {view_text_answers && <ul className='text-answers mt-3'>
+                            {poll_answers.map(answerObj =>
+                                answerObj.answers.map(text_answer => (
+                                    typeof text_answer.value === 'string' && <li key={text_answer.value}>{text_answer.value}</li>))
+                            )}
+                        </ul>}
                     </>
                 }
 

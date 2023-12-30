@@ -11,6 +11,7 @@ import MissingPage from './components/MissingPage';
 import CreatePoll from './components/Form/CreatePoll/CreatePoll';
 import ViewAnswers from './components/Form/ViewAnswers/ViewAnswers';
 import PollSummary from './components/Form/ViewAnswers/PollSummary';
+import ResetPasswordForm from './components/Auth_/ResetPasswordForm';
 
 
 function App() {
@@ -18,8 +19,9 @@ function App() {
     <>
       <Routes>
         <Route path='/auth' element={<Auth />} />
-        <Route path='/' element={<Layout />}>
+        <Route path='/auth/reset_password' element={<ResetPasswordForm />} />
 
+        <Route path='/' element={<Layout />}>
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth />}>
               <Route path='/' element={<Dashboard />} />

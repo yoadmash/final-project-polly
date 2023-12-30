@@ -7,10 +7,12 @@ import PollImage from './PollImage';
 import QuestionsAdder from './QuestionsAdder';
 import UseFormInput from '../UseFormInput';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ErrMsg from '../../Layout/ErrMsg';
 
 const CreatePoll = () => {
+    const [searchParams] = useSearchParams();
+    const searchParamsObj = Object.fromEntries(searchParams);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -24,7 +26,7 @@ const CreatePoll = () => {
     const [errMsg, setErrMsg] = useState('');
 
     let methods = useForm({
-        defaultValues: (!id && !location?.pathname?.includes('edit')) ? {
+        defaultValues: (!id && !location?.pathname?.includes('edit') && !searchParamsObj?.template) ? {
             title: '',
             description: '',
             image_path: pollImgFile,
@@ -34,19 +36,31 @@ const CreatePoll = () => {
                 shuffleQuestionsOrder: false,
             }
         } : async () => {
-            const response = await axiosPrivate.get(`/polls/${id}/`);
-            if (response.data.foundPoll) {
-                setOldImagePath(response.data.foundPoll.image_path);
-                return {
-                    title: response.data.foundPoll.title,
-                    description: response.data.foundPoll.description,
-                    image_path: response.data.foundPoll.image_path,
-                    questions: response.data.foundPoll.questions,
-                    settings: {
-                        usersCanDeleteAnswer: response.data.foundPoll.settings.usersCanDeleteAnswer,
-                        submitAnonymously: response.data.foundPoll.settings.submitAnonymously,
-                        shuffleQuestionsOrder: response.data.foundPoll.settings.shuffleQuestionsOrder,
+            if (!searchParamsObj?.template) {
+                const response = await axiosPrivate.get(`/polls/${id}/`);
+                if (response.data.foundPoll) {
+                    setOldImagePath(response.data.foundPoll.image_path);
+                    return {
+                        title: response.data.foundPoll.title,
+                        description: response.data.foundPoll.description,
+                        image_path: response.data.foundPoll.image_path,
+                        questions: response.data.foundPoll.questions,
+                        settings: response.data.foundPoll.settings,
                     }
+                }
+            } else {
+                try {
+                    const response = await axiosPrivate.get(`/polls/templates/${searchParamsObj?.template}`);
+                    const fields = response.data.template.fields;
+                    return {
+                        title: response.data.template.name,
+                        description: fields.description,
+                        image_path: fields.image_path,
+                        questions: fields.questions,
+                        settings: fields.settings,
+                    }
+                } catch {
+                
                 }
             }
         },
