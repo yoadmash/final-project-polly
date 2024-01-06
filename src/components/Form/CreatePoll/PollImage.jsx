@@ -34,7 +34,7 @@ export default function PollImage({ setPollImgFile, setDeletePollImageOnEdit, ed
 
     useEffect(() => {
         if (editMode && image_path?.length > 0) {
-            setPollImage(process.env.REACT_APP_API_URL + image_path);
+            setPollImage(image_path);
         }
     }, [editMode, image_path]);
 
