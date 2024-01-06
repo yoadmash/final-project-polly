@@ -21,7 +21,7 @@ const CreatePoll = () => {
     const axiosPrivate = useAxiosPrivate();
     const [isLoading, setIsLoading] = useState(false);
     const [pollImgFile, setPollImgFile] = useState('');
-    const [oldImagePath, setOldImagePath] = useState('');
+    const [oldImage, setOldImage] = useState('');
     const [deletePollImageOnEdit, setDeletePollImageOnEdit] = useState(false);
     const [errMsg, setErrMsg] = useState('');
 
@@ -39,7 +39,7 @@ const CreatePoll = () => {
             if (!searchParamsObj?.template) {
                 const response = await axiosPrivate.get(`/polls/${id}/`);
                 if (response.data.foundPoll) {
-                    setOldImagePath(response.data.foundPoll.image_path);
+                    setOldImage(response.data.foundPoll.image_uuid);
                     return {
                         title: response.data.foundPoll.title,
                         description: response.data.foundPoll.description,
@@ -60,7 +60,7 @@ const CreatePoll = () => {
                         settings: fields.settings,
                     }
                 } catch {
-                
+
                 }
             }
         },
@@ -102,7 +102,7 @@ const CreatePoll = () => {
         editPollData.append('poll_img', pollImgFile);
         editPollData.append('form_data', JSON.stringify(data));
         editPollData.append('delete_image', JSON.stringify(deletePollImageOnEdit));
-        editPollData.append('old_image_path', oldImagePath);
+        editPollData.append('old_image', oldImage);
         try {
             await axiosPrivate.post(`/polls/${id}/edit`, editPollData);
             return true;
@@ -200,7 +200,11 @@ const CreatePoll = () => {
                                 <Col sm={12} lg={2}>
                                     <div className="">
                                         <Button color='success' className='d-flex justify-content-center align-items-center w-100' type={'submit'} disabled={isLoading}>
-                                            {!isLoading ? 'Save' : <Spinner size={'sm'} />}
+                                            {!isLoading
+                                                ? (!id && !location.pathname?.includes('edit'))
+                                                    ? 'Create'
+                                                    : 'Save'
+                                                : <Spinner size={'sm'} />}
                                         </Button>
                                     </div>
                                 </Col>
