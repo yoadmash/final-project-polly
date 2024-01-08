@@ -32,4 +32,7 @@
   max-height: 750px;
   margin-top: 50px;
   overflow: auto;
+}
+.logs .body .content table tbody tr td {
+  font-size: 14px;
 }/*# sourceMappingURL=Logs.css.map */
