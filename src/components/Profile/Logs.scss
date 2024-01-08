@@ -35,6 +35,16 @@
             max-height: 750px;
             margin-top: 50px;
             overflow: auto;
+
+            table {
+                tbody {
+                    tr {
+                        td {
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
         }
     }
 }
