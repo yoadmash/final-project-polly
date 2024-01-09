@@ -11,7 +11,7 @@ const UserAnswered = ({ user_data, setUserAnswers }) => {
         try {
             const response = await axiosPrivate.get(`/users/${user_data.user_id}`);
             response.data.foundUser?.profile_pic_path?.length > 0
-            ? setUserProfilePic(process.env.REACT_APP_API_URL + response.data.foundUser.profile_pic_path)
+            ? setUserProfilePic(response.data.foundUser.profile_pic_path)
             : setUserProfilePic('/assets/images/ProfilePicMockup.svg');
         } catch (err) {
             console.log(err);
