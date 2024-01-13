@@ -26,7 +26,6 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path='/' element={<Dashboard />} />
               <Route path='/poll/create/new' element={<CreatePoll />} />
-              {/* <Route path='/poll/create/template' element={<CreatePoll />} /> */}
               <Route path='/poll/:id' element={<AnswerPoll />} />
               <Route path='/poll/:id/edit' element={<CreatePoll />} />
               <Route path='/poll/:id/view_answers' element={<ViewAnswers />} />
