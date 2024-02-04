@@ -27,12 +27,14 @@ const AnswersAdder = ({ type, questionId }) => {
     }, [clearErrors, type, questionId]);
 
     const handleAddAnswer = (e) => {
-        if (e.key === 'Enter' && e.target.value.length > 0) {
+        if (e.key === 'Enter') {
             e.preventDefault();
-            append({
-                title: e.target.value
-            });
-            e.target.value = '';
+            if (e.target.value.length > 0) {
+                append({
+                    title: e.target.value
+                });
+                e.target.value = '';
+            }
         }
     }
 
