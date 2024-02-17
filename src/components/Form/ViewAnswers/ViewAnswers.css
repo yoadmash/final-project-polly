@@ -107,9 +107,12 @@
   text-overflow: ellipsis;
 }
 .users-list-modal-body .users-list-item img.user-profile-pic {
-  border-radius: 10px;
-  width: 50px;
-  height: auto;
+  border: 2px solid black;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .users-list-modal-body .users-list-item:hover {
   background-color: #00bf63;

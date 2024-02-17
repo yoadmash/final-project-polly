@@ -47,7 +47,7 @@ const ViewAnswers = () => {
                                     <p>{poll.description}</p>
                                 </Col>
                                 {poll.image_path && <Col xs={12} lg={4} className='poll-image'>
-                                    <img src={process.env.REACT_APP_API_URL + poll.image_path} alt="poll_image" />
+                                    <img src={poll.image_path} alt="poll_image" />
                                 </Col>}
                             </Row>
                             <UserAnswers poll_questions={poll.questions} user_answers={userAnswers} />
