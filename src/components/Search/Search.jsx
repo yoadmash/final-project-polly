@@ -1,6 +1,5 @@
 import React from 'react';
 import './Search.css';
-import useAuth from '../../hooks/useAuth';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useState } from 'react';
 import SearchResults from './SearchResults';
@@ -8,7 +7,6 @@ import SearchResults from './SearchResults';
 export default function Search() {
 
   const axiosPrivate = useAxiosPrivate();
-  const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [results, setResults] = useState('');

@@ -9,8 +9,12 @@ export default function NewPoll() {
   const [templates, setTemplates] = useState([]);
 
   const getNewPollTemplates = async () => {
-    const response = await axiosPrivate.get('/polls/templates');
-    setTemplates(response.data.templates);
+    try {
+      const response = await axiosPrivate.get('/polls/templates');
+      setTemplates(response.data.templates);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   useEffect(() => {
@@ -24,7 +28,7 @@ export default function NewPoll() {
       </div>
       <div className="body">
         <NewPollCard />
-        {templates.length > 0 && templates.map(template => template.valid && <NewPollCard key={template.name} template title={template.name} />)}
+        {templates.length > 0 && templates.map(template => template.show && <NewPollCard key={template.name} template title={template.name} />)}
       </div>
     </div>
   )

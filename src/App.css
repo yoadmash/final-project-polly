@@ -17,8 +17,11 @@
     left: 20px;
 }
 
-.go-back>a {
+.go-back>button {
     color: #00bf63;
+    text-decoration: underline;
+    border: none;
+    background-color: transparent;
 }
 
 .general-err-msg {

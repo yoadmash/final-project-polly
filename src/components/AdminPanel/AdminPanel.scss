@@ -1,0 +1,106 @@
+.admin-panel,
+.modal-open {
+
+    a.nav-link {
+        color: #00bf63;
+    }
+
+    a.nav-link.active {
+        color: #ff914d;
+    }
+
+    .users,
+    .templates {
+        input {
+            box-shadow: none;
+        }
+
+        table {
+            user-select: text;
+
+            td {
+                position: relative;
+
+                img.profile-pic {
+                    object-fit: cover;
+                    width: 30px;
+                    height: 30px;
+                    border: 2px solid black;
+                    border-radius: 50px;
+                }
+
+                img.active,
+                img.actions {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                img.admin-badge {
+                    position: absolute;
+                    top: 35px;
+                    width: 15px;
+                    height: 15px;
+                }
+
+                ul {
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    gap: 15px;
+                    list-style-type: none;
+
+                    li {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    li:hover {
+                        cursor: pointer;
+                        border-radius: 5px;
+                        background-color: #ff914d65;
+                        box-shadow: #ff914d65 0px 0px 0px 5px;
+                    }
+                }
+            }
+
+        }
+    }
+
+    .modal-poll-card {
+        margin-top: 20px;
+        padding: 10px;
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        overflow: hidden;
+
+        img {
+            width: 100px;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        h4 {
+            margin: 0;
+        }
+
+        p {
+            margin: 0;
+            font-size: 18px;
+        }
+    }
+
+    .modal-poll-card:hover {
+        background-color: lightgray;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .modal-body {
+        .tab-content {
+            max-height: 35vh;
+            overflow-y: scroll;
+        }
+    }
+}

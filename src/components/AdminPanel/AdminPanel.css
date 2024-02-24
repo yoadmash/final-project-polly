@@ -1,0 +1,121 @@
+.admin-panel a.nav-link,
+.modal-open a.nav-link {
+  color: #00bf63;
+}
+.admin-panel a.nav-link.active,
+.modal-open a.nav-link.active {
+  color: #ff914d;
+}
+.admin-panel .users input,
+.admin-panel .templates input,
+.modal-open .users input,
+.modal-open .templates input {
+  box-shadow: none;
+}
+.admin-panel .users table,
+.admin-panel .templates table,
+.modal-open .users table,
+.modal-open .templates table {
+  -webkit-user-select: text;
+     -moz-user-select: text;
+          user-select: text;
+}
+.admin-panel .users table td,
+.admin-panel .templates table td,
+.modal-open .users table td,
+.modal-open .templates table td {
+  position: relative;
+}
+.admin-panel .users table td img.profile-pic,
+.admin-panel .templates table td img.profile-pic,
+.modal-open .users table td img.profile-pic,
+.modal-open .templates table td img.profile-pic {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 30px;
+  height: 30px;
+  border: 2px solid black;
+  border-radius: 50px;
+}
+.admin-panel .users table td img.active,
+.admin-panel .users table td img.actions,
+.admin-panel .templates table td img.active,
+.admin-panel .templates table td img.actions,
+.modal-open .users table td img.active,
+.modal-open .users table td img.actions,
+.modal-open .templates table td img.active,
+.modal-open .templates table td img.actions {
+  width: 20px;
+  height: 20px;
+}
+.admin-panel .users table td img.admin-badge,
+.admin-panel .templates table td img.admin-badge,
+.modal-open .users table td img.admin-badge,
+.modal-open .templates table td img.admin-badge {
+  position: absolute;
+  top: 35px;
+  width: 15px;
+  height: 15px;
+}
+.admin-panel .users table td ul,
+.admin-panel .templates table td ul,
+.modal-open .users table td ul,
+.modal-open .templates table td ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+  list-style-type: none;
+}
+.admin-panel .users table td ul li,
+.admin-panel .templates table td ul li,
+.modal-open .users table td ul li,
+.modal-open .templates table td ul li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.admin-panel .users table td ul li:hover,
+.admin-panel .templates table td ul li:hover,
+.modal-open .users table td ul li:hover,
+.modal-open .templates table td ul li:hover {
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgba(255, 145, 77, 0.3960784314);
+  box-shadow: rgba(255, 145, 77, 0.3960784314) 0px 0px 0px 5px;
+}
+.admin-panel .modal-poll-card,
+.modal-open .modal-poll-card {
+  margin-top: 20px;
+  padding: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  overflow: hidden;
+}
+.admin-panel .modal-poll-card img,
+.modal-open .modal-poll-card img {
+  width: 100px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+.admin-panel .modal-poll-card h4,
+.modal-open .modal-poll-card h4 {
+  margin: 0;
+}
+.admin-panel .modal-poll-card p,
+.modal-open .modal-poll-card p {
+  margin: 0;
+  font-size: 18px;
+}
+.admin-panel .modal-poll-card:hover,
+.modal-open .modal-poll-card:hover {
+  background-color: lightgray;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.admin-panel .modal-body .tab-content,
+.modal-open .modal-body .tab-content {
+  max-height: 35vh;
+  overflow-y: scroll;
+}/*# sourceMappingURL=AdminPanel.css.map */
