@@ -29,6 +29,9 @@ export default function Signin() {
 
     useEffect(() => {
         localStorage.setItem('persist', persist);
+        if(!persist) {
+            sessionStorage.setItem('one-time-access', true);
+        }
     }, [persist]);
 
     const handleSubmit = async (e) => {
@@ -46,8 +49,8 @@ export default function Signin() {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true
             });
-            const { userId, fullname, accessToken, admin, profile_pic_path } = response?.data?.userData;
-            setAuth({ userId, username, fullname, accessToken, admin, profile_pic_path });
+            const { userId, fullname, accessToken, admin, profile_pic_path, polls_created } = response?.data?.userData;
+            setAuth({ userId, username, fullname, accessToken, admin, profile_pic_path, polls_created });
             navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {

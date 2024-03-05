@@ -1,5 +1,6 @@
 .admin-panel a.nav-link,
 .modal-open a.nav-link {
+  padding: 5px 10px;
   color: #00bf63;
 }
 .admin-panel a.nav-link.active,
@@ -7,28 +8,45 @@
   color: #ff914d;
 }
 .admin-panel .users input,
+.admin-panel .polls input,
 .admin-panel .templates input,
 .modal-open .users input,
+.modal-open .polls input,
 .modal-open .templates input {
   box-shadow: none;
 }
 .admin-panel .users table,
+.admin-panel .polls table,
 .admin-panel .templates table,
 .modal-open .users table,
+.modal-open .polls table,
 .modal-open .templates table {
   -webkit-user-select: text;
      -moz-user-select: text;
           user-select: text;
 }
 .admin-panel .users table td,
+.admin-panel .polls table td,
 .admin-panel .templates table td,
 .modal-open .users table td,
+.modal-open .polls table td,
 .modal-open .templates table td {
   position: relative;
 }
+.admin-panel .users table td div[column=settings],
+.admin-panel .polls table td div[column=settings],
+.admin-panel .templates table td div[column=settings],
+.modal-open .users table td div[column=settings],
+.modal-open .polls table td div[column=settings],
+.modal-open .templates table td div[column=settings] {
+  min-width: -moz-max-content;
+  min-width: max-content;
+}
 .admin-panel .users table td img.profile-pic,
+.admin-panel .polls table td img.profile-pic,
 .admin-panel .templates table td img.profile-pic,
 .modal-open .users table td img.profile-pic,
+.modal-open .polls table td img.profile-pic,
 .modal-open .templates table td img.profile-pic {
   -o-object-fit: cover;
      object-fit: cover;
@@ -37,20 +55,45 @@
   border: 2px solid black;
   border-radius: 50px;
 }
+.admin-panel .users table td img.poll-pic,
+.admin-panel .polls table td img.poll-pic,
+.admin-panel .templates table td img.poll-pic,
+.modal-open .users table td img.poll-pic,
+.modal-open .polls table td img.poll-pic,
+.modal-open .templates table td img.poll-pic {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 50px;
+  height: 50px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+.admin-panel .users table td img.show,
 .admin-panel .users table td img.active,
 .admin-panel .users table td img.actions,
+.admin-panel .polls table td img.show,
+.admin-panel .polls table td img.active,
+.admin-panel .polls table td img.actions,
+.admin-panel .templates table td img.show,
 .admin-panel .templates table td img.active,
 .admin-panel .templates table td img.actions,
+.modal-open .users table td img.show,
 .modal-open .users table td img.active,
 .modal-open .users table td img.actions,
+.modal-open .polls table td img.show,
+.modal-open .polls table td img.active,
+.modal-open .polls table td img.actions,
+.modal-open .templates table td img.show,
 .modal-open .templates table td img.active,
 .modal-open .templates table td img.actions {
   width: 20px;
   height: 20px;
 }
 .admin-panel .users table td img.admin-badge,
+.admin-panel .polls table td img.admin-badge,
 .admin-panel .templates table td img.admin-badge,
 .modal-open .users table td img.admin-badge,
+.modal-open .polls table td img.admin-badge,
 .modal-open .templates table td img.admin-badge {
   position: absolute;
   top: 35px;
@@ -58,8 +101,10 @@
   height: 15px;
 }
 .admin-panel .users table td ul,
+.admin-panel .polls table td ul,
 .admin-panel .templates table td ul,
 .modal-open .users table td ul,
+.modal-open .polls table td ul,
 .modal-open .templates table td ul {
   margin: 0;
   padding: 0;
@@ -68,16 +113,20 @@
   list-style-type: none;
 }
 .admin-panel .users table td ul li,
+.admin-panel .polls table td ul li,
 .admin-panel .templates table td ul li,
 .modal-open .users table td ul li,
+.modal-open .polls table td ul li,
 .modal-open .templates table td ul li {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .admin-panel .users table td ul li:hover,
+.admin-panel .polls table td ul li:hover,
 .admin-panel .templates table td ul li:hover,
 .modal-open .users table td ul li:hover,
+.modal-open .polls table td ul li:hover,
 .modal-open .templates table td ul li:hover {
   cursor: pointer;
   border-radius: 5px;
@@ -114,8 +163,36 @@
   border-radius: 5px;
   cursor: pointer;
 }
-.admin-panel .modal-body .tab-content,
-.modal-open .modal-body .tab-content {
+.admin-panel .modal-body .content,
+.modal-open .modal-body .content {
   max-height: 35vh;
   overflow-y: scroll;
+}
+.admin-panel .modal-body .users-list-item,
+.modal-open .modal-body .users-list-item {
+  cursor: pointer;
+  padding: 5px;
+  background-color: lightgray;
+  box-shadow: 0px 0px 5px black;
+  border-radius: 10px;
+}
+.admin-panel .modal-body .users-list-item p,
+.modal-open .modal-body .users-list-item p {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.admin-panel .modal-body .users-list-item img.user-profile-pic,
+.modal-open .modal-body .users-list-item img.user-profile-pic {
+  border: 2px solid black;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.admin-panel .modal-body .users-list-item:hover,
+.modal-open .modal-body .users-list-item:hover {
+  background-color: #00bf63;
 }/*# sourceMappingURL=AdminPanel.css.map */

@@ -32,16 +32,16 @@ export default function Search() {
   return (
     <div className='dashboard-search'>
       <input
-      autoComplete='off'
+        autoComplete='off'
         type="text"
         name='search'
-        placeholder='Search poll by Title or ID'
-        title='Search poll by Title or ID'
+        placeholder='Search poll'
+        title='Search poll'
         defaultValue={searchValue}
         onKeyDown={(e) => searchPolls(e)}
         className={isLoading ? 'loading' : ''}
       />
-      {results.length > 0 && <SearchResults control={{results, setResults, searchValue}} />}
+      {results.length > 0 && <SearchResults control={{ results, setResults, searchValue }} />}
     </div>
   )
 }

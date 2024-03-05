@@ -10,16 +10,15 @@ const UserPoll = ({ id }) => {
 
     const getPoll = async () => {
         try {
-            const response = await axiosPrivate.post('/polls/search', { searchValue: id });
-            setPoll(response.data.searchResults[0]);
+            const response = await axiosPrivate.get(`/polls/${id}?card_data_only=true`);
+            setPoll(response.data.foundPoll);
         } catch (err) {
             console.log(err);
         }
     }
 
     const navigateToPoll = () => {
-        navigate(`/poll/${id}`);
-        // navigate(0);
+        navigate(`/poll/${id}?admin_visit=true`);
     }
 
     useEffect(() => {

@@ -32,7 +32,7 @@ function ProfileMenu({ removeProfilePicture }) {
                 navigate('/auth');
                 break;
             case 'admin':
-                navigate('/admin');
+                navigate('/admin?tab=users');
                 break;
             default:
                 console.log('does nothing for now');

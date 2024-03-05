@@ -3,8 +3,9 @@ import ProfilePic from './ProfilePic';
 import Active from './Active';
 import Actions from './Actions';
 
-const User = ({ user, setUser, setModal }) => {
-    const props = ['profile_pic_path', 'active', 'username', 'email', 'firstname', 'registered_at', 'actions'];
+const User = ({ user, setModal }) => {
+
+    const props = ['profile_pic_path', 'active', 'username', 'email', 'firstname', 'registered_at', 'last_login', 'actions'];
 
     const returnFullName = (firstname, lastname) => {
         firstname = firstname.charAt(0).toUpperCase() + firstname.slice(1);
@@ -24,16 +25,16 @@ const User = ({ user, setUser, setModal }) => {
                         data = returnFullName(user.firstname, user.lastname);
                         break;
                     case "active":
-                        data = <Active active={user.active} setModal={setModal} />
+                        data = <Active active={user.active} />
                         break;
                     case "actions":
-                        data = <Actions user={user} setUser={setUser} setModal={setModal} />
+                        data = <Actions user={user} setModal={setModal} />
                         break;
                     default:
                         data = String(user[prop]);
                         break;
                 }
-                return <td key={index} className='align-middle p-2'>{data}</td>
+                return <td key={index} className='align-middle p-2'>{data !== 'undefined' && data}</td>
             })}
         </tr>
     )

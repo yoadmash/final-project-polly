@@ -6,23 +6,22 @@ import GoBackLink from '../../Layout/GoBackLink';
 import QuestionsAdder from './QuestionsAdder';
 import UseFormInput from '../UseFormInput';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ErrMsg from '../../Layout/ErrMsg';
+import useAuth from '../../../hooks/useAuth';
 
 const CreateTemplate = () => {
-    const [searchParams] = useSearchParams();
-    const searchParamsObj = Object.fromEntries(searchParams);
-
     const navigate = useNavigate();
     const location = useLocation();
 
     const { id } = useParams();
+    const { auth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
     const [isLoading, setIsLoading] = useState(false);
     const [errMsg, setErrMsg] = useState('');
 
     let methods = useForm({
-        defaultValues: (!id && !location?.pathname?.includes('edit') && !searchParamsObj?.template) ? {
+        defaultValues: (!id && !location?.pathname?.includes('edit')) ? {
             title: '',
             settings: {
                 usersCanDeleteAnswer: false,
@@ -30,45 +29,56 @@ const CreateTemplate = () => {
                 shuffleQuestionsOrder: false,
             }
         } : async () => {
-            
+            if(auth.admin) {
+                try {
+                    const response = await axiosPrivate.get(`polls/templates/${id}`);
+                    if (response?.data?.template) {
+                        return {
+                            title: response.data.template.title,
+                            questions: response.data.template.fields.questions,
+                            settings: response.data.template.fields.settings
+                        }
+                    }
+                } catch (err) {
+                    navigate('../template-not-found');
+                }
+            } else {
+                navigate('/');
+            }
         },
     })
     const errors = methods.formState.errors;
 
     const handleSavePoll = async (data) => {
         setIsLoading(true);
+        const templateObj = { title: data.title, fields: { questions: data.questions, settings: data.settings }, show: false }
         if (!id && !location?.pathname?.includes('edit')) {
-            const poll_id = await handleFormCreate(data);
-            if (poll_id) {
-                navigate(`/poll/${poll_id}`);
+            const created = await handleFormCreate(templateObj);
+            if (created) {
+                navigate(`/admin?tab=templates`);
             }
         } else {
-            const editted = await handleFormEdit(data);
+            const editted = await handleFormEdit(templateObj);
             if (editted) {
-                navigate(`/poll/${id}`);
-                navigate(0);
+                navigate(`/admin?tab=templates`);
             }
         }
         setIsLoading(false);
     }
 
     const handleFormCreate = async (data) => {
-        const createPollData = new FormData();
-        createPollData.append('form_data', JSON.stringify(data));
         try {
-            const response = await axiosPrivate.post('/polls/create', createPollData);
-            return response.data.poll._id;
+            await axiosPrivate.post('/polls/templates/create', { data });
+            return true;
         } catch (err) {
             showError(err?.response?.data?.message);
-            return null;
+            return false;
         }
     }
 
     const handleFormEdit = async (data) => {
-        const editPollData = new FormData();
-        editPollData.append('form_data', JSON.stringify(data));
         try {
-            await axiosPrivate.post(`/polls/${id}/edit`, editPollData);
+            await axiosPrivate.post(`/polls/templates/${id}/edit`, { data });
             return true;
         } catch (err) {
             showError(err?.response?.data?.message);
@@ -86,8 +96,8 @@ const CreateTemplate = () => {
 
     return (
         <FormProvider {...methods}>
-            <Form className='create-poll' onSubmit={methods.handleSubmit(data => handleSavePoll(data))}>
-                <GoBackLink />
+            <Form className='template-form' onSubmit={methods.handleSubmit(data => handleSavePoll(data))}>
+                <GoBackLink to={-1} />
                 <Container fluid={'md'} className='layout'>
                     <Row className='header'>
                         <Col xs={12} sm={8} className='p-0'>

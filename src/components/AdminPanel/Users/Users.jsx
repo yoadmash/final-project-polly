@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { Table, Modal, ModalHeader, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import useAuth from '../../../hooks/useAuth'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import { Button, Input, Table, Modal, ModalHeader, ModalBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
+import AdminPanelContext from '../../../contexts/AdminPanelProvider';
 import User from './User';
 import UserPoll from './UserPoll';
+import Search from '../Search';
 
 const Users = ({ setUsersCount }) => {
+
+    const {
+        users, setUsers,
+    } = useContext(AdminPanelContext);
+
     const { auth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
 
-    const [users, setUsers] = useState([]);
-    const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
 
     const [activeTab, setActiveTab] = useState(0);
@@ -25,61 +30,53 @@ const Users = ({ setUsersCount }) => {
         setIsActive(isActive);
     }
 
-
-    const getAllUsers = async () => {
+    const getAllUsers = useCallback(async () => {
         try {
             const response = await axiosPrivate.get('/users/get_all_users');
-            // setUsers([...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers]);
-            // setSearchResult([...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers, ...response.data.allUsers]);
-            setUsers(response.data.allUsers);
-            setSearchResult(response.data.allUsers);
+            const allUsers_hideSelf = response.data.allUsers.filter(user => user._id !== auth.userId);
+            setUsers(allUsers_hideSelf);
+            setSearchResult(allUsers_hideSelf);
         } catch (err) {
             console.log(err);
         }
-    }
+    }, [axiosPrivate, auth, setUsers, setSearchResult]);
 
     useEffect(() => {
         if (auth.admin) {
             getAllUsers();
         }
-    }, [auth]);
+    }, [auth, getAllUsers]);
 
     useEffect(() => {
         setUsersCount(searchResult.length);
-    }, [searchResult.length])
+    }, [searchResult.length, setUsersCount]);
 
-    const searhcUsers = (e) => {
-        e.preventDefault();
+    useEffect(() => {
+        const allUsers_hideSelf = users.filter(user => user._id !== auth.userId);
+        setSearchResult(allUsers_hideSelf);
+    }, [users, auth]);
+
+    const searhcUsers = (searchValue) => {
         if (searchValue.length > 0) {
-            setSearchResult(users.filter(user => user.username.includes(searchValue) || user.email.includes(searchValue)));
+            setSearchResult(users.filter(user => user.username.toLowerCase().includes(searchValue) || user.email.toLowerCase().includes(searchValue)));
         }
     }
 
-    const setUser = (userId, updatedUser) => {
-        setUsers(prev => prev.map(user => user._id === userId ? updatedUser : user));
-    }
-
     const toggle = () => {
-        setModal(!modal);
+        setModal(!modal.state);
         setActive(0);
     }
 
-    //table
-    /*
-    if admin add crown icon near username
-    table header = profile_pic, username, email, fullname, registered_at, active, actions (viewPolls - opens modal with nav tabs, setAdmin, setActive, resetPassword, removeProfilePic)
-    */
-
-    const th = ['', 'Active', 'Username', 'Email', 'Name', 'Registered', 'Actions'];
+    const th = ['', 'Active', 'Username', 'Email', 'Name', 'Registered', "Last login", 'Actions'];
 
     return (
         <div className='users'>
-            <form className='d-flex gap-3 mt-3' onSubmit={(e) => searhcUsers(e)}>
-                <Input type='text' placeholder='Search user by name or email'
-                    onChange={(e) => e.target.value.length > 0 ? setSearchValue(e.target.value) : setSearchResult(users)} />
-                <Button color='success' type='submit'>Search</Button>
-                <Button color='danger' type='reset' onClick={() => setSearchResult(users)}>Clear</Button>
-            </form>
+            <Search
+                data={users}
+                searchFunc={searhcUsers}
+                setSearchResult={setSearchResult}
+                placeholder={'Search by username or email'}
+            />
             <Table size='sm' hover responsive className='mt-2'>
                 <thead>
                     <tr>
@@ -87,32 +84,44 @@ const Users = ({ setUsersCount }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {searchResult?.map((user, index) => <User key={index} user={user} setUser={setUser} setModal={setModal} />)}
+                    {searchResult?.map((user, index) => <User key={index} user={user} setModal={setModal} />)}
                 </tbody>
             </Table>
             {modal.state && <Modal isOpen={modal.state} centered fade={false} size='lg'>
-                <ModalHeader toggle={toggle}>{modal.user.username}'s polls</ModalHeader>
+                <ModalHeader toggle={toggle} tag={'h3'}>{modal.user.username}'s polls</ModalHeader>
                 <ModalBody className='p-2'>
                     <Nav tabs>
                         <NavItem>
-                            <NavLink active={isActive[0]} onClick={() => setActive(0)}>Created ({modal.user.polls_created?.length})</NavLink>
+                            <NavLink active={isActive[0]} onClick={() => setActive(0)}>Created {isActive[0] && `(${modal.user.polls_created?.length})`}</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink active={isActive[1]} onClick={() => setActive(1)}>Answered ({modal.user.polls_answered?.length})</NavLink>
+                            <NavLink active={isActive[1]} onClick={() => setActive(1)}>Answered {isActive[1] && `(${modal.user.polls_answered?.length})`}</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink active={isActive[2]} onClick={() => setActive(2)}>Visited ({modal.user.polls_visited?.length})</NavLink>
+                            <NavLink active={isActive[2]} onClick={() => setActive(2)}>Visited {isActive[2] && `(${modal.user.polls_visited?.length})`}</NavLink>
                         </NavItem>
                     </Nav>
-                    <TabContent activeTab={activeTab}>
+                    <TabContent activeTab={activeTab} className='content'>
                         <TabPane tabId={0}>
-                            {modal?.user.polls_created?.length > 0 && modal.user.polls_created.map((pollId, index) => <UserPoll key={index} id={pollId} />)}
+                            {
+                                modal?.user.polls_created?.length > 0
+                                    ? modal.user.polls_created.map((pollId, index) => <UserPoll key={index} id={pollId} />)
+                                    : <h5 className='mt-2'>No Polls</h5>
+                            }
                         </TabPane>
                         <TabPane tabId={1}>
-                            {modal?.user.polls_answered?.length > 0 && modal.user.polls_answered.map((pollId, index) => <UserPoll key={index} id={pollId} />)}
+                            {
+                                modal?.user.polls_answered?.length > 0
+                                    ? modal.user.polls_answered.map((pollId, index) => <UserPoll key={index} id={pollId} />)
+                                    : <h5 className='mt-2'>No Polls</h5>
+                            }
                         </TabPane>
                         <TabPane tabId={2}>
-                            {modal?.user.polls_visited?.length > 0 && modal.user.polls_visited.map((pollId, index) => <UserPoll key={index} id={pollId} />)}
+                            {
+                                modal?.user.polls_visited?.length > 0
+                                    ? modal.user.polls_visited.map((pollId, index) => <UserPoll key={index} id={pollId} />)
+                                    : <h5 className='mt-2'>No Polls</h5>
+                            }
                         </TabPane>
                     </TabContent>
                 </ModalBody>

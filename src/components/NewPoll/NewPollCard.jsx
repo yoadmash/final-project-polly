@@ -8,7 +8,7 @@ export default function NewPollCard({ template, title }) {
         if (!template) {
             navigate('/poll/create/new');
         } else {
-            navigate(`/poll/create/new?template=${title}`);
+            navigate(`/poll/create/new?template=${template._id}`);
         }
     }
 

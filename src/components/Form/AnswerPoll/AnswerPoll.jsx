@@ -1,7 +1,7 @@
 import './AnswerPoll.css';
 import { useEffect, useState } from "react";
 import { Container, Form, Row, Col, Button, Spinner } from 'reactstrap';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useForm, FormProvider, } from 'react-hook-form';
 import GoBackLink from '../../Layout/GoBackLink';
 import useAuth from '../../../hooks/useAuth';
@@ -12,6 +12,9 @@ import ErrMsg from '../../Layout/ErrMsg';
 
 const AnswerPoll = () => {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const searchParamsObj = Object.fromEntries(searchParams);
+
     const { id } = useParams();
     const { auth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
@@ -44,10 +47,12 @@ const AnswerPoll = () => {
     }
 
     const visitPoll = async () => {
-        try {
-            await axiosPrivate.post(`/polls/visit`, { id });
-        } catch (err) {
-            console.log(err);
+        if (!searchParamsObj?.admin_visit || !auth.admin) {
+            try {
+                await axiosPrivate.post(`/polls/visit`, { id });
+            } catch (err) {
+                console.log(err);
+            }
         }
     }
 
@@ -105,7 +110,7 @@ const AnswerPoll = () => {
                 <FormProvider {...methods}>
                     <Form className='answer-poll' onSubmit={methods.handleSubmit(data => submitPoll(data))}>
                         <Container fluid={'md'} className='layout d-flex flex-column gap-3'>
-                            <GoBackLink />
+                            <GoBackLink to={searchParamsObj?.admin_visit && -1}/>
                             <Row className='header'>
                                 <Col xs={12} lg={!poll.image_path ? 12 : 8} className='d-flex flex-column gap-3'>
                                     <p>{poll.title}</p>

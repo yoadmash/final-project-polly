@@ -48,7 +48,7 @@ export default function PollCard({ id, managePolls }) {
 
     const getPollData = async () => {
         try {
-            const response = await axiosPrivate.get(`/polls/${id}`);
+            const response = await axiosPrivate.get(`/polls/${id}?card_data_only=true`);
             setPoll(response.data.foundPoll);
         } catch (err) {
             managePolls.setPolls((prev) => prev.filter(poll => poll !== id));

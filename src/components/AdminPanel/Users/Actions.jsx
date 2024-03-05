@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
+import AdminPanelContext from '../../../contexts/AdminPanelProvider';
 
-const Actions = ({ user, setUser, setModal }) => {
+const Actions = ({ user, setModal }) => {
 
     const axiosPrivate = useAxiosPrivate();
+    const { setUser } = useContext(AdminPanelContext);
 
     const actions = [
         { title: "View polls", icon_src: '/assets/images/view_answers.svg', action: 'view-polls' },
@@ -13,9 +15,9 @@ const Actions = ({ user, setUser, setModal }) => {
         { title: "Remove profile picture", icon_src: '/assets/images/remove-profile-pic.svg', action: 'remove-profile-pic' },
     ]
 
-    const setActive = async (status) => {
+    const setActive = async () => {
         try {
-            await axiosPrivate.post(`/users/set_active?state=${Number(status)}&by_admin=true`, { userId: user._id });
+            await axiosPrivate.post(`/users/set_active?state=${Number(user.active)}&by_admin=true`, { userId: user._id });
         } catch (err) {
             console.log(err);
         }
@@ -57,7 +59,7 @@ const Actions = ({ user, setUser, setModal }) => {
                 break;
             case 'set-active':
                 user.active = !user.active;
-                setActive(user.active);
+                setActive();
                 setUser(user._id, user);
                 break;
             case 'send-reset-password-email':

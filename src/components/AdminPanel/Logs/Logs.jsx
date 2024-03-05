@@ -1,10 +1,12 @@
 import React from 'react';
-import './Logs.css';
 import { useEffect, useState } from 'react';
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { Input, Table } from 'reactstrap';
+import useAuth from '../../../hooks/useAuth'
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
+import './Logs.css';
 
 const Logs = () => {
+    const { auth } = useAuth();
 
     const axiosPrivate = useAxiosPrivate();
     const [logsList, setLogsList] = useState([]);
@@ -57,12 +59,14 @@ const Logs = () => {
     }
 
     useEffect(() => {
-        getLogsList();
-    }, []);
+        if (auth.admin) {
+            getLogsList();
+        }
+    }, [auth.admin]);
 
     return (
         <div className='logs'>
-            <div className="header">
+            <div className="header mt-3">
                 {logsList.length === 0 && <h2>No Logs</h2>}
                 {logsList.length === 0 && <button className='btn btn-warning' onClick={() => getLogsList()}>Refresh</button>}
             </div>
@@ -75,7 +79,7 @@ const Logs = () => {
                         </Input>
                         {<button className='btn btn-warning' onClick={() => {
                             getLogsList();
-                            if(logsList.includes(selectedLog)) {
+                            if (logsList.includes(selectedLog)) {
                                 getLog(selectedLog);
                             }
                         }}>Refresh</button>}

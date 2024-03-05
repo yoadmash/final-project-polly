@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import GoBackLink from '../Layout/GoBackLink'
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
-import Logs from './Logs/Logs';
+import { AdminPanelProvider } from '../../contexts/AdminPanelProvider';
 import useAuth from '../../hooks/useAuth';
-import { Link, useNavigate } from 'react-router-dom';
-import './AdminPanel.css';
+import GoBackLink from '../Layout/GoBackLink'
 import Users from './Users/Users';
+import Polls from './Polls/Polls';
 import Templates from './Templates/Templates';
+import Logs from './Logs/Logs';
+import './AdminPanel.css';
 
 const AdminPanel = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const searchParamsObj = Object.fromEntries(searchParams);
 
     const { auth } = useAuth();
     const navigate = useNavigate();
 
-    const [activeTab, setActiveTab] = useState(0);
+    const [activeTab, setActiveTab] = useState('');
     const [usersCount, setUsersCount] = useState(0);
-    const [isActive, setIsActive] = useState([true, false, false, false]);
+    const [pollsCount, setPollsCount] = useState(0);
+    const [templatesCount, setTemplatesCount] = useState(0);
 
-    const setActive = (id) => {
-        const currentActiveTab = isActive.findIndex(state => state === true);
-        setActiveTab(id);
-        isActive[currentActiveTab] = false;
-        isActive[id] = !isActive[id];
-        setIsActive(isActive);
+    const setActive = (title) => {
+        setActiveTab(title);
+        setSearchParams({ tab: title });
     }
 
     useEffect(() => {
@@ -32,8 +34,23 @@ const AdminPanel = () => {
     }, [auth, navigate]);
 
     useEffect(() => {
-        document.title += ' - Admin Panel'
+        document.title = `Polly - Admin Panel`
     }, []);
+
+    useEffect(() => {
+        if (activeTab !== searchParamsObj.tab) {
+            setActiveTab(searchParamsObj.tab);
+        }
+    }, [activeTab, searchParamsObj]);
+
+    const tabs = [
+        { title: 'users', element: <Users setUsersCount={setUsersCount} />, count: usersCount },
+        { title: 'polls', element: <Polls setPollsCount={setPollsCount} />, count: pollsCount },
+        { title: 'templates', element: <Templates setTemplatesCount={setTemplatesCount} />, count: templatesCount },
+        { title: 'logs', element: <Logs /> },
+    ]
+
+    const capitalLetter = (string) => string = string.charAt(0).toUpperCase() + string.slice(1);
 
     return (
         <div>
@@ -41,34 +58,27 @@ const AdminPanel = () => {
 
             {auth.admin && <div className="admin-panel pt-5 p-3">
                 <Nav tabs>
-                    <NavItem>
-                        <NavLink active={isActive[0]} onClick={() => setActive(0)}>Users ({usersCount})</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink active={isActive[1]} onClick={() => setActive(1)}>Polls</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink active={isActive[2]} onClick={() => setActive(2)}>Templates</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink active={isActive[3]} onClick={() => setActive(3)}>Logs</NavLink>
-                    </NavItem>
+                    {tabs.map((tab, index) => {
+                        const active = tab.title === activeTab;
+                        return (
+                            <NavItem key={index}>
+                                <NavLink active={active} onClick={() => setActive(tab.title)}>
+                                    {capitalLetter(tab.title)} {tab.count >= 0 && active && `(${tab.count})`}
+                                </NavLink>
+                            </NavItem>
+                        )
+                    })}
                 </Nav>
-                <TabContent activeTab={activeTab}>
-                    <TabPane tabId={0}>
-                        <Users setUsersCount={setUsersCount} />
-                    </TabPane>
-                    <TabPane tabId={1}>
-                        <h2>Polls</h2>
-                    </TabPane>
-                    <TabPane tabId={2}>
-                        {/* <Link to={'/template/create'}><button>Create new template</button></Link> */}
-                        <Templates />
-                    </TabPane>
-                    <TabPane tabId={3}>
-                        <Logs />
-                    </TabPane>
-                </TabContent>
+                <AdminPanelProvider>
+                    <TabContent activeTab={activeTab}>
+                        {tabs.map((tab, index) =>
+                            <TabPane
+                                key={index}
+                                tabId={tab.title}
+                            >{tab.element}</TabPane>
+                        )}
+                    </TabContent>
+                </AdminPanelProvider>
             </div>}
         </div>
     )

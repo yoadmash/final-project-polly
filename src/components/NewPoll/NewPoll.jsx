@@ -28,7 +28,7 @@ export default function NewPoll() {
       </div>
       <div className="body">
         <NewPollCard />
-        {templates.length > 0 && templates.map(template => template.show && <NewPollCard key={template.name} template title={template.name} />)}
+        {templates.length > 0 && templates.map(template => <NewPollCard key={template._id} template={template} title={template.title} />)}
       </div>
     </div>
   )
