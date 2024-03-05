@@ -2,7 +2,7 @@
   background: url("/public/assets/images/search.svg") no-repeat 10px center;
   background-size: 30px;
   background-color: rgba(211, 211, 211, 0.479);
-  width: calc(80vw - 255px);
+  width: calc(75vw - 255px);
   height: 60px;
   text-overflow: ellipsis;
   border: none;
@@ -65,9 +65,9 @@
 .dashboard-search .search-results:focus {
   outline: none;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
   .dashboard-search input {
-    width: calc(100vw - 175px);
+    width: calc(85vw - 175px);
     height: 40px;
   }
   .dashboard-search .search-results {

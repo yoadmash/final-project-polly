@@ -1,15 +1,16 @@
 import React from 'react';
-import './Logs.css';
-import { useEffect, useState, useRef } from 'react';
-import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { useEffect, useState } from 'react';
 import { Input, Table } from 'reactstrap';
+import useAuth from '../../../hooks/useAuth'
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
+import './Logs.css';
 
-const Logs = ({ setViewLogs }) => {
+const Logs = () => {
+    const { auth } = useAuth();
 
     const axiosPrivate = useAxiosPrivate();
-    const main = useRef();
     const [logsList, setLogsList] = useState([]);
-    const [selectedLog, setSelectedLog] = useState('');
+    const [selectedLog, setSelectedLog] = useState('Select a log');
     const [content, setContent] = useState([]);
     const [logFields, setLogFields] = useState([]);
 
@@ -23,7 +24,7 @@ const Logs = ({ setViewLogs }) => {
     }
 
     const getLog = async (log) => {
-        if (log.length > 0) {
+        if (log.length > 0 && logsList.includes(log)) {
             try {
                 const response = await axiosPrivate.get(`/logs?log=${log}`);
                 setSelectedLog(log);
@@ -37,12 +38,19 @@ const Logs = ({ setViewLogs }) => {
             } catch (err) {
                 console.log(err);
             }
+        } else {
+            setSelectedLog('Select a log');
+            setContent([]);
+            setLogFields([]);
         }
     }
 
     const clearLog = async (log) => {
         try {
             await axiosPrivate.get(`/logs?log=${log}&clear=true`);
+            const filteredLogsList = logsList.filter(logItem => logItem !== log);
+            setLogsList(filteredLogsList);
+            setSelectedLog('Select a log');
             setContent([]);
             setLogFields([]);
         } catch (err) {
@@ -51,29 +59,36 @@ const Logs = ({ setViewLogs }) => {
     }
 
     useEffect(() => {
-        getLogsList();
-        main.current.focus();
-    }, []);
+        if (auth.admin) {
+            getLogsList();
+        }
+    }, [auth.admin]);
 
     return (
-        <div className='logs' tabIndex={0} ref={main} >
-            <div className="header">
-                <h1>{logsList.length > 0 ? 'Logs' : 'No Logs'}</h1>
-                <button className='btn btn-danger' onClick={() => setViewLogs(false)}>Close</button>
+        <div className='logs'>
+            <div className="header mt-3">
+                {logsList.length === 0 && <h2>No Logs</h2>}
+                {logsList.length === 0 && <button className='btn btn-warning' onClick={() => getLogsList()}>Refresh</button>}
             </div>
             {logsList.length > 0
-                && <div className="body">
-                    <Input type='select' onInput={(e) => getLog(e.target.value)}>
-                        <option hidden>Select a Log</option>
-                        {logsList.map((log, index) => <option key={index} value={log}>{log}</option>)}
-                    </Input>
-                    {selectedLog
-                        && <div className="content p-3">
-                            <div className='d-flex mb-3 justify-content-between align-items-center'>
-                                <h4>{selectedLog} logs ({content.length})</h4>
-                                {content.length > 0 && <button className='btn btn-danger' onClick={() => clearLog(selectedLog)}>Clear Log</button>}
-                            </div>
-                            {logFields.length > 0 && <Table size='sm' hover bordered responsive>
+                && <div className="body mt-3">
+                    <div className='d-flex justify-content-between gap-3'>
+                        <Input type='select' onInput={(e) => getLog(e.target.value)} value={selectedLog}>
+                            <option hidden>Select a log</option>
+                            {logsList.map((log, index) => <option key={index} value={log}>{log}</option>)}
+                        </Input>
+                        {<button className='btn btn-warning' onClick={() => {
+                            getLogsList();
+                            if (logsList.includes(selectedLog)) {
+                                getLog(selectedLog);
+                            }
+                        }}>Refresh</button>}
+                        {content.length > 0 && <button className='btn btn-danger' onClick={() => clearLog(selectedLog)}>Clear</button>}
+                    </div>
+                    {selectedLog && logsList.includes(selectedLog)
+                        && <div className="content">
+                            <h4>{selectedLog} logs ({content.length})</h4>
+                            {logFields.length > 0 && <Table size='sm' hover responsive>
                                 <thead>
                                     <tr>
                                         {logFields.map((field, index) => <th key={index}>{field}</th>)}

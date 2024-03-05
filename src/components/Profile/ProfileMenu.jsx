@@ -9,12 +9,10 @@ import useAuth from '../../hooks/useAuth';
 import useLogout from '../../hooks/useLogout';
 import useDeactivate from '../../hooks/useDeactivate';
 import { useNavigate } from 'react-router-dom';
-import Logs from './Logs';
 
 function ProfileMenu({ removeProfilePicture }) {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [viewLogs, setViewLogs] = useState(false);
 
     const { auth } = useAuth();
     const logout = useLogout();
@@ -33,8 +31,8 @@ function ProfileMenu({ removeProfilePicture }) {
                 await deactivate();
                 navigate('/auth');
                 break;
-            case 'view_logs':
-                setViewLogs(true);
+            case 'admin':
+                navigate('/admin?tab=users');
                 break;
             default:
                 console.log('does nothing for now');
@@ -50,12 +48,11 @@ function ProfileMenu({ removeProfilePicture }) {
                 <DropdownMenu>
                     {auth.profile_pic_path && <DropdownItem onClick={() => removeProfilePicture()}>Remove Picture</DropdownItem>}
                     <DropdownItem onClick={() => action('deactivate')}>Deactivate</DropdownItem>
-                    {auth.admin && <DropdownItem onClick={() => action('view_logs')}>Logs</DropdownItem>}
                     <DropdownItem divider></DropdownItem>
+                    {auth.admin && <DropdownItem onClick={() => action('admin')}>Admin Panel</DropdownItem>}
                     <DropdownItem onClick={() => action('signout')}>Logout</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-            {viewLogs && <Logs setViewLogs={setViewLogs} />}
         </>
     );
 }

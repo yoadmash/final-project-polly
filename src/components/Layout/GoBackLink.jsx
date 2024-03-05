@@ -1,10 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
-export default function GoBackLink() {
+export default function GoBackLink({to}) {
+  const navigate = useNavigate();
+
+  const goBack = (e) => {
+    e.preventDefault();
+    navigate(to || '/');
+  }
+
   return (
     <div className='go-back'>
-      <Link to='..'>Go Back</Link>
+      <button onClick={(e) => goBack(e)}>{'< Back'}</button>
     </div>
   )
 }

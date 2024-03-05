@@ -6,8 +6,18 @@
 }
 
 .loading {
-    position: relative;
-    top: calc(40vh - 50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0px;
+}
+
+.loading > div {
+    position: absolute;
+    top: 50%;
 }
 
 .go-back {
@@ -17,8 +27,11 @@
     left: 20px;
 }
 
-.go-back>a {
+.go-back>button {
     color: #00bf63;
+    text-decoration: underline;
+    border: none;
+    background-color: transparent;
 }
 
 .general-err-msg {

@@ -1,5 +1,5 @@
 import './CreatePoll.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, FormProvider, } from 'react-hook-form';
 import { Row, Col, FormGroup, Container, Button, Form, Spinner } from 'reactstrap';
 import GoBackLink from '../../Layout/GoBackLink';
@@ -9,6 +9,7 @@ import UseFormInput from '../UseFormInput';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ErrMsg from '../../Layout/ErrMsg';
+import useAuth from '../../../hooks/useAuth';
 
 const CreatePoll = () => {
     const [searchParams] = useSearchParams();
@@ -18,7 +19,9 @@ const CreatePoll = () => {
     const location = useLocation();
 
     const { id } = useParams();
+    const { auth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
+    const [editAllowed] = useState(auth.polls_created.includes(id));
     const [isLoading, setIsLoading] = useState(false);
     const [pollImgFile, setPollImgFile] = useState('');
     const [oldImage, setOldImage] = useState('');
@@ -37,30 +40,36 @@ const CreatePoll = () => {
             }
         } : async () => {
             if (!searchParamsObj?.template) {
-                const response = await axiosPrivate.get(`/polls/${id}/`);
-                if (response.data.foundPoll) {
-                    setOldImage(response.data.foundPoll.image_uuid);
-                    return {
-                        title: response.data.foundPoll.title,
-                        description: response.data.foundPoll.description,
-                        image_path: response.data.foundPoll.image_path,
-                        questions: response.data.foundPoll.questions,
-                        settings: response.data.foundPoll.settings,
+                if(editAllowed || auth.admin) {
+                    try {
+                        const response = await axiosPrivate.get(`/polls/${id}/`);
+                        if (response.data.foundPoll) {
+                            setOldImage(response.data.foundPoll.image_uuid || '');
+                            return {
+                                title: response.data.foundPoll.title,
+                                description: response.data.foundPoll.description,
+                                image_path: response.data.foundPoll.image_path,
+                                questions: response.data.foundPoll.questions,
+                                settings: response.data.foundPoll.settings,
+                            }
+                        }
+                    } catch {
+                        navigate('../poll-not-found');
                     }
+                } else {
+                    navigate('/');
                 }
             } else {
                 try {
                     const response = await axiosPrivate.get(`/polls/templates/${searchParamsObj?.template}`);
                     const fields = response.data.template.fields;
                     return {
-                        title: response.data.template.name,
-                        description: fields.description,
-                        image_path: fields.image_path,
+                        title: response.data.template.title,
                         questions: fields.questions,
                         settings: fields.settings,
                     }
                 } catch {
-
+                    navigate('../template-not-found');
                 }
             }
         },
@@ -77,8 +86,7 @@ const CreatePoll = () => {
         } else {
             const editted = await handleFormEdit(data);
             if (editted) {
-                navigate(`/poll/${id}`);
-                navigate(0);
+                navigate(searchParamsObj.by_admin ? '/admin?tab=polls' : '/');
             }
         }
         setIsLoading(false);

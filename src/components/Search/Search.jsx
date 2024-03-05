@@ -1,6 +1,5 @@
 import React from 'react';
 import './Search.css';
-import useAuth from '../../hooks/useAuth';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useState } from 'react';
 import SearchResults from './SearchResults';
@@ -8,7 +7,6 @@ import SearchResults from './SearchResults';
 export default function Search() {
 
   const axiosPrivate = useAxiosPrivate();
-  const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [results, setResults] = useState('');
@@ -34,16 +32,16 @@ export default function Search() {
   return (
     <div className='dashboard-search'>
       <input
-      autoComplete='off'
+        autoComplete='off'
         type="text"
         name='search'
-        placeholder='Search poll by Title or ID'
-        title='Search poll by Title or ID'
+        placeholder='Search poll'
+        title='Search poll'
         defaultValue={searchValue}
         onKeyDown={(e) => searchPolls(e)}
         className={isLoading ? 'loading' : ''}
       />
-      {results.length > 0 && <SearchResults control={{results, setResults, searchValue}} />}
+      {results.length > 0 && <SearchResults control={{ results, setResults, searchValue }} />}
     </div>
   )
 }

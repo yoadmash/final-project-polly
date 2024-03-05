@@ -9,9 +9,11 @@ import Dashboard from '../src/components/Dashboard/Dashboard';
 import AnswerPoll from './components/Form/AnswerPoll/AnswerPoll';
 import MissingPage from './components/MissingPage';
 import CreatePoll from './components/Form/CreatePoll/CreatePoll';
+import CreateTemplate from './components/Form/CreatePoll/CreateTemplate';
 import ViewAnswers from './components/Form/ViewAnswers/ViewAnswers';
 import PollSummary from './components/Form/ViewAnswers/PollSummary';
 import ResetPasswordForm from './components/Auth_/ResetPasswordForm';
+import AdminPanel from './components/AdminPanel/AdminPanel';
 
 
 function App() {
@@ -25,6 +27,9 @@ function App() {
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth />}>
               <Route path='/' element={<Dashboard />} />
+              <Route path='/admin' element={<AdminPanel />} />
+              <Route path='/template/create' element={<CreateTemplate />} />
+              <Route path='/template/:id/edit' element={<CreateTemplate />} />
               <Route path='/poll/create/new' element={<CreatePoll />} />
               <Route path='/poll/:id' element={<AnswerPoll />} />
               <Route path='/poll/:id/edit' element={<CreatePoll />} />

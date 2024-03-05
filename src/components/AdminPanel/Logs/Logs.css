@@ -1,37 +1,27 @@
 .logs {
-  z-index: 9999;
-  position: absolute;
-  top: 0;
-  left: calc(50% - 49vw);
-  width: 98vw;
-  height: 99vh;
-  border: 1px solid black;
-  background-color: white;
   overflow: scroll;
 }
 .logs .header {
   height: 10%;
-  padding: 0px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.logs .header button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .logs .body {
   height: 90%;
-  padding: 0px 10px;
 }
 .logs .body select:focus {
   box-shadow: none;
 }
 .logs .body .content {
-  max-height: 750px;
+  max-height: 550px;
   margin-top: 50px;
   overflow: auto;
+}
+.logs .body .content table {
+  -webkit-user-select: text;
+     -moz-user-select: text;
+          user-select: text;
 }
 .logs .body .content table tbody tr td {
   font-size: 14px;

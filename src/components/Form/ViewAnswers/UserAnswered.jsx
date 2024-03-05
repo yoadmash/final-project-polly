@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import useAxiosPricate from '../../../hooks/useAxiosPrivate';
+import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import './ViewAnswers.css';
 
 const UserAnswered = ({ user_data, setUserAnswers }) => {
 
-    const axiosPrivate = useAxiosPricate();
+    const axiosPrivate = useAxiosPrivate();
     const [userProfilePic, setUserProfilePic] = useState('/assets/images/ProfilePicMockup.svg');
 
     const getUserProfilePic = async () => {

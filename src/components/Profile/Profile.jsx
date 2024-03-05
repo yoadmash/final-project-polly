@@ -63,7 +63,7 @@ export default function Profile() {
   return (
     <div className='dashboard-profile'>
       {isLoading
-        ? <ReactLoading type='spin' color='#000000' className='loader' style={{}}/>
+        ? <ReactLoading type='spin' color='#000000' className='loader' style={{}} />
         :
         <label htmlFor="profile_img">
           <img
