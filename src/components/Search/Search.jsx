@@ -39,7 +39,7 @@ export default function Search() {
         title='Search poll'
         defaultValue={searchValue}
         onKeyDown={(e) => searchPolls(e)}
-        className={isLoading ? 'loading' : ''}
+        className={isLoading ? 'search-loading' : ''}
       />
       {results.length > 0 && <SearchResults control={{ results, setResults, searchValue }} />}
     </div>
