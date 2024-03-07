@@ -123,7 +123,7 @@ const Polls = ({ setPollsCount }) => {
                 <ModalBody>
                     <div className="content d-flex flex-column gap-3 p-2">
                         {users.map((user, index) =>
-                            <UserItem
+                            (user.username !== modal.poll.owner.username) && <UserItem
                                 key={index}
                                 user_data={{ user_id: user._id, user_name: user.username, profile_pic_path: user.profile_pic_path }}
                                 setAsOwner={setAsOwner} />
