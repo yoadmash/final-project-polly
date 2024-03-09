@@ -26,8 +26,8 @@
 .dashboard-search .search-results {
   padding: 10px;
   position: absolute;
-  top: 70px;
-  width: calc(80vw - 255px);
+  top: 80px;
+  width: calc(75vw - 255px);
   max-height: 50vh;
   border-radius: 7px;
   border: 2px solid gray;
