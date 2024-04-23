@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Input, Row, Col, Button } from 'reactstrap';
 import Answer from './Answer';
 import { useFormContext, useFieldArray } from 'react-hook-form';
 
 const AnswersAdder = ({ type, questionId }) => {
 
+    const [answerToAddText, setAnswerToAddText] = useState('');
     const answersToAdd = (type === 'text') ? 0 : (type === 'radio') ? 2 : 3;
     const { formState: { errors }, clearErrors } = useFormContext();
     const { fields, append, remove } = useFieldArray({
@@ -26,15 +27,12 @@ const AnswersAdder = ({ type, questionId }) => {
         clearErrors(`questions.${questionId}.answers`);
     }, [clearErrors, type, questionId]);
 
-    const handleAddAnswer = (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            if (e.target.value.length > 0) {
-                append({
-                    title: e.target.value
-                });
-                e.target.value = '';
-            }
+    const handleAddAnswer = () => {
+        if (answerToAddText.length > 0) {
+            append({
+                title: answerToAddText
+            });
+            setAnswerToAddText('');
         }
     }
 
@@ -42,18 +40,34 @@ const AnswersAdder = ({ type, questionId }) => {
         <div>
             {fields.map((field, index) => (
                 <Row key={field.id} className='answer p-1 mb-1'>
-                    <Col xs={10}>
-                        <Answer key={field.id} ids={{ answer: index, question: questionId }} type={type} text={field.title} />
-                    </Col>
+                    <Answer key={field.id} ids={{ answer: index, question: questionId }} type={type} text={field.title} />
                     <Col xs={2} className='d-flex justify-content-end'>
                         <Button type='button' onClick={() => remove(index)}>x</Button>
                     </Col>
                 </Row>
             ))}
-            <div className="d-flex gap-3 align-items-center p-1">
-                <Input type={type} name='answer-type' disabled />
-                <Input autoComplete={'off'} type='text' name='answer-add-new' placeholder='Add Answer' className='w-50' onKeyDown={(e) => handleAddAnswer(e)} />
-            </div>
+            <Row className='answer-adder align-items-center p-1 mb-1'>
+                <Col xs={10} className='d-flex align-items-center gap-2'>
+                    <Input type={type} name='answer-type' disabled />
+                    <Input
+                        value={answerToAddText}
+                        autoComplete={'off'}
+                        type='text'
+                        name='answer-add-new'
+                        placeholder='Add Answer'
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                handleAddAnswer();
+                            }
+                        }}
+                        onChange={(e) => setAnswerToAddText(e.target.value)}
+                    />
+                </Col>
+                <Col xs={2} className='d-flex justify-content-end'>
+                    <Button type='button' onClick={() => handleAddAnswer()}>+</Button>
+                </Col>
+            </Row>
             {errors?.questions?.[questionId]?.answers?.root?.message && <p className='validation-msg mt-1'>{errors.questions?.[questionId].answers.root.message}</p>}
         </div>
     )
