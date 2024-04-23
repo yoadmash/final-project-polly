@@ -291,6 +291,20 @@
   border-radius: 5px;
   background-color: rgba(211, 211, 211, 0.3);
 }
+.template-form .questions .new-question .question .question-content .question-answers .answer-adder button,
+.create-poll .questions .new-question .question .question-content .question-answers .answer-adder button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  width: 25px;
+  border-radius: 50px;
+  background-color: #00bf63;
+}
+.template-form .questions .new-question .question .question-content .question-answers .answer-adder button:active,
+.create-poll .questions .new-question .question .question-content .question-answers .answer-adder button:active {
+  background-color: #00783e;
+}
 @media screen and (min-width: 767px) {
   .template-form .questions .new-question .question .question-settings,
   .create-poll .questions .new-question .question .question-settings {
