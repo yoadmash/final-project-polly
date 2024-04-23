@@ -58,6 +58,7 @@ const Users = ({ setUsersCount }) => {
 
     const searhcUsers = (searchValue) => {
         if (searchValue.length > 0) {
+            searchValue = searchValue.toLowerCase();
             setSearchResult(users.filter(user => user.username.toLowerCase().includes(searchValue) || user.email.toLowerCase().includes(searchValue)));
         }
     }

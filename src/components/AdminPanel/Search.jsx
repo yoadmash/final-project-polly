@@ -9,13 +9,9 @@ const Search = ({ data, searchFunc, setSearchResult, placeholder }) => {
             e.preventDefault();
             return searchFunc(searchValue);
         }}>
-            <Input type='text' placeholder={placeholder}
+            <Input type='search' placeholder={placeholder}
                 onChange={(e) => e.target.value.length > 0 ? setSearchValue(e.target.value) : setSearchResult(data)} />
             <Button color='success' type='submit'>Search</Button>
-            <Button color='danger' type='reset' onClick={() => {
-                setSearchValue('');
-                setSearchResult(data);
-            }}>Clear</Button>
         </form>
     )
 }

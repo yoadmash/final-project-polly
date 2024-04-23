@@ -69,7 +69,7 @@ const PollSummary = () => {
                 </Row>
                 {
                   userAnswers === 'all'
-                    ? poll.questions.map((question, index) => <PollQuestion key={question.title} title={question.title} q_index={index} answersType={question.answersType} answers={question.answers} poll_answers={poll.answers} view_text_answers={poll.settings.submitAnonymously}/>)
+                    ? poll.questions.map((question, index) => <PollQuestion key={index} title={question.title} q_index={index} answersType={question.answersType} answers={question.answers} poll_answers={poll.answers} view_text_answers={poll.settings.submitAnonymously}/>)
                     : usersAnswered.some(user_data => user_data.user_id === userAnswers)
                       ? <>
                         <h5>{usersAnswered.find(user_data => user_data.user_id === userAnswers).user_name} answers</h5>

@@ -53,7 +53,7 @@ const ViewAnswers = () => {
                             <UserAnswers poll_questions={poll.questions} user_answers={userAnswers} />
                         </>
                         :
-                        <p className='text-center'>You didn't submit your answer for this poll</p>
+                        <p className='text-center'>You didn't submit your answer for this poll or this poll is set not to truck answers</p>
                     }
                 </Container>
             }

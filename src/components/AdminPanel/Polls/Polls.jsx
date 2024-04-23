@@ -47,7 +47,8 @@ const Polls = ({ setPollsCount }) => {
 
     const searchPolls = (searchValue) => {
         if (searchValue.length > 0) {
-            setSearchResult(polls.filter(poll => poll.title.toLowerCase().includes(searchValue) || poll.owner.toLowerCase().includes(searchValue)));
+            searchValue = searchValue.toLowerCase();
+            setSearchResult(polls.filter(poll => poll.title.toLowerCase().includes(searchValue) || poll.owner.username.toLowerCase().includes(searchValue)));
         }
     }
 
@@ -87,10 +88,10 @@ const Polls = ({ setPollsCount }) => {
     }, [searchResult.length, setPollsCount])
 
     useEffect(() => {
-        if (auth.admin && polls.length === 0) {
+        if(auth.admin) {
             getAllPolls();
         }
-    }, [auth, polls, getAllPolls]);
+    }, [auth.admin, getAllPolls]);
 
     useEffect(() => {
         if (modal.state) {
