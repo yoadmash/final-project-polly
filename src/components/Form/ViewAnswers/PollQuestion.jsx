@@ -3,21 +3,16 @@ import { Col, Row, Progress, Input } from 'reactstrap';
 
 const PollQuestion = ({ title, q_index, answersType, answers, poll_answers, view_text_answers }) => {
 
-    const checkAnswerCount = (answer_title) => {
+    const checkAnswerCount = (answerInfo) => {
         let sum = 0
         poll_answers.forEach((answerObj) => {
             answerObj.answers.forEach((answer, a_index) => {
                 if (typeof answer.value === 'object' && answer.value !== null) {
-                    if (Object.keys(answer.value).includes('title')) {
-                        if (answer.value.title === answer_title && q_index === a_index)
-                            sum++;
-                    } else {
-                        Object.values(answer.value).forEach((value) => {
-                            if (value.title === answer_title && q_index === a_index) {
-                                sum++
-                            }
-                        });
-                    }
+                    Object.values(answer.value).forEach((value) => {
+                        if (value.original_index === answerInfo && q_index === a_index) {
+                            sum++
+                        }
+                    });
                 }
             })
         })
@@ -51,7 +46,7 @@ const PollQuestion = ({ title, q_index, answersType, answers, poll_answers, view
                     ?
                     <>
                         {answers.map(answer => (
-                            <Row className='p-0' key={answer.title}>
+                            <Row className='p-0' key={answer.original_index}>
                                 <Col className='d-flex gap-2'>
                                     <Input disabled type={answersType} className='border-dark' />
                                     <div>
@@ -61,9 +56,9 @@ const PollQuestion = ({ title, q_index, answersType, answers, poll_answers, view
                                 <Col>
                                     <Progress
                                         className="my-2"
-                                        value={Number(checkAnswerCount(answer.title) / poll_answers.length * 100)}
+                                        value={Number(checkAnswerCount(answer.original_index) / poll_answers.length * 100)}
                                         color="success">
-                                        {Number(checkAnswerCount(answer.title) / poll_answers.length * 100).toFixed(0)}%
+                                        {Number(checkAnswerCount(answer.original_index) / poll_answers.length * 100).toFixed(0)}%
                                     </Progress>
                                 </Col>
                             </Row>

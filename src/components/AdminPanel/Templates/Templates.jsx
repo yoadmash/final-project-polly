@@ -48,7 +48,8 @@ const Templates = ({ setTemplatesCount }) => {
 
     const searchTemplates = (searchValue) => {
         if (searchValue.length > 0) {
-            setSearchResult(templates.filter(template => template.title.toLowerCase().includes(searchValue.toLowerCase())));
+            searchValue = searchValue.toLowerCase();
+            setSearchResult(templates.filter(template => template.title.toLowerCase().includes(searchValue)));
         }
     }
 
