@@ -8,11 +8,16 @@ const PollQuestion = ({ title, q_index, answersType, answers, poll_answers, view
         poll_answers.forEach((answerObj) => {
             answerObj.answers.forEach((answer, a_index) => {
                 if (typeof answer.value === 'object' && answer.value !== null) {
-                    Object.values(answer.value).forEach((value) => {
-                        if (value.original_index === answerInfo && q_index === a_index) {
-                            sum++
-                        }
-                    });
+                    if (Object.keys(answer.value).includes('title')) {
+                        if (answer.value.original_index === answerInfo && q_index === a_index)
+                            sum++;
+                    } else {
+                        Object.values(answer.value).forEach((value) => {
+                            if (value.original_index === answerInfo && q_index === a_index) {
+                                sum++
+                            }
+                        });
+                    }
                 }
             })
         })
