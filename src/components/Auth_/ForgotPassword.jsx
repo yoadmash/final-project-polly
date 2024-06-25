@@ -1,31 +1,31 @@
 import './Authentication.css'
-import React, { useState, useEffect } from 'react';
 import { Form, FormGroup, Input, Label, Button, Spinner } from 'reactstrap';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState, useEffect } from 'react';
+import useAuthErrMsg from '../../hooks/useAuthErrMsg';
 import axios from '../../api/axios';
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const ForgotPassword = () => {
 
+    const { authErrMsg, setAuthErrMsg } = useAuthErrMsg();
+
     const [isLoading, setIsLoading] = useState(false);
 
     const [email, setEmail] = useState('');
     const [validEmail, setValidEmail] = useState(false);
 
-    const [errMsg, setErrMsg] = useState('');
     const [emailSent, setEmailSent] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validEmail) return setErrMsg('Invalid email address');
+        if (!validEmail) return setAuthErrMsg('Invalid email address');
         try {
             setIsLoading(true);
             await axios.post('users/auth/reset-password', { emailAddress: email });
             setEmailSent(true);
         } catch (err) {
-            setErrMsg(err?.response?.data?.message);
+            setAuthErrMsg(err?.response?.data?.message);
         } finally {
             setIsLoading(false);
         }
@@ -33,8 +33,8 @@ const ForgotPassword = () => {
 
     useEffect(() => {
         setValidEmail(EMAIL_REGEX.test(email));
-        if (errMsg.length > 0) {
-            setErrMsg('');
+        if (authErrMsg.length > 0) {
+            setAuthErrMsg('');
         }
         // eslint-disable-next-line
     }, [email]);
@@ -50,10 +50,6 @@ const ForgotPassword = () => {
                     </div>
                     :
                     <Form autoComplete='off' onSubmit={(e) => handleSubmit(e)}>
-                        <p className={errMsg ? "errMsg" : "hidden"}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            {errMsg}
-                        </p>
                         <FormGroup className='form-css'>
                             <Label check for='email'>
                                 <Input

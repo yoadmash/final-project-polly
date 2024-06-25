@@ -1,11 +1,13 @@
 import './Authentication.css'
-import { faInfoCircle, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, FormGroup, Input, InputGroup, InputGroupText, Label, Button, Spinner } from 'reactstrap';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
+import useAuthErrMsg from '../../hooks/useAuthErrMsg';
+
 
 const LOGIN_URL = '/users/auth/login';
 
@@ -16,20 +18,20 @@ export default function Signin() {
 
     const [isLoading, setIsLoading] = useState(false);
     const { setAuth, persist, setPersist } = useAuth();
+    const { setAuthErrMsg } = useAuthErrMsg();
 
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [errMsg, setErrMsg] = useState('');
 
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
-        setErrMsg('');
+        setAuthErrMsg('');
     }, [username, password]);
 
     useEffect(() => {
         localStorage.setItem('persist', persist);
-        if(!persist) {
+        if (!persist) {
             sessionStorage.setItem('one-time-access', true);
         }
     }, [persist]);
@@ -38,14 +40,13 @@ export default function Signin() {
         e.preventDefault();
 
         if (!username || !password) {
-            setErrMsg('Missing username or password');
+            setAuthErrMsg('Missing username or password');
             return;
         }
 
         try {
             setIsLoading(true);
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ username: username, password: password }), {
+            const response = await axios.post(LOGIN_URL, { username, password }, {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true
             });
@@ -54,11 +55,11 @@ export default function Signin() {
             navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('No Server Response');
+                setAuthErrMsg('No Server Response');
             } else if (err.response?.status) {
-                setErrMsg(`${err.response.data.message}`);
+                setAuthErrMsg(`${err.response.data.message}`);
             } else {
-                setErrMsg('Login Failed!');
+                setAuthErrMsg('Login Failed!');
             }
             setIsLoading(false);
         }
@@ -66,10 +67,6 @@ export default function Signin() {
 
     return (
         <Form onSubmit={handleSubmit} autoComplete={'off'}>
-            <p className={errMsg ? "errMsg" : "hidden"}>
-                <FontAwesomeIcon icon={faInfoCircle} />
-                {errMsg}
-            </p>
             <FormGroup className='form-css'>
                 <Input
                     type="text"
