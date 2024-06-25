@@ -47,6 +47,7 @@ const GoogleSignIn = () => {
     useEffect(() => {
         const getRedirectResultEffect = async () => {
             const redirectResult = await getRedirectResult(firebaseAuth);
+            console.log(redirectResult);
             if (redirectResult) {
                 await googleAuth(redirectResult._tokenResponse);
             }
