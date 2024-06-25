@@ -1,8 +1,9 @@
 import './Authentication.css'
 import { Form, FormGroup, Input, Button, Spinner } from 'reactstrap';
-import { useState, useEffect } from 'react';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState, useEffect } from 'react';
+import useAuthErrMsg from '../../hooks/useAuthErrMsg';
 import axios from '../../api/axios';
 
 const REGISTER_URL = '/users/auth/register';
@@ -12,6 +13,8 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 export default function Signup() {
+    const { setAuthErrMsg } = useAuthErrMsg();
+
     const [isLoading, setIsLoading] = useState(false);
 
     const [firstname, setFirstName] = useState('');
@@ -32,7 +35,6 @@ export default function Signup() {
     const [validMatchPassword, setValidMatchPassword] = useState(false);
     const [matchPasswordFocus, setMatchPasswordFocus] = useState(false);
 
-    const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
 
@@ -50,7 +52,7 @@ export default function Signup() {
     }, [password, matchPassword]);
 
     useEffect(() => {
-        setErrMsg('');
+        setAuthErrMsg('');
     }, [username, password, matchPassword, firstname, lastname]);
 
     const handleSubmit = async (e) => {
@@ -60,7 +62,7 @@ export default function Signup() {
         const v2 = PWD_REGEX.test(password);
         const v3 = EMAIL_REGEX.test(email);
         if (!v1 || !v2 || !v3 || !validMatchPassword || !firstname || !lastname) {
-            setErrMsg("Please fill the form correctly");
+            setAuthErrMsg("Please fill the form correctly");
             return;
         }
 
@@ -74,8 +76,7 @@ export default function Signup() {
 
         try {
             setIsLoading(true);
-            const response = await axios.post(REGISTER_URL,
-                JSON.stringify(newUser), {
+            const response = await axios.post(REGISTER_URL, newUser, {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true
             });
@@ -87,11 +88,11 @@ export default function Signup() {
             setSuccess(true);
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('No Server Response');
+                setAuthErrMsg('No Server Response');
             } else if (err.response?.status) {
-                setErrMsg(`${err.response.data.message}`);
+                setAuthErrMsg(`${err.response.data.message}`);
             } else {
-                setErrMsg('Registration Failed!');
+                setAuthErrMsg('Registration Failed!');
             }
             setIsLoading(false);
         }
@@ -107,10 +108,6 @@ export default function Signup() {
                 </div>
                 :
                 <Form onSubmit={handleSubmit} autoComplete={'off'}>
-                    <p className={errMsg ? "errMsg" : "hidden"}>
-                        <FontAwesomeIcon icon={faInfoCircle} />
-                        {errMsg}
-                    </p>
                     <FormGroup className='form-css'>
                         <Input
                             type="text"

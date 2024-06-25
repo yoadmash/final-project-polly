@@ -14,13 +14,14 @@ import ViewAnswers from './components/Form/ViewAnswers/ViewAnswers';
 import PollSummary from './components/Form/ViewAnswers/PollSummary';
 import ResetPasswordForm from './components/Auth_/ResetPasswordForm';
 import AdminPanel from './components/AdminPanel/AdminPanel';
+import { AuthErrMsgProvider } from './contexts/AuthErrMsgProvider';
 
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path='/auth' element={<Auth />} />
+        <Route path='/auth' element={<AuthErrMsgProvider><Auth /></AuthErrMsgProvider>} />
         <Route path='/auth/reset_password' element={<ResetPasswordForm />} />
 
         <Route path='/' element={<Layout />}>
