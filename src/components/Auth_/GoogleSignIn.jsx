@@ -25,7 +25,6 @@ const GoogleSignIn = () => {
 
     const googleAuth = async (userData) => {
         try {
-            setLoading(true);
             const response = await axios.post(GOOGLE_AUTH_URL, {
                 firstname: userData.firstName,
                 lastname: userData.lastName,
@@ -49,10 +48,17 @@ const GoogleSignIn = () => {
 
     const handleSignInWithGoogleRedirect = async (event) => {
         event.preventDefault();
-        setLoading(true);
-        const res = await signInWithPopup(firebaseAuth, provider);
-        if (res) {
+        try {
+            setLoading(true);
+            const res = await signInWithPopup(firebaseAuth, provider);
             await googleAuth(res._tokenResponse);
+        } catch (err) {
+            if (err.message === 'Firebase: Error (auth/popup-closed-by-user).') {
+                err.message = 'Auth popup closed by user'
+            }
+            setAuthErrMsg(err.message);
+        } finally {
+            setLoading(false);
         }
     }
 
