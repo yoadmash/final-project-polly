@@ -1,12 +1,12 @@
 import GoogleButton from 'react-google-signin-button';
 import 'react-google-signin-button/dist/button.css';
 
-import { getRedirectResult, signInWithRedirect } from 'firebase/auth';
+import { signInWithPopup } from 'firebase/auth';
 import { firebaseAuth, provider } from '../../api/firebaseConfig.js';
 
 import Chance from "chance";
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth.js';
 import useAuthErrMsg from '../../hooks/useAuthErrMsg';
@@ -21,10 +21,11 @@ const GoogleSignIn = () => {
     const { setAuthErrMsg } = useAuthErrMsg()
     const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const googleAuth = async (userData) => {
         try {
+            setLoading(true);
             const response = await axios.post(GOOGLE_AUTH_URL, {
                 firstname: userData.firstName,
                 lastname: userData.lastName,
@@ -41,23 +42,18 @@ const GoogleSignIn = () => {
 
         } catch (err) {
             setAuthErrMsg(err?.response?.data?.message);
+        } finally {
+            setLoading(false);
         }
     }
 
-    useEffect(() => {
-        const getRedirectResultEffect = async () => {
-            const redirectResult = await getRedirectResult(firebaseAuth);
-            if (redirectResult) {
-                await googleAuth(redirectResult._tokenResponse);
-            }
-            setLoading(false);
-        }
-        getRedirectResultEffect();
-    }, []);
-
-    const handleSignInWithGoogleRedirect = (event) => {
+    const handleSignInWithGoogleRedirect = async (event) => {
         event.preventDefault();
-        signInWithRedirect(firebaseAuth, provider);
+        setLoading(true);
+        const res = await signInWithPopup(firebaseAuth, provider);
+        if (res) {
+            await googleAuth(res._tokenResponse);
+        }
     }
 
     return (
