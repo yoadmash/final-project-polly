@@ -48,12 +48,12 @@ export default function Auth() {
                     <FontAwesomeIcon icon={faInfoCircle} /> {authErrMsg}
                 </p>}
                 {authOptions[selectedOption]?.element}
-                {/* {(selectedOption === 0 || selectedOption === 1) &&
+                {(selectedOption === 0 || selectedOption === 1) &&
                     <div className='d-flex flex-column align-items-center gap-3'>
                         <span>or</span>
                         <GoogleSignIn />
                     </div>
-                } */}
+                }
             </div>
         </div>
     )
