@@ -35,8 +35,8 @@ const GoogleSignIn = () => {
                 withCredentials: true
             });
 
-            const { userId, username, fullname, accessToken, admin, profile_pic_path, polls_created } = response?.data?.userData;
-            setAuth({ userId, username, fullname, accessToken, admin, profile_pic_path, polls_created });
+            const { userId, username, fullname, accessToken, admin, profile_pic_path, polls_created, registered_by_google } = response?.data?.userData;
+            setAuth({ userId, username, fullname, accessToken, admin, profile_pic_path, polls_created, registered_by_google });
             navigate('/', { replace: true });
 
         } catch (err) {

@@ -50,8 +50,8 @@ export default function Signin() {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true
             });
-            const { userId, fullname, accessToken, admin, profile_pic_path, polls_created } = response?.data?.userData;
-            setAuth({ userId, username, fullname, accessToken, admin, profile_pic_path, polls_created });
+            const { userId, fullname, accessToken, admin, profile_pic_path, polls_created, registered_by_google } = response?.data?.userData;
+            setAuth({ userId, username, fullname, accessToken, admin, profile_pic_path, polls_created, registered_by_google });
             navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {

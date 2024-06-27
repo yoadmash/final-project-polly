@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import { AdminPanelProvider } from '../../contexts/AdminPanelProvider';
+import useAdminPanelErrMsg from '../../hooks/useAdminPanelErrMsg';
 import useAuth from '../../hooks/useAuth';
-import GoBackLink from '../Layout/GoBackLink'
+import GoBackLink from '../Layout/GoBackLink';
+import ErrMsg from '../Layout/ErrMsg';
 import Users from './Users/Users';
 import Polls from './Polls/Polls';
 import Templates from './Templates/Templates';
@@ -15,6 +17,7 @@ const AdminPanel = () => {
     const searchParamsObj = Object.fromEntries(searchParams);
 
     const { auth } = useAuth();
+    const { adminPanelErrMsg } = useAdminPanelErrMsg();
     const navigate = useNavigate();
 
     const [activeTab, setActiveTab] = useState('');
@@ -55,8 +58,10 @@ const AdminPanel = () => {
     return (
         <div>
             <GoBackLink />
-
             {auth.admin && <div className="admin-panel pt-5 p-3">
+                {<div className="mb-2">
+                    <ErrMsg msg={adminPanelErrMsg} />
+                </div>}
                 <Nav tabs>
                     {tabs.map((tab, index) => {
                         const active = tab.title === activeTab;

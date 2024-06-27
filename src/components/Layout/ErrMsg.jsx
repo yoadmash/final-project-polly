@@ -3,10 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ErrMsg = ({ msg }) => {
     return (
-        <div className={'general-err-msg mt-2'}>
-            <FontAwesomeIcon icon={faInfoCircle} />
-            <span>{msg}</span>
-        </div>
+        <>
+            {msg && <div className={'general-err-msg mt-2'}>
+                <FontAwesomeIcon icon={faInfoCircle} />
+                <span>{msg}</span>
+            </div>}
+        </>
     )
 }
 
