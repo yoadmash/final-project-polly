@@ -47,8 +47,8 @@ function ProfileMenu({ removeProfilePicture }) {
                 <DropdownToggle caret>{auth.fullname} </DropdownToggle>
                 <DropdownMenu>
                     {auth.profile_pic_path && <DropdownItem onClick={() => removeProfilePicture()}>Remove Picture</DropdownItem>}
-                    <DropdownItem onClick={() => action('deactivate')}>Deactivate</DropdownItem>
-                    <DropdownItem divider></DropdownItem>
+                    {!auth.registered_by_google && <DropdownItem onClick={() => action('deactivate')}>Deactivate</DropdownItem>}
+                    {(!auth.registered_by_google || auth.profile_pic_path) && <DropdownItem divider></DropdownItem>}
                     {auth.admin && <DropdownItem onClick={() => action('admin')}>Admin Panel</DropdownItem>}
                     <DropdownItem onClick={() => action('signout')}>Logout</DropdownItem>
                 </DropdownMenu>

@@ -1,11 +1,13 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
+import useAdminPanelErrMsg from '../../../hooks/useAdminPanelErrMsg';
 import AdminPanelContext from '../../../contexts/AdminPanelProvider';
 
 const Actions = ({ user, setModal }) => {
 
     const axiosPrivate = useAxiosPrivate();
     const { setUser } = useContext(AdminPanelContext);
+    const { showAdminPanelErrMsg } = useAdminPanelErrMsg();
 
     const actions = [
         { title: "View polls", icon_src: '/assets/images/view_answers.svg', action: 'view-polls' },
@@ -19,7 +21,7 @@ const Actions = ({ user, setModal }) => {
         try {
             await axiosPrivate.post(`/users/set_active?state=${Number(user.active)}&by_admin=true`, { userId: user._id });
         } catch (err) {
-            console.log(err);
+            showAdminPanelErrMsg(err?.response?.data?.message);
         }
     }
 
@@ -27,7 +29,7 @@ const Actions = ({ user, setModal }) => {
         try {
             await axiosPrivate.post('/users/set_admin', { userId: user._id });
         } catch (err) {
-            console.log(err);
+            showAdminPanelErrMsg(err?.response?.data?.message);
         }
     }
 
@@ -35,7 +37,7 @@ const Actions = ({ user, setModal }) => {
         try {
             await axiosPrivate.post('/users/auth/reset-password', { emailAddress });
         } catch (err) {
-            console.log(err);
+            showAdminPanelErrMsg(err?.response?.data?.message);
         }
     }
 
@@ -43,7 +45,7 @@ const Actions = ({ user, setModal }) => {
         try {
             await axiosPrivate.post('/users/remove_profile_pic', { by_admin: true, userId });
         } catch (err) {
-            console.log(err);
+            showAdminPanelErrMsg(err?.response?.data?.message);
         }
     }
 

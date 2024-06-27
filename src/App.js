@@ -15,6 +15,7 @@ import PollSummary from './components/Form/ViewAnswers/PollSummary';
 import ResetPasswordForm from './components/Auth_/ResetPasswordForm';
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import { AuthErrMsgProvider } from './contexts/AuthErrMsgProvider';
+import { AdminPanelErrProvider } from './contexts/AdminPanelErrProvider';
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth />}>
               <Route path='/' element={<Dashboard />} />
-              <Route path='/admin' element={<AdminPanel />} />
+              <Route path='/admin' element={<AdminPanelErrProvider><AdminPanel /></AdminPanelErrProvider>} />
               <Route path='/template/create' element={<CreateTemplate />} />
               <Route path='/template/:id/edit' element={<CreateTemplate />} />
               <Route path='/poll/create/new' element={<CreatePoll />} />

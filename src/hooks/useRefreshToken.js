@@ -11,8 +11,8 @@ const useRefreshToken = () => {
             const response = await axios.get('/users/auth/refresh', {
                 withCredentials: true
             });
-            const { userId, username, fullname, accessToken, admin, profile_pic_path, polls_created } = response?.data?.userData;
-            setAuth({ userId, username, fullname, accessToken, admin, profile_pic_path, polls_created });
+            const { userId, username, fullname, accessToken, admin, profile_pic_path, polls_created, registered_by_google } = response?.data?.userData;
+            setAuth({ userId, username, fullname, accessToken, admin, profile_pic_path, polls_created, registered_by_google });
             return response.data.userData.accessToken;
         } catch (err) {
             navigate('/auth');
