@@ -24,7 +24,7 @@ const CreateTemplate = () => {
         defaultValues: (!id && !location?.pathname?.includes('edit')) ? {
             title: '',
             settings: {
-                usersCanDeleteAnswer: false,
+                askUsersForTheirEmail: false,
                 submitAnonymously: false,
                 shuffleQuestionsOrder: false,
             }
@@ -125,12 +125,12 @@ const CreateTemplate = () => {
                             <Row>
                                 <Col sm={12} lg={4} className='d-flex align-items-center'>
                                     <div className="d-flex justify-content-between align-items-center w-100">
-                                        <span>Users can delete their answer</span>
+                                        <span>Ask users for their email</span>
                                         <FormGroup switch className='p-0 m-0'>
                                             <UseFormInput
                                                 type='switch'
                                                 role='switch'
-                                                name={'settings.usersCanDeleteAnswer'}
+                                                name={'settings.askUsersForTheirEmail'}
                                                 register={methods.register}
                                             />
                                         </FormGroup>

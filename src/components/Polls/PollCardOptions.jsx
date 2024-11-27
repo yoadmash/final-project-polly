@@ -22,7 +22,7 @@ function PollCardOptions({ actionFunction, owner }) {
 
   const pollCardOptionsToMap = (auth.username === owner)
     ? pollCardOptions
-    : pollCardOptions.filter(option => option.title !== 'Edit');
+    : pollCardOptions.filter(option => option.title !== 'Edit' && option.title !== 'Remove');
 
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle} direction={'start'}>
