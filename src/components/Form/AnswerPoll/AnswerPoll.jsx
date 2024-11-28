@@ -10,6 +10,7 @@ import Loading from '../../Layout/Loading';
 import Questions from './Questions';
 import ErrMsg from '../../Layout/ErrMsg';
 import UseFormInput from '../UseFormInput';
+import { Slide, toast } from 'react-toastify';
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -94,6 +95,14 @@ const AnswerPoll = () => {
         try {
             setSubmitting(true);
             await axiosPrivate.post('/polls/answer_poll', { pollId: id, data });
+            toast.success('Poll answered', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
             navigate(`/`);
         } catch (err) {
             showError(err?.response?.data?.message);

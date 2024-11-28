@@ -9,6 +9,7 @@ import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ErrMsg from '../../Layout/ErrMsg';
 import useAuth from '../../../hooks/useAuth';
+import { Slide, toast } from 'react-toastify';
 
 const CreateTemplate = () => {
     const navigate = useNavigate();
@@ -69,6 +70,14 @@ const CreateTemplate = () => {
     const handleFormCreate = async (data) => {
         try {
             await axiosPrivate.post('/polls/templates/create', { data });
+            toast.success('New template created', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
             return true;
         } catch (err) {
             showError(err?.response?.data?.message);
@@ -79,6 +88,14 @@ const CreateTemplate = () => {
     const handleFormEdit = async (data) => {
         try {
             await axiosPrivate.post(`/polls/templates/${id}/edit`, { data });
+            toast.success('Template saved', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
             return true;
         } catch (err) {
             showError(err?.response?.data?.message);

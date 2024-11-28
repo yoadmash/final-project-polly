@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import ReactLoading from 'react-loading';
+import { Slide, toast } from 'react-toastify';
 
 export default function PollCard({ id, managePolls }) {
 
@@ -22,6 +23,14 @@ export default function PollCard({ id, managePolls }) {
                 break;
             case 'Copy Link':
                 navigator.clipboard.writeText(`${document.URL}poll/${id}`);
+                toast.success('Copied!', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    theme: "light",
+                    transition: Slide,
+                })
                 break;
             case 'Open in new tab':
                 window.open(`/poll/${id}`, '_blank')
@@ -61,8 +70,23 @@ export default function PollCard({ id, managePolls }) {
             const updatedPolls = managePolls.polls.filter(poll => poll !== id);
             await axiosPrivate.post(`/polls/delete`, { pollId: id });
             managePolls.setPolls(updatedPolls);
+            toast.success('Poll Deleted', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         } catch (err) {
-            console.log(err);
+            toast.error(err || 'An error has been occurred', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         } finally {
             setDeleting(false);
             setVisible(false);

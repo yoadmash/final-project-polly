@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import AdminPanelContext from '../../../contexts/AdminPanelProvider';
+import { Slide, toast } from 'react-toastify';
 
 const Actions = ({ poll, setPoll, setModal }) => {
 
@@ -32,8 +33,23 @@ const Actions = ({ poll, setPoll, setModal }) => {
                     await axiosPrivate.post(`/polls/${poll._id}/clear_answers`);
                     poll.answers = 0;
                     setPoll(poll._id, poll);
+                    toast.success('Answers cleared', {
+                        position: "bottom-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Slide,
+                    })
                 } catch (err) {
-                    console.log(err.message);
+                    toast.error(err || 'An error has been occurred', {
+                        position: "bottom-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Slide,
+                    })
                 }
                 break;
             case 'delete-poll':
@@ -44,8 +60,23 @@ const Actions = ({ poll, setPoll, setModal }) => {
                         setUser(owner._id, owner);
                     }
                     setPoll(poll._id, null);
+                    toast.success('Poll deleted', {
+                        position: "bottom-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Slide,
+                    })
                 } catch (err) {
-                    console.log(err);
+                    toast.error(err || 'An error has been occurred', {
+                        position: "bottom-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Slide,
+                    })
                 }
                 break;
             default:

@@ -6,6 +6,7 @@ import AdminPanelContext from '../../../contexts/AdminPanelProvider';
 import Search from '../Search';
 import Poll from './Poll';
 import UserItem from './UserItem';
+import { Slide, toast } from 'react-toastify';
 
 const Polls = ({ setPollsCount }) => {
     const { auth } = useAuth();
@@ -73,8 +74,23 @@ const Polls = ({ setPollsCount }) => {
 
             setPoll(modal.poll.id, modal.poll);
             toggle();
+            toast.success('Poll owner changed', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         } catch (err) {
-            console.log(err.message);
+            toast.error(err || 'An error has been occurred', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         }
     }
 
