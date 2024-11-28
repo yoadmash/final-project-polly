@@ -11,12 +11,14 @@ const ViewAnswers = () => {
     const { id } = useParams();
     const location = useLocation();
     const [userAnswers, setUserAnswers] = useState([]);
+    const [userInfo, setUserInfo] = useState(null);
     const [poll, setPoll] = useState({});
 
     useEffect(() => {
         if(location?.state?.poll && location?.state?.userAnswers) {
             setPoll(location.state.poll);
             setUserAnswers(location.state.userAnswers);
+            setUserInfo(location.state.userInfo);
         } else {
             getPollDataAndUserAnswers();
         }
@@ -28,6 +30,7 @@ const ViewAnswers = () => {
             setPoll(response.data.foundPoll);
             response = await axiosPrivate.get(`/polls/${id}/get_poll_answers`);
             setUserAnswers(response.data.userAnswers);
+            setUserInfo(response.data.userInfo);
         } catch (err) {
             console.log(err);
         }
@@ -45,6 +48,7 @@ const ViewAnswers = () => {
                                 <Col xs={12} lg={!poll.image_path ? 12 : 8} className='d-flex flex-column gap-3'>
                                     <p>{poll.title}</p>
                                     <p>{poll.description}</p>
+                                    {userInfo?.user_email && <p>Email: {userInfo.user_email}</p>}
                                 </Col>
                                 {poll.image_path && <Col xs={12} lg={4} className='poll-image'>
                                     <img src={poll.image_path} alt="poll_image" />

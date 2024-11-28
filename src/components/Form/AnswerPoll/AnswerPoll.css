@@ -24,13 +24,13 @@
     flex-direction: column-reverse;
   }
 }
-.answer-poll .layout .header p:last-child,
-.view-answers .layout .header p:last-child {
+.answer-poll .layout .header p:last-child:not(.validation-msg),
+.view-answers .layout .header p:last-child:not(.validation-msg) {
   font-size: 20px;
 }
 @media screen and (max-width: 992px) {
-  .answer-poll .layout .header p:last-child,
-  .view-answers .layout .header p:last-child {
+  .answer-poll .layout .header p:last-child:not(.validation-msg),
+  .view-answers .layout .header p:last-child:not(.validation-msg) {
     font-size: 15px;
   }
 }

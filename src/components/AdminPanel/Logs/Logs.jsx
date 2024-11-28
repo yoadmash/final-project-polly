@@ -4,6 +4,7 @@ import { Input, Table } from 'reactstrap';
 import useAuth from '../../../hooks/useAuth'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import './Logs.css';
+import { Slide, toast } from 'react-toastify';
 
 const Logs = () => {
     const { auth } = useAuth();
@@ -53,8 +54,24 @@ const Logs = () => {
             setSelectedLog('Select a log');
             setContent([]);
             setLogFields([]);
+            toast.success('Log cleared', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
+
         } catch (err) {
-            console.log(err);
+            toast.error(err || 'An error has been occurred', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         }
     }
 

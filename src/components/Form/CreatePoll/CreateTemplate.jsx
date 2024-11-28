@@ -9,6 +9,7 @@ import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ErrMsg from '../../Layout/ErrMsg';
 import useAuth from '../../../hooks/useAuth';
+import { Slide, toast } from 'react-toastify';
 
 const CreateTemplate = () => {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ const CreateTemplate = () => {
         defaultValues: (!id && !location?.pathname?.includes('edit')) ? {
             title: '',
             settings: {
-                usersCanDeleteAnswer: false,
+                askUsersForTheirEmail: false,
                 submitAnonymously: false,
                 shuffleQuestionsOrder: false,
             }
@@ -69,6 +70,14 @@ const CreateTemplate = () => {
     const handleFormCreate = async (data) => {
         try {
             await axiosPrivate.post('/polls/templates/create', { data });
+            toast.success('New template created', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
             return true;
         } catch (err) {
             showError(err?.response?.data?.message);
@@ -79,6 +88,14 @@ const CreateTemplate = () => {
     const handleFormEdit = async (data) => {
         try {
             await axiosPrivate.post(`/polls/templates/${id}/edit`, { data });
+            toast.success('Template saved', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
             return true;
         } catch (err) {
             showError(err?.response?.data?.message);
@@ -125,12 +142,12 @@ const CreateTemplate = () => {
                             <Row>
                                 <Col sm={12} lg={4} className='d-flex align-items-center'>
                                     <div className="d-flex justify-content-between align-items-center w-100">
-                                        <span>Users can delete their answer</span>
+                                        <span>Ask users for their email</span>
                                         <FormGroup switch className='p-0 m-0'>
                                             <UseFormInput
                                                 type='switch'
                                                 role='switch'
-                                                name={'settings.usersCanDeleteAnswer'}
+                                                name={'settings.askUsersForTheirEmail'}
                                                 register={methods.register}
                                             />
                                         </FormGroup>

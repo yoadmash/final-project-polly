@@ -10,6 +10,7 @@ import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ErrMsg from '../../Layout/ErrMsg';
 import useAuth from '../../../hooks/useAuth';
+import { toast, Slide } from 'react-toastify';
 
 const CreatePoll = () => {
     const [searchParams] = useSearchParams();
@@ -32,15 +33,16 @@ const CreatePoll = () => {
         defaultValues: (!id && !location?.pathname?.includes('edit') && !searchParamsObj?.template) ? {
             title: '',
             description: '',
+            user_email: '',
             image_path: pollImgFile,
             settings: {
-                usersCanDeleteAnswer: false,
+                askUsersForTheirEmail: false,
                 submitAnonymously: false,
                 shuffleQuestionsOrder: false,
             }
         } : async () => {
             if (!searchParamsObj?.template) {
-                if(editAllowed || auth.admin) {
+                if (editAllowed || auth.admin) {
                     try {
                         const response = await axiosPrivate.get(`/polls/${id}/`);
                         if (response.data.foundPoll) {
@@ -98,6 +100,14 @@ const CreatePoll = () => {
         createPollData.append('form_data', JSON.stringify(data));
         try {
             const response = await axiosPrivate.post('/polls/create', createPollData);
+            toast.success('Poll created', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
             return response.data.poll._id;
         } catch (err) {
             showError(err?.response?.data?.message);
@@ -113,6 +123,14 @@ const CreatePoll = () => {
         editPollData.append('old_image', oldImage);
         try {
             await axiosPrivate.post(`/polls/${id}/edit`, editPollData);
+            toast.success('Poll saved', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
             return true;
         } catch (err) {
             showError(err?.response?.data?.message);
@@ -168,12 +186,12 @@ const CreatePoll = () => {
                             <Row>
                                 <Col sm={12} lg={4} className='d-flex align-items-center'>
                                     <div className="d-flex justify-content-between align-items-center w-100">
-                                        <span>Users can delete their answer</span>
+                                        <span>Ask users for their email</span>
                                         <FormGroup switch className='p-0 m-0'>
                                             <UseFormInput
                                                 type='switch'
                                                 role='switch'
-                                                name={'settings.usersCanDeleteAnswer'}
+                                                name={'settings.askUsersForTheirEmail'}
                                                 register={methods.register}
                                             />
                                         </FormGroup>

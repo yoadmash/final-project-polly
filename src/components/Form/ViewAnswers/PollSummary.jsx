@@ -36,6 +36,11 @@ const PollSummary = () => {
     }
   }
 
+  const getUserNameAndEmail = () => {
+    const obj = usersAnswered.find(user_data => user_data.user_id === userAnswers);
+    return (!obj.user_email.length ? obj.user_name : `${obj.user_name} (${obj.user_email})`);
+  }
+
   const toggle = () => setModal(!modal);
 
   useEffect(() => {
@@ -72,7 +77,7 @@ const PollSummary = () => {
                     ? poll.questions.map((question, index) => <PollQuestion key={index} title={question.title} q_index={index} answersType={question.answersType} answers={question.answers} poll_answers={poll.answers} view_text_answers={poll.settings.submitAnonymously}/>)
                     : usersAnswered.some(user_data => user_data.user_id === userAnswers)
                       ? <>
-                        <h5>{usersAnswered.find(user_data => user_data.user_id === userAnswers).user_name} answers</h5>
+                        <h5>Answers of: {getUserNameAndEmail()}</h5>
                         <UserAnswers poll_questions={poll.questions} user_answers={poll.answers.find(answer => answer.answered_by.user_id === userAnswers)?.answers} />
                       </>
                       : <p>This user didn't answers this poll</p>

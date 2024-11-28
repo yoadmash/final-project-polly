@@ -26,8 +26,8 @@ const Poll = ({ poll, setPoll, setModal }) => {
                             {Object.entries(poll.settings).map((pollEnteries, index) => {
                                 let propName = '';
                                 switch (pollEnteries[0]) {
-                                    case 'usersCanDeleteAnswer':
-                                        propName = 'Users can delete their answers'
+                                    case 'askUsersForTheirEmail':
+                                        propName = 'Ask users for their email'
                                         break;
                                     case 'submitAnonymously':
                                         propName = 'Submit anonymously'

@@ -1,6 +1,7 @@
 import React from 'react'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { useNavigate } from 'react-router-dom';
+import { Slide, toast } from 'react-toastify';
 
 const Actions = ({ template, setTemplate }) => {
 
@@ -35,8 +36,23 @@ const Actions = ({ template, setTemplate }) => {
     const showOrHideTemplate = async () => {
         try {
             await axiosPrivate.post(`/polls/templates/show-or-hide`, {id: template._id, showStatus: template.show});
+            toast.success('Template visible status changed', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         } catch (err) {
-            console.log(err);
+            toast.error(err || 'An error has been occurred', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         }
     }
 
@@ -47,8 +63,23 @@ const Actions = ({ template, setTemplate }) => {
     const deleteTemplate = async () => {
         try {
             await axiosPrivate.post(`/polls/templates/delete?id=${template._id}`);
+            toast.success('Template deleted', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         } catch (err) {
-            console.log(err);
+            toast.error(err || 'An error has been occurred', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         }
     }
 

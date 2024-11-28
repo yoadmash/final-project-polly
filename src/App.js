@@ -16,6 +16,8 @@ import ResetPasswordForm from './components/Auth_/ResetPasswordForm';
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import { AuthErrMsgProvider } from './contexts/AuthErrMsgProvider';
 import { AdminPanelErrProvider } from './contexts/AdminPanelErrProvider';
+import { ToastContainer, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -43,6 +45,19 @@ function App() {
         </Route>
         <Route path='*' element={<MissingPage />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </>
   );
 }

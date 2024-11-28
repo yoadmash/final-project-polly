@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import useAdminPanelErrMsg from '../../../hooks/useAdminPanelErrMsg';
 import AdminPanelContext from '../../../contexts/AdminPanelProvider';
+import { Slide, toast } from 'react-toastify';
 
 const Actions = ({ user, setModal }) => {
 
@@ -20,32 +21,103 @@ const Actions = ({ user, setModal }) => {
     const setActive = async () => {
         try {
             await axiosPrivate.post(`/users/set_active?state=${Number(user.active)}&by_admin=true`, { userId: user._id });
+            toast.success(`${user.active ? 'User activated' : 'User deactivated'}`, {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         } catch (err) {
-            showAdminPanelErrMsg(err?.response?.data?.message);
+            toast.error(err?.response?.data?.message || 'An error has been occurred', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         }
     }
 
     const setAdmin = async () => {
         try {
             await axiosPrivate.post('/users/set_admin', { userId: user._id });
+            if(user.admin) {
+                toast.success('Admin permission granted', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    theme: "light",
+                    transition: Slide,
+                })
+            } else {
+                toast.success('Admin permission revoked', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    theme: "light",
+                    transition: Slide,
+                })
+            }
         } catch (err) {
-            showAdminPanelErrMsg(err?.response?.data?.message);
+            toast.error(err?.response?.data?.message || 'An error has been occurred', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         }
     }
 
     const sendResetPasswordEmail = async (emailAddress) => {
         try {
             await axiosPrivate.post('/users/auth/reset-password', { emailAddress });
+            toast.success('Sent reset password email', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         } catch (err) {
-            showAdminPanelErrMsg(err?.response?.data?.message);
+            toast.error(err?.response?.data?.message || 'An error has been occurred', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         }
     }
 
     const removeUserProfilePic = async (userId) => {
         try {
             await axiosPrivate.post('/users/remove_profile_pic', { by_admin: true, userId });
+            toast.success('Profile picture removed', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         } catch (err) {
-            showAdminPanelErrMsg(err?.response?.data?.message);
+            toast.error(err?.response?.data?.message || 'An error has been occurred', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
         }
     }
 

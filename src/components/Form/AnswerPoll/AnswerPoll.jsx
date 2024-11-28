@@ -9,6 +9,10 @@ import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import Loading from '../../Layout/Loading';
 import Questions from './Questions';
 import ErrMsg from '../../Layout/ErrMsg';
+import UseFormInput from '../UseFormInput';
+import { Slide, toast } from 'react-toastify';
+
+const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const AnswerPoll = () => {
     const navigate = useNavigate();
@@ -28,9 +32,11 @@ const AnswerPoll = () => {
             answered_by: {
                 user_id: auth.userId,
                 user_name: auth.username,
+                user_email: '',
             },
         },
     })
+    const errors = methods.formState.errors;
 
     const checkIfPollExist = async () => {
         try {
@@ -63,7 +69,8 @@ const AnswerPoll = () => {
                 navigate(`/poll/${id}/view_answers`, {
                     state: {
                         poll,
-                        userAnswers: response.data.userAnswers
+                        userAnswers: response.data.userAnswers,
+                        userInfo: response.data.userInfo,
                     },
                     replace: true
                 });
@@ -88,6 +95,14 @@ const AnswerPoll = () => {
         try {
             setSubmitting(true);
             await axiosPrivate.post('/polls/answer_poll', { pollId: id, data });
+            toast.success('Poll answered', {
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                theme: "light",
+                transition: Slide,
+            })
             navigate(`/`);
         } catch (err) {
             showError(err?.response?.data?.message);
@@ -110,11 +125,31 @@ const AnswerPoll = () => {
                 <FormProvider {...methods}>
                     <Form className='answer-poll' onSubmit={methods.handleSubmit(data => submitPoll(data))}>
                         <Container fluid={'md'} className='layout d-flex flex-column gap-3'>
-                            <GoBackLink to={searchParamsObj?.admin_visit && -1}/>
+                            <GoBackLink to={searchParamsObj?.admin_visit && -1} />
                             <Row className='header'>
                                 <Col xs={12} lg={!poll.image_path ? 12 : 8} className='d-flex flex-column gap-3'>
                                     <p>{poll.title}</p>
                                     <p>{poll.description}</p>
+                                    {poll.settings.askUsersForTheirEmail && <div>
+                                        <UseFormInput
+                                            disabled={poll.owner.id === auth.userId}
+                                            type='text'
+                                            name={'answered_by.user_email'}
+                                            placeholder='Please provide a valid email'
+                                            register={methods.register}
+                                            validation={{
+                                                required: {
+                                                    value: true,
+                                                    message: '* Required'
+                                                },
+                                                pattern: {
+                                                    value: EMAIL_REGEX,
+                                                    message: 'Invalid email address'
+                                                }
+                                            }}
+                                        />
+                                        {errors?.answered_by?.user_email?.message && <p className='validation-msg mt-1'>{errors.answered_by.user_email.message}</p>}
+                                    </div>}
                                 </Col>
                                 {poll.image_path && <Col xs={12} lg={4} className='poll-image'>
                                     <img src={poll.image_path} alt="poll_image" />
