@@ -18,14 +18,14 @@ const Actions = ({ template, setTemplate }) => {
         switch (action) {
             case "show-hide-template":
                 template.show = !template.show;
-                showOrHideTemplate();
+                await showOrHideTemplate();
                 setTemplate(template._id, template);
                 break;
             case "edit-template":
                 editTemplate();
                 break;
             case "delete-template":
-                deleteTemplate();
+                await deleteTemplate();
                 setTemplate(template._id, null);
                 break;
             default:

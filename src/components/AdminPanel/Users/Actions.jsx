@@ -128,12 +128,12 @@ const Actions = ({ user, setModal }) => {
                 break;
             case 'set-admin':
                 user.admin = !user.admin;
-                setAdmin();
+                await setAdmin();
                 setUser(user._id, user);
                 break;
             case 'set-active':
                 user.active = !user.active;
-                setActive();
+                await setActive();
                 setUser(user._id, user);
                 break;
             case 'send-reset-password-email':
