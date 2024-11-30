@@ -16,13 +16,13 @@ export default function PollCard({ id, managePolls }) {
     const [visible, setVisible] = useState(true);
     const [deleting, setDeleting] = useState(false);
 
-    const performAction = (action) => {
+    const performAction = async (action) => {
         switch (action) {
             case 'Edit':
                 navigate(`poll/${id}/edit`);
                 break;
             case 'Copy Link':
-                navigator.clipboard.writeText(`${document.URL}poll/${id}`);
+                await navigator.clipboard.writeText(`${document.URL}poll/${id}`);
                 toast.success('Copied!', {
                     position: "bottom-right",
                     autoClose: 2000,
