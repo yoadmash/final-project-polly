@@ -23,7 +23,7 @@ export default function PollCard({ id, managePolls }) {
                 break;
             case 'Copy Link':
                 await navigator.clipboard.writeText(`${document.URL}poll/${id}`);
-                toast.success('Copied!', {
+                toast.success('Copied', {
                     position: "bottom-right",
                     autoClose: 2000,
                     hideProgressBar: true,
@@ -36,8 +36,8 @@ export default function PollCard({ id, managePolls }) {
                 window.open(`/poll/${id}`, '_blank')
                 break;
             case 'Delete Poll':
-            case 'Remove':
-                deletePoll();
+            case "Remove from list":
+                deletePoll(action);
                 break;
             case 'View Answers':
                 if (poll.owner.id === auth.userId) {
@@ -52,7 +52,9 @@ export default function PollCard({ id, managePolls }) {
     }
 
     const handleClick = () => {
-        navigate(`poll/${id}`);
+        if(!deleting) {
+            navigate(`poll/${id}`);
+        }
     }
 
     const getPollData = async () => {
@@ -64,20 +66,21 @@ export default function PollCard({ id, managePolls }) {
         }
     }
 
-    const deletePoll = async () => {
+    const deletePoll = async (action) => {
         setDeleting(true);
         try {
             const updatedPolls = managePolls.polls.filter(poll => poll !== id);
             await axiosPrivate.post(`/polls/delete`, { pollId: id });
             managePolls.setPolls(updatedPolls);
-            toast.success('Poll Deleted', {
+            toast.success(`${action === 'Delete Poll' ? 'Poll deleted' : 'Poll removed from list'}`, {
                 position: "bottom-right",
                 autoClose: 2000,
                 hideProgressBar: true,
                 closeOnClick: true,
                 theme: "light",
                 transition: Slide,
-            })
+            });
+            setVisible(false);
         } catch (err) {
             toast.error(err || 'An error has been occurred', {
                 position: "bottom-right",
@@ -89,7 +92,6 @@ export default function PollCard({ id, managePolls }) {
             })
         } finally {
             setDeleting(false);
-            setVisible(false);
         }
     }
 
