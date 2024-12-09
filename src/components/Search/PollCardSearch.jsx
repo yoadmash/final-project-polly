@@ -14,6 +14,7 @@ const PollCardSearch = ({ poll, id }) => {
             <img src={(poll.image_path ? poll.image_path : '/assets/images/view_answers.svg')} alt="img" />
             <div>
                 <h4>{poll.title}</h4>
+                <p>{poll.owner.username}</p>
                 <p>{poll.creation_date}, {poll.creation_time}</p>
             </div>
         </div>
